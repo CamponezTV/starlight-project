@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/dash_crystal/dash_crystal.gd" id="1_5dqq5"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="2_xfsne"]
+[ext_resource type="Texture2D" path="res://entities/dash_crystal/dash_crystal.png" id="3_35xp7"]
+[ext_resource type="AudioStream" path="res://entities/dash_crystal/refill.wav" id="4_xfsne"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xpd87"]
+size = Vector2(10, 10)
+
+[node name="DashCrystal" type="Area2D" unique_id=442517678]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_5dqq5")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=138740923]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_xpd87")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=527074772]
+position = Vector2(0, -4)
+color = Color(0.49803922, 0.9411765, 1, 1)
+energy = 0.7
+texture = ExtResource("2_xfsne")
+texture_scale = 0.4
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=492553699]
+position = Vector2(0, -4)
+texture = ExtResource("3_35xp7")
+hframes = 2
+
+[node name="RespawnTimer" type="Timer" parent="." unique_id=747249748]
+wait_time = 2.5
+one_shot = true
+
+[node name="RefillSound" type="AudioStreamPlayer" parent="." unique_id=1168497057]
+stream = ExtResource("4_xfsne")
+volume_db = -6.0
+bus = &"SFX"

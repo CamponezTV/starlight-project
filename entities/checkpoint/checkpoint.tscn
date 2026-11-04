@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://entities/checkpoint/checkpoint.gd" id="1_n228y"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="2_cgoct"]
+[ext_resource type="Texture2D" path="res://entities/checkpoint/telescope.png" id="3_n0t5a"]
+[ext_resource type="AudioStream" path="res://entities/checkpoint/light_up.wav" id="4_cgoct"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bev8p"]
+size = Vector2(12, 16)
+
+[node name="Checkpoint" type="Area2D" unique_id=1048092990]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_n228y")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=288336504]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_bev8p")
+
+[node name="Light" type="PointLight2D" parent="." unique_id=2033121051]
+position = Vector2(0, -8)
+enabled = false
+color = Color(1, 0.9019608, 0.5019608, 1)
+energy = 0.9
+texture = ExtResource("2_cgoct")
+texture_scale = 0.6
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=681102254]
+position = Vector2(0, -6)
+texture = ExtResource("3_n0t5a")
+hframes = 2
+
+[node name="LightUpSound" type="AudioStreamPlayer" parent="." unique_id=1658209668]
+stream = ExtResource("4_cgoct")
+volume_db = -4.0
+bus = &"SFX"

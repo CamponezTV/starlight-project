@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://ui/star_bar.gd" id="2_star_bar"]
+[ext_resource type="Script" path="res://ui/fading_label.gd" id="3_fading_label"]
+[ext_resource type="Texture2D" path="res://ui/hud_star_full.png" id="4_full"]
+[ext_resource type="Texture2D" path="res://ui/hud_star_empty.png" id="5_empty"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="StarBar" type="HBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 58.0
+offset_bottom = 14.0
+mouse_filter = 2
+theme_override_constants/separation = 1
+script = ExtResource("2_star_bar")
+full_texture = ExtResource("4_full")
+empty_texture = ExtResource("5_empty")
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 130.0
+offset_bottom = 142.0
+grow_horizontal = 2
+horizontal_alignment = 1
+script = ExtResource("3_fading_label")
+
+[node name="Hint" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 166.0
+offset_bottom = 178.0
+grow_horizontal = 2
+text = "Setas: mover   Espaço: pular   X: dash   R: checkpoint   Esc: menu"
+horizontal_alignment = 1
+script = ExtResource("3_fading_label")
+max_alpha = 0.7

@@ -1,0 +1,41 @@
+# Godot: cache e importações geradas pelo editor (recriadas ao abrir o projeto)
+.godot/
+/android/
+
+# Builds exportados
+/builds/
+/export/
+*.exe
+*.pck
+*.zip
+*.apk
+*.aab
+*.x86_64
+*.dmg
+
+# Música de terceiros (sem licença para redistribuir)
+/menu/music/
+
+# Credenciais de exportação/assinatura (nunca versionar)
+export_credentials.cfg
+*.keystore
+*.jks
+
+# Ferramentas e editores locais
+.gut_editor_config.json
+.gut_editor_shortcuts.cfg
+.claude/
+CLAUDE.md
+.vscode/
+.idea/
+*.code-workspace
+
+# Sistema operacional
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporários
+*.tmp
+*.bak
+*~
