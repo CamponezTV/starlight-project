@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://entities/checkpoint/checkpoint.gd" id="1_n228y"]
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="2_cgoct"]
-[ext_resource type="Texture2D" path="res://entities/checkpoint/telescope.png" id="3_n0t5a"]
+[ext_resource type="Texture2D" path="res://entities/checkpoint/star_beacon.png" id="3_n0t5a"]
 [ext_resource type="AudioStream" path="res://entities/checkpoint/light_up.wav" id="4_cgoct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bev8p"]
@@ -27,7 +27,7 @@ texture = ExtResource("2_cgoct")
 texture_scale = 0.6
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=681102254]
-position = Vector2(0, -6)
+position = Vector2(0, -8)
 texture = ExtResource("3_n0t5a")
 hframes = 2
 

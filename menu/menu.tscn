@@ -2,15 +2,25 @@
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_menu"]
 [ext_resource type="Script" path="res://menu/level_info.gd" id="2_level_info"]
-[ext_resource type="PackedScene" path="res://rooms/room_01.tscn" id="3_room_01"]
-[ext_resource type="Texture2D" path="res://rooms/backgrounds/cave_starfield.png" id="4_starfield"]
+[ext_resource type="PackedScene" path="res://levels/test_room.tscn" id="3_room_01"]
+[ext_resource type="PackedScene" path="res://levels/level_01.tscn" id="8_level_01"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="4_starfield"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="5_star"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="6_ui_move"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_select.wav" id="7_ui_select"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_star"]
+atlas = ExtResource("5_star")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Resource" id="Resource_level_01"]
+script = ExtResource("2_level_info")
+title = "A Queda"
+scene = ExtResource("8_level_01")
+
 [sub_resource type="Resource" id="Resource_room_01"]
 script = ExtResource("2_level_info")
-title = "Caverna: sala de teste"
+title = "Dev: sala de teste"
 scene = ExtResource("3_room_01")
 
 [node name="Menu" type="Control"]
@@ -21,7 +31,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
-levels = Array[ExtResource("2_level_info")]([SubResource("Resource_room_01")])
+levels = Array[ExtResource("2_level_info")]([SubResource("Resource_level_01"), SubResource("Resource_room_01")])
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -62,7 +72,7 @@ theme_override_constants/separation = 3
 
 [node name="Star" type="TextureRect" parent="Content"]
 layout_mode = 2
-texture = ExtResource("5_star")
+texture = SubResource("AtlasTexture_star")
 stretch_mode = 3
 
 [node name="Title" type="Label" parent="Content"]

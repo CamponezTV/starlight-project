@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_main"]
-[ext_resource type="PackedScene" path="res://rooms/room_01.tscn" id="2_room"]
+[ext_resource type="PackedScene" path="res://levels/level_01.tscn" id="2_level"]
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://companion/star_companion.tscn" id="4_companion"]
 [ext_resource type="Script" path="res://camera/follow_camera.gd" id="5_camera"]
@@ -10,12 +10,12 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
-room_scene = ExtResource("2_room")
+level_scene = ExtResource("2_level")
 
 [node name="Darkness" type="CanvasModulate" parent="."]
 color = Color(0.3, 0.28, 0.42, 1)
 
-[node name="RoomSlot" type="Node2D" parent="."]
+[node name="LevelSlot" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
 
@@ -25,6 +25,7 @@ color = Color(0.3, 0.28, 0.42, 1)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
+limit_smoothed = true
 script = ExtResource("5_camera")
 
 [node name="HUD" parent="." instance=ExtResource("6_hud")]

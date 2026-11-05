@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://player/jupiter.gdshader" id="1_shader"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_shader")
+shader_parameter/pin_color = Color(1, 0.901961, 0.501961, 1)
+shader_parameter/silhouette = false

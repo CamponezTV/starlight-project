@@ -1,12 +1,11 @@
-[gd_scene format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Texture2D" path="res://player/jupiter.png" id="1_iidxn"]
-[ext_resource type="Script" path="res://player/dash_ghost.gd" id="2_ykvao"]
+[ext_resource type="Script" path="res://player/dash_ghost.gd" id="1_ghost"]
+[ext_resource type="Material" path="res://player/dash_ghost_material.tres" id="2_material"]
 
-[node name="DashGhost" type="Sprite2D" unique_id=1304979099]
-modulate = Color(0.56, 0.72, 1, 0.6)
-texture = ExtResource("1_iidxn")
-offset = Vector2(0, -6)
-hframes = 3
-frame = 2
-script = ExtResource("2_ykvao")
+[node name="DashGhost" type="Sprite2D"]
+physics_interpolation_mode = 2
+modulate = Color(1, 1, 1, 0.6)
+material = ExtResource("2_material")
+offset = Vector2(0, -8)
+script = ExtResource("1_ghost")

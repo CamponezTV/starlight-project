@@ -7,8 +7,7 @@ const FOLLOW_OFFSET := Vector2(-12, -22) ## Para Jupiter olhando para a direita.
 const FOLLOW_SHARPNESS := 5.0
 const BOB_SPEED := 2.5
 const BOB_HEIGHT := 2.0
-const TWINKLE_SPEED := 6.0
-const TWINKLE_ANGLE := 0.15
+const TWINKLE_FPS := 6.0 ## Quadros por segundo da cintilação dos raios.
 
 const MIN_ENERGY := 0.35
 const ENERGY_RANGE := 0.9
@@ -22,7 +21,7 @@ const PULSE_ENERGY := 0.6
 const PULSE_SCALE := 0.5
 const DEFAULT_FLICKER_TIME := 0.8
 
-const SPRITE_STAR_RADIUS := 4.5 ## Raio da estrela desenhada no PNG.
+const SPRITE_STAR_RADIUS := 4.5 ## Raio de referência da estrela desenhada no PNG.
 const MIN_RADIUS := 3.0
 const RADIUS_RANGE := 1.5
 
@@ -83,4 +82,4 @@ func _update_light(delta: float) -> void:
 func _update_sprite() -> void:
 	var radius := MIN_RADIUS + Stars.ratio() * RADIUS_RANGE + _pulse
 	_sprite.scale = Vector2.ONE * radius / SPRITE_STAR_RADIUS
-	_sprite.rotation = TWINKLE_ANGLE * sin(_time * TWINKLE_SPEED)
+	_sprite.frame = int(_time * TWINKLE_FPS) % _sprite.hframes

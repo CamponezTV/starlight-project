@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dldjx1n8smlye"
-path="res://.godot/imported/cave_tiles.png-80bab8a74a2be67388f6248bd30231fb.ctex"
+uid="uid://nii56sse83ed"
+path="res://.godot/imported/cave_starfield.png-aba3e9a927214c7c791edb49a2415425.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rooms/tilesets/cave_tiles.png"
-dest_files=["res://.godot/imported/cave_tiles.png-80bab8a74a2be67388f6248bd30231fb.ctex"]
+source_file="res://levels/backgrounds/cave_starfield.png"
+dest_files=["res://.godot/imported/cave_starfield.png-aba3e9a927214c7c791edb49a2415425.ctex"]
 
 [params]
 

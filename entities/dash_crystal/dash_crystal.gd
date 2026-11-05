@@ -2,8 +2,10 @@ class_name DashCrystal
 extends RoomEntity
 ## Cristal: recarrega o dash no ar. Some ao ser usado e volta quando o RespawnTimer acaba.
 ## Só é gasto se o Jupiter realmente precisava do dash.
+## Disponível, cintila (animação "shimmer"); usado, mostra só o contorno.
 
-enum Frame { AVAILABLE, USED }
+const USED_FRAME := 2
+const SHIMMER := &"shimmer"
 
 var _player_inside: Player
 
@@ -11,6 +13,7 @@ var _player_inside: Player
 @onready var _light: PointLight2D = $Light
 @onready var _respawn_timer: Timer = $RespawnTimer
 @onready var _refill_sound: AudioStreamPlayer = $RefillSound
+@onready var _animation: AnimationPlayer = $AnimationPlayer
 
 
 func _ready() -> void:
@@ -43,5 +46,9 @@ func _is_available() -> bool:
 
 
 func _refresh() -> void:
-	_sprite.frame = Frame.AVAILABLE if _is_available() else Frame.USED
 	_light.enabled = _is_available()
+	if _is_available():
+		_animation.play(SHIMMER)
+	else:
+		_animation.stop()
+		_sprite.frame = USED_FRAME

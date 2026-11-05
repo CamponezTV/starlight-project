@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq3xxx8knwukc"
-path="res://.godot/imported/telescope.png-f8591a1875047e07f2d4fcaa3279cd6a.ctex"
+uid="uid://dldjx1n8smlye"
+path="res://.godot/imported/cave_tiles.png-2c1a99ef7ec995f4ab59865f6f602740.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/checkpoint/telescope.png"
-dest_files=["res://.godot/imported/telescope.png-f8591a1875047e07f2d4fcaa3279cd6a.ctex"]
+source_file="res://levels/tilesets/cave_tiles.png"
+dest_files=["res://.godot/imported/cave_tiles.png-2c1a99ef7ec995f4ab59865f6f602740.ctex"]
 
 [params]
 

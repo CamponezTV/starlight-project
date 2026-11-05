@@ -67,14 +67,14 @@ func _play_music() -> void:
 	_music_player.play()
 
 
-## Toca o som de confirmar e troca o menu pelo jogo já com a sala escolhida.
-func _start(room_scene: PackedScene) -> void:
+## Toca o som de confirmar e troca o menu pelo jogo já com a fase escolhida.
+func _start(level_scene: PackedScene) -> void:
 	get_viewport().gui_disable_input = true
 	_select_sound.play()
 	await get_tree().create_timer(SELECT_DELAY).timeout
 	get_viewport().gui_disable_input = false
 	var game: Main = GAME_SCENE.instantiate()
-	game.room_scene = room_scene
+	game.level_scene = level_scene
 	var tree := get_tree()
 	tree.root.add_child(game)
 	tree.current_scene = game

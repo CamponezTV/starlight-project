@@ -3,6 +3,7 @@ extends GutTest
 ## saída e recomeço quando a vida acaba.
 
 const MAIN_SCENE := preload("res://main/main.tscn")
+const TEST_ROOM := preload("res://levels/test_room.tscn")
 const RESPAWN_WAIT := 1.0
 
 ## Células da room_01.
@@ -13,7 +14,7 @@ const CRYSTAL_CELL := Vector2i(78, 7)
 const EXIT_CELL := Vector2i(96, 9)
 
 var _player: Player
-var _room: Room
+var _level: Level
 
 
 func after_each() -> void:
@@ -57,9 +58,9 @@ func test_crystal_refills_dash_midair() -> void:
 
 func test_touching_exit_notifies() -> void:
 	await _start_game()
-	watch_signals(_room)
+	watch_signals(_level)
 	await _teleport(EXIT_CELL)
-	assert_signal_emitted(_room, "exit_reached")
+	assert_signal_emitted(_level, "exit_reached")
 
 
 func test_losing_all_stars_restarts_room() -> void:
@@ -71,7 +72,7 @@ func test_losing_all_stars_restarts_room() -> void:
 		_player.die()
 		await wait_seconds(RESPAWN_WAIT)
 	assert_eq(Stars.count, Stars.START_COUNT, "vida volta cheia")
-	assert_eq(_player.global_position, _room.spawn_point(), "volta ao início, não ao checkpoint")
+	assert_eq(_player.global_position, _level.spawn_point(), "volta ao início, não ao checkpoint")
 	await _teleport(STAR_CELL)
 	assert_eq(Stars.count, Stars.START_COUNT + 1, "as estrelas da sala voltam")
 
@@ -79,10 +80,11 @@ func test_losing_all_stars_restarts_room() -> void:
 # --- Infraestrutura ----------------------------------------------------------------
 
 func _start_game() -> void:
-	var main := MAIN_SCENE.instantiate()
+	var main: Main = MAIN_SCENE.instantiate()
+	main.level_scene = TEST_ROOM
 	add_child_autofree(main)
 	_player = main.get_node("Player")
-	_room = (main as Main).room()
+	_level = main.level()
 	await wait_physics_frames(3)
 
 

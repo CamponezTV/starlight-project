@@ -1,8 +1,9 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://effects/death_burst.gd" id="1_7mb3g"]
+[ext_resource type="Script" path="res://effects/one_shot_particles.gd" id="1_7mb3g"]
 
 [node name="DeathBurst" type="CPUParticles2D" unique_id=487340146]
+physics_interpolation_mode = 2
 emitting = false
 amount = 18
 lifetime = 0.6

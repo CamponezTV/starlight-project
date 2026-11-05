@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
-## Jupiter: movimentação de plataforma de precisão. Pulo variável, coyote time,
-## buffer de pulo, deslizar/pular na parede e dash em 8 direções.
+## Jupiter: movimentação de plataforma de precisão. Pulo sustentado, coyote time,
+## buffer de pulo, deslizar/pular na parede, dash em 8 direções e correção de quinas.
 ## A origem do nó fica nos pés. Os valores de "feel" são exportados para ajustar no Inspetor.
 ## Morre quando a Hurtbox toca a camada de perigos (espinhos pintados no TileMap).
 ## A Hurtbox precisa de `monitorable = true`: uma Area2D não monitorável não detecta
@@ -14,11 +14,15 @@ enum State { NORMAL, DASHING, DEAD }
 
 const GHOST_INTERVAL := 0.03
 const APEX_GRAVITY_FACTOR := 0.5
-const DEATH_EFFECT_OFFSET := Vector2(0, -6)
-const JUMP_SQUASH := Vector2(0.7, 1.35)
-const WALL_JUMP_SQUASH := Vector2(0.75, 1.3)
-const LANDING_SQUASH := Vector2(1.35, 0.7)
-const RESPAWN_SQUASH := Vector2(0.6, 1.4)
+const DEATH_EFFECT_OFFSET := Vector2(0, -8)
+const JUMP_SQUASH := Vector2(0.8, 1.2)
+const WALL_JUMP_SQUASH := Vector2(0.85, 1.15)
+const LANDING_SQUASH := Vector2(1.2, 0.8)
+const RESPAWN_SQUASH := Vector2(0.7, 1.3)
+const RUNNING_SPEED := 10.0 ## Acima disto no chão, anima correndo.
+const RUN_DUST_SPEED := 70.0 ## Acima disto no chão, levanta poeira dos passos.
+const RUN_DUST_INTERVAL := 0.22
+const WALL_DUST_OFFSET := Vector2(3, -4) ## Da origem até onde a mão encosta na parede.
 const LANDING_SOUND_MIN_SPEED := 60.0 ## Quedas mais lentas que isto pousam em silêncio.
 const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não cansarem.
 
@@ -31,14 +35,15 @@ const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não ca
 
 @export_group("Pulo e gravidade")
 @export var gravity := 900.0
-@export var rise_gravity := 600.0 ## Gravidade subindo com o botão segurado.
-@export var apex_speed_threshold := 30.0 ## Perto do topo do pulo a gravidade cai pela metade.
-@export var max_fall_speed := 170.0
+@export var jump_speed := 145.0
+@export var jump_sustain_time := 0.11 ## Segurando o pulo, a subida mantém a velocidade por este tempo.
+@export var jump_run_boost := 30.0 ## Pular correndo dá um empurrão extra para frente.
+@export var apex_speed_threshold := 40.0 ## Perto do topo do pulo (segurando) a gravidade cai pela metade.
+@export var max_fall_speed := 160.0
 @export var fast_fall_speed := 240.0 ## Segurando para baixo.
-@export var jump_speed := 180.0
-@export var jump_cut_factor := 0.45 ## Soltar o pulo cedo multiplica a subida por isto.
 @export var coyote_time := 0.1
-@export var jump_buffer_time := 0.1
+@export var jump_buffer_time := 0.12
+@export var corner_correction := 3 ## Pixels que o pulo/dash desliza para contornar quinas.
 
 @export_group("Parede")
 @export var wall_slide_speed := 45.0
@@ -55,6 +60,7 @@ const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não ca
 @export_group("Efeitos")
 @export var death_effect: PackedScene
 @export var dash_ghost: PackedScene
+@export var dust_puff: PackedScene
 
 var facing := 1
 var can_dash := true
@@ -65,10 +71,12 @@ var _dash_time_left := 0.0
 var _dash_cooldown_left := 0.0
 var _coyote_left := 0.0
 var _jump_buffer_left := 0.0
-var _is_jump_rising := false
+var _jump_sustain_left := 0.0
 var _wall_lock_left := 0.0
 var _wall_lock_direction := 0
+var _is_wall_sliding := false
 var _ghost_time_left := 0.0
+var _run_dust_left := 0.0
 var _was_on_floor := false
 
 @onready var _visual: JupiterVisual = $Visual
@@ -88,9 +96,13 @@ func _physics_process(delta: float) -> void:
 			_update_normal(delta)
 		State.DASHING:
 			_update_dashing(delta)
+	_correct_corners(delta)
 	var fall_speed := velocity.y
 	move_and_slide()
+	if is_on_ceiling():
+		_jump_sustain_left = 0.0
 	_check_landing(fall_speed)
+	_kick_up_run_dust(delta)
 	_update_visual()
 
 
@@ -109,6 +121,7 @@ func die() -> void:
 	_death_sound.play()
 	var effect := _spawn_in_parent(death_effect)
 	effect.global_position += DEATH_EFFECT_OFFSET
+	effect.reset_physics_interpolation()
 	died.emit()
 
 
@@ -117,11 +130,12 @@ func respawn(at: Vector2) -> void:
 	reset_physics_interpolation()
 	velocity = Vector2.ZERO
 	_state = State.NORMAL
-	_is_jump_rising = false
+	_jump_sustain_left = 0.0
 	_wall_lock_left = 0.0
 	_coyote_left = 0.0
 	_jump_buffer_left = 0.0
 	_dash_cooldown_left = 0.0
+	_is_wall_sliding = false
 	can_dash = true
 	show()
 	_visual.squash(RESPAWN_SQUASH)
@@ -148,10 +162,11 @@ func _update_normal(delta: float) -> void:
 		return
 
 	var wall := _touching_wall(on_floor)
+	_is_wall_sliding = wall != 0 and input.x == wall and velocity.y > 0.0
 	_apply_run(input.x, on_floor, delta)
-	_apply_jump_cut()
-	_apply_gravity(input, wall, on_floor, delta)
-	_try_jump(wall)
+	_apply_gravity(input, on_floor, delta)
+	_apply_jump_sustain(delta)
+	_try_jump(input.x, wall)
 
 
 func _read_move_input() -> Vector2i:
@@ -195,29 +210,29 @@ func _apply_run(input_x: int, on_floor: bool, delta: float) -> void:
 		velocity.x = move_toward(velocity.x, target_speed, run_accel * control * delta)
 
 
-func _apply_jump_cut() -> void:
-	if _is_jump_rising and velocity.y < 0.0 and not Input.is_action_pressed(&"jump"):
-		velocity.y *= jump_cut_factor
-		_is_jump_rising = false
-	elif velocity.y >= 0.0:
-		_is_jump_rising = false
-
-
-func _apply_gravity(input: Vector2i, wall: int, on_floor: bool, delta: float) -> void:
+func _apply_gravity(input: Vector2i, on_floor: bool, delta: float) -> void:
 	if on_floor:
 		return
-	var holding_jump := Input.is_action_pressed(&"jump")
 	var current_gravity := gravity
-	if holding_jump and velocity.y < 0.0:
-		current_gravity = rise_gravity
-	if holding_jump and absf(velocity.y) < apex_speed_threshold:
+	if Input.is_action_pressed(&"jump") and absf(velocity.y) < apex_speed_threshold:
 		current_gravity *= APEX_GRAVITY_FACTOR
-	velocity.y = move_toward(velocity.y, _max_fall_speed(input, wall), current_gravity * delta)
+	velocity.y = move_toward(velocity.y, _max_fall_speed(input), current_gravity * delta)
 
 
-func _max_fall_speed(input: Vector2i, wall: int) -> float:
-	var is_sliding_on_wall := wall != 0 and input.x == wall and velocity.y > 0.0
-	if is_sliding_on_wall:
+## Enquanto o botão de pulo está segurado, a subida não perde velocidade (por pouco tempo).
+## Soltar cedo encerra a sustentação: toque = pulo baixo, segurar = pulo alto.
+func _apply_jump_sustain(delta: float) -> void:
+	if _jump_sustain_left <= 0.0:
+		return
+	if Input.is_action_pressed(&"jump"):
+		velocity.y = minf(velocity.y, -jump_speed)
+		_jump_sustain_left -= delta
+	else:
+		_jump_sustain_left = 0.0
+
+
+func _max_fall_speed(input: Vector2i) -> float:
+	if _is_wall_sliding:
 		return wall_slide_speed
 	if input.y > 0:
 		return fast_fall_speed
@@ -235,20 +250,22 @@ func _touching_wall(on_floor: bool) -> int:
 	return 0
 
 
-func _try_jump(wall: int) -> void:
+func _try_jump(input_x: int, wall: int) -> void:
 	if _jump_buffer_left <= 0.0:
 		return
 	if _coyote_left > 0.0:
-		_jump()
+		_jump(input_x)
 	elif wall != 0:
 		_wall_jump(-wall)
 
 
-func _jump() -> void:
+func _jump(input_x: int) -> void:
 	velocity.y = -jump_speed
+	velocity.x += jump_run_boost * input_x
 	_coyote_left = 0.0
-	_consume_jump()
+	_start_jump()
 	_visual.squash(JUMP_SQUASH)
+	_spawn_in_parent(dust_puff)
 
 
 func _wall_jump(direction: int) -> void:
@@ -256,14 +273,44 @@ func _wall_jump(direction: int) -> void:
 	_wall_lock_left = wall_jump_lock_time
 	_wall_lock_direction = direction
 	facing = direction
-	_consume_jump()
+	_start_jump()
 	_visual.squash(WALL_JUMP_SQUASH)
+	var dust := _spawn_in_parent(dust_puff)
+	dust.global_position += Vector2(-direction * WALL_DUST_OFFSET.x, WALL_DUST_OFFSET.y)
 
 
-func _consume_jump() -> void:
-	_is_jump_rising = true
+func _start_jump() -> void:
+	_jump_sustain_left = jump_sustain_time
 	_jump_buffer_left = 0.0
 	_play_varied(_jump_sound)
+
+
+# --- Correção de quinas -----------------------------------------------------------------
+
+## Se o movimento deste quadro bate numa quina por poucos pixels, desliza para contorná-la:
+## subindo, desvia da quina do teto; no dash horizontal, sobe por cima de degraus baixos.
+func _correct_corners(delta: float) -> void:
+	if velocity.y < 0.0:
+		_nudge_around(Vector2(0, velocity.y * delta), Vector2.RIGHT, _preferred_side())
+	if _state == State.DASHING and velocity.x != 0.0:
+		_nudge_around(Vector2(velocity.x * delta, 0), Vector2.UP, 1)
+
+
+func _nudge_around(motion: Vector2, axis: Vector2, first_side: int) -> void:
+	if not test_move(global_transform, motion):
+		return
+	for distance in range(1, corner_correction + 1):
+		for side in [first_side, -first_side]:
+			var nudge: Vector2 = axis * side * distance
+			if not test_move(global_transform, nudge) and not test_move(global_transform.translated(nudge), motion):
+				global_position += nudge
+				return
+
+
+func _preferred_side() -> int:
+	if velocity.x != 0.0:
+		return int(signf(velocity.x))
+	return facing
 
 
 # --- Dash ----------------------------------------------------------------------------
@@ -280,8 +327,9 @@ func _start_dash(input: Vector2i) -> void:
 	_state = State.DASHING
 	_dash_time_left = dash_duration
 	_dash_cooldown_left = dash_cooldown
-	_is_jump_rising = false
+	_jump_sustain_left = 0.0
 	_wall_lock_left = 0.0
+	_is_wall_sliding = false
 	_ghost_time_left = 0.0
 	can_dash = false
 	velocity = _dash_direction * dash_speed
@@ -303,17 +351,19 @@ func _leave_ghosts(delta: float) -> void:
 	if _ghost_time_left > 0.0:
 		return
 	_ghost_time_left = GHOST_INTERVAL
-	var ghost := _spawn_in_parent(dash_ghost) as Sprite2D
-	ghost.flip_h = facing < 0
+	var ghost := _spawn_in_parent(dash_ghost) as DashGhost
+	ghost.copy_pose(_visual.current_frame(), facing < 0)
 	# Logo atrás do Jupiter na árvore: desenhado embaixo dele, mas na frente da sala.
 	get_parent().move_child(ghost, get_index())
 
 
 ## Cria uma cena como irmã do Jupiter, na posição dele (sobrevive mesmo se ele sumir).
+## Zera a interpolação: sem isso o nó "viaja" da origem até aqui no primeiro quadro.
 func _spawn_in_parent(scene: PackedScene) -> Node2D:
 	var node := scene.instantiate() as Node2D
 	get_parent().add_child(node)
 	node.global_position = global_position
+	node.reset_physics_interpolation()
 	return node
 
 
@@ -323,14 +373,37 @@ func _check_landing(fall_speed: float) -> void:
 	var on_floor := is_on_floor()
 	if on_floor and not _was_on_floor:
 		_visual.squash(LANDING_SQUASH)
+		_visual.land()
 		if fall_speed >= LANDING_SOUND_MIN_SPEED:
 			_play_varied(_land_sound)
+			_spawn_in_parent(dust_puff)
 	_was_on_floor = on_floor
+
+
+## Poeira dos passos enquanto corre no chão.
+func _kick_up_run_dust(delta: float) -> void:
+	_run_dust_left -= delta
+	if is_on_floor() and absf(velocity.x) > RUN_DUST_SPEED and _run_dust_left <= 0.0:
+		_run_dust_left = RUN_DUST_INTERVAL
+		_spawn_in_parent(dust_puff)
 
 
 func _update_visual() -> void:
 	_visual.facing = facing
 	_visual.dash_ready = can_dash
+	_visual.set_pose(_current_pose(), absf(velocity.x) / run_speed)
+
+
+func _current_pose() -> JupiterVisual.Pose:
+	if _state == State.DASHING:
+		return JupiterVisual.Pose.DASH
+	if is_on_floor():
+		return JupiterVisual.Pose.RUN if absf(velocity.x) > RUNNING_SPEED else JupiterVisual.Pose.IDLE
+	if _is_wall_sliding:
+		return JupiterVisual.Pose.WALL_SLIDE
+	if absf(velocity.y) < apex_speed_threshold:
+		return JupiterVisual.Pose.APEX
+	return JupiterVisual.Pose.JUMP if velocity.y < 0.0 else JupiterVisual.Pose.FALL
 
 
 func _play_varied(sound: AudioStreamPlayer) -> void:

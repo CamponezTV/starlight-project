@@ -33,7 +33,9 @@ func test_every_sound_effect_has_a_stream_on_the_sfx_bus() -> void:
 
 
 func test_jumping_plays_the_jump_sound() -> void:
+	var world := Node2D.new()
+	add_child_autofree(world)
 	var player: Player = PLAYER_SCENE.instantiate()
-	add_child_autofree(player)
-	player._jump()
+	world.add_child(player)
+	player._jump(0)
 	assert_true((player.get_node("JumpSound") as AudioStreamPlayer).playing)
