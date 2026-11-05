@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/stargazing/stargazing.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/night_hill.png" id="3_background"]
+[ext_resource type="Texture2D" path="res://characters/props/telescope.png" id="4_telescope"]
+[ext_resource type="Texture2D" path="res://characters/grandpa.png" id="5_grandpa"]
+[ext_resource type="Texture2D" path="res://characters/jupiter_child.png" id="6_child"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="7_star"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8_twinkle"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10_caption"]
+
+[node name="Stargazing" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3_background")
+centered = false
+
+[node name="Telescope" type="Sprite2D" parent="."]
+position = Vector2(198, 141)
+texture = ExtResource("4_telescope")
+centered = false
+offset = Vector2(-8, -16)
+
+[node name="Jupiter" type="Sprite2D" parent="."]
+position = Vector2(158, 141)
+texture = ExtResource("6_child")
+centered = false
+offset = Vector2(-6, -16)
+hframes = 4
+frame = 2
+
+[node name="Grandpa" type="Sprite2D" parent="."]
+position = Vector2(175, 141)
+texture = ExtResource("5_grandpa")
+centered = false
+offset = Vector2(-6, -16)
+hframes = 4
+frame = 2
+
+[node name="ShootingStar" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(60, 26)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_star")
+hframes = 4
+
+[node name="ShootingStarEnd" type="Marker2D" parent="."]
+position = Vector2(236, 78)
+
+[node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_twinkle")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="DialogueBox" parent="." instance=ExtResource("9_dialogue")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("10_caption")]

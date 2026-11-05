@@ -1,0 +1,57 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://autoload/story.gd" id="1_story"]
+[ext_resource type="Script" path="res://story/story_step.gd" id="2_step"]
+[ext_resource type="PackedScene" path="res://cutscenes/stargazing/stargazing.tscn" id="3_stargazing"]
+[ext_resource type="PackedScene" path="res://cutscenes/mountain/mountain.tscn" id="4_mountain"]
+[ext_resource type="PackedScene" path="res://levels/level_01.tscn" id="5_level_01"]
+[ext_resource type="PackedScene" path="res://cutscenes/sophie_memory/sophie_memory.tscn" id="6_sophie_memory"]
+[ext_resource type="PackedScene" path="res://levels/level_02.tscn" id="7_level_02"]
+[ext_resource type="PackedScene" path="res://levels/boss_sophie.tscn" id="8_boss_sophie"]
+[ext_resource type="PackedScene" path="res://cutscenes/after_sophie/after_sophie.tscn" id="9_after_sophie"]
+
+[sub_resource type="Resource" id="Resource_stargazing"]
+script = ExtResource("2_step")
+title = "Prólogo: as estrelas"
+kind = 0
+scene = ExtResource("3_stargazing")
+
+[sub_resource type="Resource" id="Resource_mountain"]
+script = ExtResource("2_step")
+title = "Prólogo: a montanha"
+kind = 0
+scene = ExtResource("4_mountain")
+
+[sub_resource type="Resource" id="Resource_level_01"]
+script = ExtResource("2_step")
+title = "A Queda"
+kind = 1
+scene = ExtResource("5_level_01")
+
+[sub_resource type="Resource" id="Resource_sophie_memory"]
+script = ExtResource("2_step")
+title = "Memória: Sophie"
+kind = 0
+scene = ExtResource("6_sophie_memory")
+
+[sub_resource type="Resource" id="Resource_level_02"]
+script = ExtResource("2_step")
+title = "Ecos"
+kind = 1
+scene = ExtResource("7_level_02")
+
+[sub_resource type="Resource" id="Resource_boss_sophie"]
+script = ExtResource("2_step")
+title = "Chefe: Sophie"
+kind = 1
+scene = ExtResource("8_boss_sophie")
+
+[sub_resource type="Resource" id="Resource_after_sophie"]
+script = ExtResource("2_step")
+title = "Epílogo: a voz"
+kind = 0
+scene = ExtResource("9_after_sophie")
+
+[node name="Story" type="Node"]
+script = ExtResource("1_story")
+steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie")])

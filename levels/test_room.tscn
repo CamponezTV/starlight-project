@@ -1,6 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_11117"]
+[ext_resource type="AudioStream" path="res://music/cave.wav" id="99_music"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="2_dhk51"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/cave_silhouettes.png" id="3_dhk51"]
 [ext_resource type="TileSet" path="res://levels/tilesets/cave_tileset.tres" id="3_r1ded"]
@@ -14,6 +15,7 @@
 script = ExtResource("1_11117")
 intro_message = "Sala de teste."
 end_message = "Fim da sala de teste."
+music = ExtResource("99_music")
 
 [node name="Background" type="Parallax2D" parent="." unique_id=1185856921]
 scroll_scale = Vector2(0.2, 0.2)

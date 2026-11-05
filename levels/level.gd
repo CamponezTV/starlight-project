@@ -6,10 +6,12 @@ extends Node2D
 
 signal checkpoint_reached(respawn_point: Vector2)
 signal star_collected
-signal exit_reached
+signal exit_reached ## Saída alcançada ou chefe derrotado: a fase acabou.
 
 @export var intro_message := "Siga a estrela..." ## Mostrada ao começar a fase (vazia = nada).
 @export var end_message := "Fim da fase. Obrigado por jogar!" ## Mostrada ao chegar na saída.
+@export var music: AudioStream ## Trilha da fase (vazia = silêncio).
+@export var ambient_color := Color(0.3, 0.28, 0.42) ## Escuridão fora da luz da estrela.
 
 @onready var _terrain: TileMapLayer = $Terrain
 @onready var _spawn: Marker2D = $Spawn
@@ -64,3 +66,5 @@ func _connect_entity(entity: RoomEntity) -> void:
 		(entity as Checkpoint).activated.connect(checkpoint_reached.emit)
 	elif entity is RoomExit:
 		(entity as RoomExit).reached.connect(exit_reached.emit)
+	elif entity is SophieBoss:
+		(entity as SophieBoss).defeated.connect(exit_reached.emit)

@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/after_sophie/after_sophie.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="3_starfield"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_silhouettes.png" id="4_silhouettes"]
+[ext_resource type="Texture2D" path="res://player/jupiter.png" id="5_jupiter"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="6_star"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="7_light"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8_twinkle"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10_caption"]
+
+[node name="AfterSophie" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Darkness" type="CanvasModulate" parent="."]
+color = Color(0.3, 0.28, 0.42, 1)
+
+[node name="DistantLights" type="Sprite2D" parent="."]
+texture = ExtResource("3_starfield")
+centered = false
+
+[node name="Silhouettes" type="Sprite2D" parent="."]
+position = Vector2(0, 12)
+texture = ExtResource("4_silhouettes")
+centered = false
+
+[node name="Ground" type="Polygon2D" parent="."]
+color = Color(0.29, 0.25, 0.44, 1)
+polygon = PackedVector2Array(0, 146, 60, 144, 140, 145, 220, 144, 320, 146, 320, 180, 0, 180)
+
+[node name="Jupiter" type="Sprite2D" parent="."]
+position = Vector2(150, 145)
+texture = ExtResource("5_jupiter")
+centered = false
+offset = Vector2(-6, -16)
+hframes = 16
+
+[node name="Star" type="Node2D" parent="."]
+position = Vector2(136, 120)
+
+[node name="Light" type="PointLight2D" parent="Star"]
+color = Color(1, 0.9, 0.5, 1)
+energy = 1.0
+texture = ExtResource("7_light")
+texture_scale = 2.0
+
+[node name="Sprite" type="Sprite2D" parent="Star"]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_star")
+hframes = 4
+
+[node name="StarAhead" type="Marker2D" parent="."]
+position = Vector2(236, 108)
+
+[node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_twinkle")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="DialogueBox" parent="." instance=ExtResource("9_dialogue")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("10_caption")]

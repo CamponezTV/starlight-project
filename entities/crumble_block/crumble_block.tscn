@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://entities/crumble_block/crumble_block.gd" id="1_block"]
+[ext_resource type="Texture2D" path="res://entities/crumble_block/crumble_block.png" id="2_texture"]
+[ext_resource type="AudioStream" path="res://entities/crumble_block/crack.wav" id="3_crack"]
+[ext_resource type="AudioStream" path="res://entities/crumble_block/restore.wav" id="4_restore"]
+[ext_resource type="PackedScene" path="res://effects/rock_debris.tscn" id="5_debris"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_touch"]
+size = Vector2(8, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rock"]
+size = Vector2(8, 8)
+
+[node name="CrumbleBlock" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_block")
+debris_effect = ExtResource("5_debris")
+
+[node name="Touch" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5.5)
+shape = SubResource("RectangleShape2D_touch")
+
+[node name="Rock" type="StaticBody2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="Rock"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_rock")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("2_texture")
+hframes = 3
+
+[node name="CrackSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_crack")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="RestoreSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_restore")
+volume_db = -16.0
+bus = &"SFX"

@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://camera/follow_camera.gd" id="5_camera"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="6_hud"]
 [ext_resource type="AudioStream" path="res://main/sounds/light_out.wav" id="7_light_out"]
+[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="8_pause"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -29,6 +30,8 @@ limit_smoothed = true
 script = ExtResource("5_camera")
 
 [node name="HUD" parent="." instance=ExtResource("6_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
 
 [node name="LightOutSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_light_out")

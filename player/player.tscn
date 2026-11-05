@@ -11,6 +11,8 @@
 [ext_resource type="AudioStream" path="res://player/sounds/dash.wav" id="9_dash"]
 [ext_resource type="AudioStream" path="res://player/sounds/death.wav" id="10_death"]
 [ext_resource type="PackedScene" path="res://effects/dust_puff.tscn" id="11_dust"]
+[ext_resource type="Texture2D" path="res://entities/voice_orb/voice_orb.png" id="12_voice"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="13_light"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(6, 12)
@@ -18,7 +20,29 @@ size = Vector2(6, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(4, 10)
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_voice_pulse"]
+resource_name = "pulse"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VoiceAura/Sprite:frame")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_player"]
+_data = {
+&"pulse": SubResource("Animation_voice_pulse")
+}
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_player")
 death_effect = ExtResource("5_burst")
@@ -46,6 +70,27 @@ sprite_frames = ExtResource("3_frames")
 animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -8)
+
+[node name="VoiceAura" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, -6)
+
+[node name="Sprite" type="Sprite2D" parent="VoiceAura"]
+modulate = Color(1, 1, 1, 0.75)
+texture = ExtResource("12_voice")
+hframes = 4
+
+[node name="Light" type="PointLight2D" parent="VoiceAura"]
+color = Color(0.435, 0.84, 1, 1)
+energy = 0.8
+texture = ExtResource("13_light")
+texture_scale = 0.5
+
+[node name="AuraAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_player")
+}
+autoplay = &"pulse"
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_jump")

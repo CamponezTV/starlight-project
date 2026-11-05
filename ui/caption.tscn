@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/caption.gd" id="1_caption"]
+[ext_resource type="Script" path="res://ui/fading_label.gd" id="2_fading"]
+
+[node name="Caption" type="CanvasLayer"]
+layer = 110
+script = ExtResource("1_caption")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_fading")
+fade_in_time = 0.8

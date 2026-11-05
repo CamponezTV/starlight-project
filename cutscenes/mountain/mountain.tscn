@@ -1,0 +1,125 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/mountain/mountain.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/mountain.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="3_sky"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="4_far"]
+[ext_resource type="PackedScene" path="res://cutscenes/mountain/mountain_terrain.tscn" id="5_terrain"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="6_star"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="7_light"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="8_player"]
+[ext_resource type="Script" path="res://camera/follow_camera.gd" id="9_camera"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="10_star_sound"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/fall.wav" id="11_fall_sound"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13_caption"]
+[ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="14_hint"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_summit"]
+size = Vector2(16, 184)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
+size = Vector2(8, 184)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hole"]
+size = Vector2(24, 24)
+
+[node name="Mountain" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Sky" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.05, 0.05)
+repeat_size = Vector2(320, 0)
+
+[node name="Sprite" type="Sprite2D" parent="Sky"]
+texture = ExtResource("3_sky")
+centered = false
+
+[node name="FarMountains" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(320, 0)
+
+[node name="Sprite" type="Sprite2D" parent="FarMountains"]
+position = Vector2(0, 46)
+texture = ExtResource("4_far")
+centered = false
+
+[node name="Terrain" parent="." instance=ExtResource("5_terrain")]
+
+[node name="Hints" type="Node2D" parent="."]
+
+[node name="Controls" parent="Hints" instance=ExtResource("14_hint")]
+position = Vector2(100, 152)
+text = "Setas: andar   Espaço: pular"
+
+[node name="SkyStar" type="Node2D" parent="."]
+position = Vector2(470, 28)
+
+[node name="Light" type="PointLight2D" parent="SkyStar"]
+color = Color(1, 0.9, 0.5, 1)
+energy = 0.9
+texture = ExtResource("7_light")
+texture_scale = 1.4
+
+[node name="Sprite" type="Sprite2D" parent="SkyStar"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_star")
+hframes = 4
+
+[node name="Player" parent="." instance=ExtResource("8_player")]
+position = Vector2(52, 152)
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+limit_smoothed = true
+script = ExtResource("9_camera")
+
+[node name="Summit" type="Area2D" parent="."]
+position = Vector2(404, 92)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Collision" type="CollisionShape2D" parent="Summit"]
+shape = SubResource("RectangleShape2D_summit")
+
+[node name="HoleEdge" type="Area2D" parent="."]
+position = Vector2(700, 92)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Collision" type="CollisionShape2D" parent="HoleEdge"]
+shape = SubResource("RectangleShape2D_edge")
+
+[node name="Hole" type="Area2D" parent="."]
+position = Vector2(748, 168)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Collision" type="CollisionShape2D" parent="Hole"]
+shape = SubResource("RectangleShape2D_hole")
+
+[node name="StarStop" type="Marker2D" parent="."]
+position = Vector2(784, 56)
+
+[node name="HoleBottom" type="Marker2D" parent="."]
+position = Vector2(748, 210)
+
+[node name="StarSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_star_sound")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="FallSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_fall_sound")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="DialogueBox" parent="." instance=ExtResource("12_dialogue")]
+
+[node name="Caption" parent="." instance=ExtResource("13_caption")]

@@ -2,9 +2,7 @@ class_name Main
 extends Node2D
 ## Orquestra o jogo: carrega a fase escolhida, liga Jupiter, estrela-guia, câmera e HUD,
 ## acompanha em qual sala o Jupiter está (câmera e renascimento) e cuida do ciclo de
-## morte, checkpoint, recomeço e volta ao menu.
-
-const MENU_SCENE := "res://menu/menu.tscn"
+## morte, checkpoint e recomeço. Na saída da fase, a campanha segue (Story.advance()).
 
 const RESPAWN_DELAY := 0.7
 const DEATH_SHAKE := 4.0
@@ -26,17 +24,21 @@ var _level: Level
 var _current_room: RoomZone
 var _checkpoint := Vector2.ZERO
 
+@onready var _darkness: CanvasModulate = $Darkness
 @onready var _level_slot: Node2D = $LevelSlot
 @onready var _player: Player = $Player
 @onready var _companion: StarCompanion = $StarCompanion
 @onready var _camera: FollowCamera = $Camera
 @onready var _hud: HUD = $HUD
+@onready var _pause_menu: PauseMenu = $PauseMenu
 @onready var _light_out_sound: AudioStreamPlayer = $LightOutSound
 
 
 func _ready() -> void:
 	_level = level_scene.instantiate()
 	_level_slot.add_child(_level)
+	_darkness.color = _level.ambient_color
+	Music.play(_level.music)
 	Stars.reset()
 	_camera.target = _player
 	_place_player_at_start()
@@ -63,10 +65,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"restart") and not _player.is_dead():
-		_player.respawn(_checkpoint)
-	elif event.is_action_pressed(&"quit"):
-		_back_to_menu()
+	if event.is_action_pressed(&"restart"):
+		_return_to_checkpoint()
 
 
 func _connect_signals() -> void:
@@ -75,6 +75,7 @@ func _connect_signals() -> void:
 	_level.checkpoint_reached.connect(_on_checkpoint_reached)
 	_level.star_collected.connect(_on_star_collected)
 	_level.exit_reached.connect(_on_exit_reached)
+	_pause_menu.checkpoint_requested.connect(_return_to_checkpoint)
 
 
 func _place_player_at_start() -> void:
@@ -94,6 +95,11 @@ func _enter_room(room: RoomZone) -> void:
 	_checkpoint = room.nearest_spawn(_player.global_position)
 
 
+func _return_to_checkpoint() -> void:
+	if _player.controllable and not _player.is_dead():
+		_player.respawn(_checkpoint)
+
+
 ## Chama `action` depois de `seconds`. O Timer é filho desta cena, então some com ela.
 func _after(seconds: float, action: Callable) -> void:
 	var timer := Timer.new()
@@ -103,10 +109,6 @@ func _after(seconds: float, action: Callable) -> void:
 	timer.timeout.connect(timer.queue_free)
 	add_child(timer)
 	timer.start()
-
-
-func _back_to_menu() -> void:
-	get_tree().change_scene_to_file(MENU_SCENE)
 
 
 func _on_player_died() -> void:
@@ -143,5 +145,7 @@ func _on_star_collected() -> void:
 
 
 func _on_exit_reached() -> void:
-	_hud.show_message(_level.end_message, END_DURATION)
-	_after(END_DURATION, _back_to_menu)
+	_player.controllable = false
+	if not _level.end_message.is_empty():
+		_hud.show_message(_level.end_message, END_DURATION)
+	_after(END_DURATION, Story.advance)

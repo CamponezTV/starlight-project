@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/sophie_memory/sophie_memory.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/memory_dark.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/bedroom.png" id="3_background"]
+[ext_resource type="Texture2D" path="res://characters/props/telescope.png" id="4_telescope"]
+[ext_resource type="Texture2D" path="res://characters/jupiter_child.png" id="5_child"]
+[ext_resource type="Texture2D" path="res://characters/sophie.png" id="6_sophie"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="7_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="8_caption"]
+
+[node name="SophieMemory" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3_background")
+centered = false
+
+[node name="Telescope" type="Sprite2D" parent="."]
+position = Vector2(214, 150)
+texture = ExtResource("4_telescope")
+centered = false
+offset = Vector2(-8, -16)
+
+[node name="Jupiter" type="Sprite2D" parent="."]
+position = Vector2(198, 150)
+texture = ExtResource("5_child")
+centered = false
+offset = Vector2(-6, -16)
+hframes = 4
+
+[node name="Sophie" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(310, 150)
+texture = ExtResource("6_sophie")
+centered = false
+offset = Vector2(-6, -16)
+flip_h = true
+hframes = 4
+
+[node name="Door" type="Marker2D" parent="."]
+position = Vector2(310, 150)
+
+[node name="SophieStop" type="Marker2D" parent="."]
+position = Vector2(246, 150)
+
+[node name="DialogueBox" parent="." instance=ExtResource("7_dialogue")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("8_caption")]

@@ -1,6 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_5dxk1"]
+[ext_resource type="AudioStream" path="res://music/cave.wav" id="99_music"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="2_kjd3d"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/cave_silhouettes.png" id="3_qdeet"]
 [ext_resource type="TileSet" path="res://levels/tilesets/cave_tileset.tres" id="4_y72ps"]
@@ -14,7 +15,8 @@
 [node name="Level01" type="Node2D" unique_id=223282271]
 script = ExtResource("1_5dxk1")
 intro_message = "...onde eu estou?"
-end_message = "Fim da fase 1. Obrigado por jogar!"
+end_message = "A luz me puxa para longe... para uma lembrança."
+music = ExtResource("99_music")
 
 [node name="Background" type="Parallax2D" parent="." unique_id=1669584001]
 scroll_scale = Vector2(0.2, 0.2)

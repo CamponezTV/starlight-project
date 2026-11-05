@@ -20,3 +20,12 @@ static func set_pressed(action: StringName, pressed: bool) -> void:
 		Input.action_press(action)
 	else:
 		Input.action_release(action)
+
+
+## Aperta e solta a ação como um evento (o que a interface e as caixas de diálogo escutam).
+static func tap(action: StringName) -> void:
+	for pressed in [true, false]:
+		var event := InputEventAction.new()
+		event.action = action
+		event.pressed = pressed
+		Input.parse_input_event(event)

@@ -9,14 +9,51 @@ Plataforma 2D em pixel art sobre Jupiter, seu avô e as estrelas. Feito em Godot
 | Mover | Setas / WASD | Analógico / D-pad |
 | Pular | Espaço / C / J | A |
 | Dash | X / K / Shift | X / B |
+| Avançar diálogo | Espaço / Enter | A |
 | Voltar ao checkpoint | R | Back |
-| Voltar ao menu / Sair | Esc | — |
+| Pausa / Pular cutscene | Esc | — |
 
 Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
 ## Patch Notes
+
+### v0.4.0 — Capítulo 1: A Voz · 05/11/2026
+
+**Novidades**
+- **História:** a campanha agora tem início, meio e fim de capítulo. Novo jogo começa no prólogo e segue sozinho de cena em cena.
+- **Prólogo, "As estrelas":** Jupiter criança e o avô olham o céu na colina, ao lado do telescópio. Primeira cutscene do GDD.
+- **Prólogo, "A montanha" (jogável):** seis anos depois, após o enterro, Jupiter sobe a montanha, fala com o céu e segue a estrela até cair no buraco.
+- **Memória, "Sophie":** dois anos antes, no quarto. A lembrança que virou medo.
+- **Fase 2, "Ecos":** 6 salas novas com três mecânicas:
+  - Rochas frágeis: racham quando você pisa e caem logo depois. Voltam sozinhas.
+  - Orbe de voz: dá ao Jupiter a voz que ele nunca usou. Ele brilha enquanto estiver com ela.
+  - Barreiras de palavras: só quebram com um dash carregando a voz.
+- **Chefe 1, "Sophie":** a sombra da Sophie arremessa palavras (rajadas que miram em você, chuva com uma brecha e frases rasteiras). Pegue a voz e dê dash nela. Três acertos, e cada um deixa a luta mais rápida.
+- **Epílogo, "A voz":** fim do Capítulo 1.
+- Caixa de diálogo com texto letra por letra e voz própria para cada personagem.
+- Trilha sonora original: memória, memória sombria, montanha, caverna e chefe.
+- Sons novos: diálogo, rochas rachando, orbe de voz, barreira quebrando, gritos, palavras, acertos e derrota da Sophie, estrela no céu e a queda.
+- Menu de pausa (Esc): continuar, voltar ao checkpoint ou ir ao menu.
+- O jogo salva o capítulo atual. O menu ganhou "Continuar".
+- Personagens novos: o avô, Jupiter criança e Sophie.
+
+**Mudanças**
+- Menu: "Novo jogo", "Continuar" e lista de capítulos em duas colunas.
+- Botões redesenhados na paleta do jogo, mais finos.
+- Troca de cena com fade.
+- A Fase 1 ganhou música e agora leva para a memória da Sophie.
+- Esc no meio da fase abre a pausa em vez de voltar direto ao menu.
+
+**Técnico**
+- Campanha configurável no Inspetor (`autoload/story.tscn`).
+- Cutscenes escritas como roteiro (`await say(...)`), com Esc para pular.
+- 73 testes automáticos. Robôs jogam a Fase 2, a luta contra a Sophie e todas as cutscenes até o fim.
+
+**Problemas conhecidos**
+- Arte ainda provisória.
+- A música do menu não vem no repositório. Sem ela, o menu toca o tema da memória.
 
 ### v0.3.1 · 04/11/2026
 

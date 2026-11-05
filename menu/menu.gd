@@ -1,36 +1,46 @@
 class_name Menu
 extends Control
-## Menu principal do protótipo: aviso de build de desenvolvimento e seleção de fases.
-## Nesta build todas as fases ficam liberadas. Para adicionar uma fase, inclua um
-## LevelInfo em `levels` no Inspetor.
-## A música é opcional: toca o arquivo em `music_path` se ele existir. A pasta menu/music/
-## fica fora do Git (música de terceiros não deve ir para o repositório).
+## Menu principal do protótipo: continuar, novo jogo, capítulos (todos liberados nesta build de
+## desenvolvimento) e sair. Os capítulos vêm da campanha (autoload Story).
+## Música: toca `music_path` se o arquivo existir. A pasta menu/music/ fica fora do Git
+## (música de terceiros não vai para o repositório). Sem ele, toca `fallback_music`.
 
-const GAME_SCENE := preload("res://main/main.tscn")
 const VERSION_FORMAT := "v%s-dev"
 const SELECT_DELAY := 0.3 ## Tempo para o som de confirmar tocar antes de trocar de cena.
+const CHAPTER_BUTTON_WIDTH := 140.0
+const CONTINUE_FORMAT := "Continuar: %s"
 
-@export var levels: Array[LevelInfo] = []
+@export var dev_steps: Array[StoryStep] = [] ## Extras da build dev, fora da campanha.
 @export_file("*.ogg", "*.mp3", "*.wav") var music_path := "res://menu/music/menu_theme.mp3"
+@export var fallback_music: AudioStream
 
-@onready var _level_list: VBoxContainer = %LevelList
+@onready var _continue_button: Button = %ContinueButton
+@onready var _new_game_button: Button = %NewGameButton
+@onready var _chapter_list: GridContainer = %ChapterList
 @onready var _quit_button: Button = %QuitButton
 @onready var _version: Label = %Version
-@onready var _music_player: AudioStreamPlayer = %Music
 @onready var _move_sound: AudioStreamPlayer = %MoveSound
 @onready var _select_sound: AudioStreamPlayer = %SelectSound
 
 
 func _ready() -> void:
 	_version.text = VERSION_FORMAT % ProjectSettings.get_setting("application/config/version")
-	for i in levels.size():
-		_add_level_button(i + 1, levels[i])
+	var saved_step := Story.saved_step()
+	_continue_button.visible = saved_step > 0
+	if _continue_button.visible:
+		_continue_button.text = CONTINUE_FORMAT % Story.steps[saved_step].title
+		_continue_button.pressed.connect(_select.bind(Story.start.bind(saved_step)))
+	_new_game_button.pressed.connect(_select.bind(Story.start.bind(0)))
+	for i in Story.steps.size():
+		_add_chapter_button("%d. %s" % [i + 1, Story.steps[i].title], Story.start.bind(i))
+	for step in dev_steps:
+		_add_chapter_button(step.title, Story.play_outside_campaign.bind(step))
 	_quit_button.pressed.connect(App.quit)
-	_focus_first_button()
+	buttons()[0].grab_focus()
 	# Só depois do foco inicial, para o menu não abrir já fazendo barulho.
-	for button in _buttons():
+	for button in buttons():
 		button.focus_entered.connect(_move_sound.play)
-	_play_music()
+	Music.play(_music())
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,44 +48,40 @@ func _unhandled_input(event: InputEvent) -> void:
 		App.quit()
 
 
-func _add_level_button(number: int, level: LevelInfo) -> void:
-	var button := Button.new()
-	button.text = "%d. %s" % [number, level.title]
-	button.pressed.connect(_start.bind(level.scene))
-	_level_list.add_child(button)
-
-
-func _buttons() -> Array[Button]:
+## Todos os botões, na ordem da tela.
+func buttons() -> Array[Button]:
 	var result: Array[Button] = []
-	for child in _level_list.get_children():
+	if _continue_button.visible:
+		result.append(_continue_button)
+	result.append(_new_game_button)
+	for child in _chapter_list.get_children():
 		result.append(child as Button)
 	result.append(_quit_button)
 	return result
 
 
-func _focus_first_button() -> void:
-	_buttons()[0].grab_focus()
+func _add_chapter_button(text: String, action: Callable) -> void:
+	var button := Button.new()
+	button.text = text
+	button.custom_minimum_size.x = CHAPTER_BUTTON_WIDTH
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.pressed.connect(_select.bind(action))
+	_chapter_list.add_child(button)
 
 
-func _play_music() -> void:
+func _music() -> AudioStream:
 	if not ResourceLoader.exists(music_path):
-		return
+		return fallback_music
 	var music: AudioStream = load(music_path)
 	if "loop" in music:
 		music.set("loop", true)
-	_music_player.stream = music
-	_music_player.play()
+	return music
 
 
-## Toca o som de confirmar e troca o menu pelo jogo já com a fase escolhida.
-func _start(level_scene: PackedScene) -> void:
+## Toca o som de confirmar e, depois de um instante, executa a escolha.
+func _select(action: Callable) -> void:
 	get_viewport().gui_disable_input = true
 	_select_sound.play()
 	await get_tree().create_timer(SELECT_DELAY).timeout
 	get_viewport().gui_disable_input = false
-	var game: Main = GAME_SCENE.instantiate()
-	game.level_scene = level_scene
-	var tree := get_tree()
-	tree.root.add_child(game)
-	tree.current_scene = game
-	queue_free()
+	action.call()

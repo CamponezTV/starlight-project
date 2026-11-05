@@ -4,6 +4,7 @@ extends CharacterBody2D
 ## buffer de pulo, deslizar/pular na parede, dash em 8 direções e correção de quinas.
 ## A origem do nó fica nos pés. Os valores de "feel" são exportados para ajustar no Inspetor.
 ## Morre quando a Hurtbox toca a camada de perigos (espinhos pintados no TileMap).
+## Com a voz (orbe de voz), um dash quebra barreiras de palavras e atinge a Sophie.
 ## A Hurtbox precisa de `monitorable = true`: uma Area2D não monitorável não detecta
 ## corpos estáticos, e os tiles de um TileMapLayer são corpos estáticos.
 
@@ -64,6 +65,16 @@ const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não ca
 
 var facing := 1
 var can_dash := true
+## Desligado em cutscenes: os controles são ignorados (a gravidade continua).
+var controllable := true
+## Sem controle, o Jupiter anda sozinho nesta direção (-1, 0 ou 1).
+var scripted_move_x := 0
+## Carregando a voz (pega num orbe, gasta numa barreira ou na Sophie).
+var has_voice := false:
+	set(value):
+		has_voice = value
+		if is_node_ready():
+			_voice_aura.visible = value
 
 var _state := State.NORMAL
 var _dash_direction := Vector2.ZERO
@@ -80,6 +91,7 @@ var _run_dust_left := 0.0
 var _was_on_floor := false
 
 @onready var _visual: JupiterVisual = $Visual
+@onready var _voice_aura: Node2D = $VoiceAura
 @onready var _jump_sound: AudioStreamPlayer = $JumpSound
 @onready var _land_sound: AudioStreamPlayer = $LandSound
 @onready var _dash_sound: AudioStreamPlayer = $DashSound
@@ -112,6 +124,23 @@ func is_dead() -> bool:
 	return _state == State.DEAD
 
 
+func is_dashing() -> bool:
+	return _state == State.DASHING
+
+
+## Chamado por orbes de voz. Retorna false se ele já estava com a voz (ou morto).
+func gain_voice() -> bool:
+	if is_dead() or has_voice:
+		return false
+	has_voice = true
+	return true
+
+
+## A voz foi usada (barreira quebrada, Sophie atingida).
+func spend_voice() -> void:
+	has_voice = false
+
+
 func die() -> void:
 	if is_dead():
 		return
@@ -137,6 +166,7 @@ func respawn(at: Vector2) -> void:
 	_dash_cooldown_left = 0.0
 	_is_wall_sliding = false
 	can_dash = true
+	has_voice = false
 	show()
 	_visual.squash(RESPAWN_SQUASH)
 
@@ -157,7 +187,7 @@ func _update_normal(delta: float) -> void:
 	var on_floor := is_on_floor()
 	_update_ground_timers(on_floor, delta)
 
-	if Input.is_action_just_pressed(&"dash") and _can_start_dash():
+	if _is_action_just_pressed(&"dash") and _can_start_dash():
 		_start_dash(input)
 		return
 
@@ -170,13 +200,24 @@ func _update_normal(delta: float) -> void:
 
 
 func _read_move_input() -> Vector2i:
+	if not controllable:
+		return Vector2i(scripted_move_x, 0)
 	return Vector2i(
 		int(signf(Input.get_axis(&"move_left", &"move_right"))),
 		int(signf(Input.get_axis(&"move_up", &"move_down"))))
 
 
+## Sem controle (cutscene), toda ação conta como solta.
+func _is_action_pressed(action: StringName) -> bool:
+	return controllable and Input.is_action_pressed(action)
+
+
+func _is_action_just_pressed(action: StringName) -> bool:
+	return controllable and Input.is_action_just_pressed(action)
+
+
 func _buffer_jump_input(delta: float) -> void:
-	if Input.is_action_just_pressed(&"jump"):
+	if _is_action_just_pressed(&"jump"):
 		_jump_buffer_left = jump_buffer_time
 	else:
 		_jump_buffer_left -= delta
@@ -214,7 +255,7 @@ func _apply_gravity(input: Vector2i, on_floor: bool, delta: float) -> void:
 	if on_floor:
 		return
 	var current_gravity := gravity
-	if Input.is_action_pressed(&"jump") and absf(velocity.y) < apex_speed_threshold:
+	if _is_action_pressed(&"jump") and absf(velocity.y) < apex_speed_threshold:
 		current_gravity *= APEX_GRAVITY_FACTOR
 	velocity.y = move_toward(velocity.y, _max_fall_speed(input), current_gravity * delta)
 
@@ -224,7 +265,7 @@ func _apply_gravity(input: Vector2i, on_floor: bool, delta: float) -> void:
 func _apply_jump_sustain(delta: float) -> void:
 	if _jump_sustain_left <= 0.0:
 		return
-	if Input.is_action_pressed(&"jump"):
+	if _is_action_pressed(&"jump"):
 		velocity.y = minf(velocity.y, -jump_speed)
 		_jump_sustain_left -= delta
 	else:

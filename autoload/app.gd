@@ -21,6 +21,7 @@ func quit() -> void:
 	if _is_quitting:
 		return
 	_is_quitting = true
+	Music.stop(0.0)
 	var scene := get_tree().current_scene
 	if scene != null:
 		scene.queue_free()

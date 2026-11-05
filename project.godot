@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Starlight"
 config/description="Um plataforma 2D celeste sobre Jupiter, seu avô e as estrelas."
-config/version="0.3.1"
+config/version="0.4.0"
 run/main_scene="res://menu/menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.png"
@@ -21,6 +21,9 @@ config/icon="res://icon.png"
 
 App="*res://autoload/app.gd"
 Stars="*res://autoload/stars.gd"
+Music="*res://autoload/music.gd"
+Transition="*res://autoload/transition.tscn"
+Story="*res://autoload/story.tscn"
 
 [debug]
 
@@ -42,9 +45,9 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 fonts/dynamic_fonts/use_oversampling=false
-theme/custom="res://ui/ui_theme.tres"
 theme/default_font_antialiasing=0
 theme/default_font_subpixel_positioning=0
+theme/custom="res://ui/ui_theme.tres"
 
 [input]
 
