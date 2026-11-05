@@ -56,5 +56,5 @@ autoplay = &"pulse"
 
 [node name="ReachedSound" type="AudioStreamPlayer" parent="." unique_id=2018878716]
 stream = ExtResource("4_13mte")
-volume_db = -2.0
+volume_db = -6.0
 bus = &"SFX"

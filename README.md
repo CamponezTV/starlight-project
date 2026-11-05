@@ -18,6 +18,11 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.3.1 · 04/11/2026
+
+**Correções**
+- O som de chegada no feixe de luz soava estourado. Refeito mais suave: menos notas, mais grave, menos eco e volume menor.
+
 ### v0.3.0 — Fase 1: A Queda · 04/11/2026
 
 **Novidades**
