@@ -19,6 +19,30 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.5.0 — Cutscenes de verdade · 05/11/2026
+
+**Novidades**
+- **Todas as cutscenes refeitas** em resolução dobrada (arte em 640×360 na mesma tela). Personagens com tamanho de gente: o avô é mais alto que o Jupiter, e o telescópio fica na altura de uma criança.
+- **Personagens novos em alta:** Jupiter (14 anos, de terno), Jupiter criança, Jupiter de pijama (12 anos), o avô e a Sophie. Cada um tem várias poses: sentado, andando, ajoelhado, abraçando, apontando, chorando...
+- **Personagens vivos:** piscam sozinhos e mexem a boca enquanto falam.
+- **Câmera de cinema:** passeia pelo cenário e fecha o plano nos rostos durante as conversas.
+- **Cenários novos:** colina com Via Láctea, árvore e vagalumes; quarto com estrelas no teto e luz da lua; cemitério na chuva; topo da montanha; caverna de cristais; galpão; e os cenários do final.
+- **Prólogo, "O adeus" (nova):** o enterro do avô na chuva. Todos vão embora, as nuvens se abrem e Jupiter decide subir a montanha.
+- **Prólogo, "A montanha":** no topo, a cena corta para um plano aberto do Jupiter diante do céu inteiro.
+- **Memória, "A aranha" (nova, abre o Capítulo 2):** trancado no galpão, Jupiter vê uma aranha descer do teto e a sombra dela crescer na parede. O avô o encontra.
+- **Finais do GDD (no menu dev):** o reencontro com o avô e a manhã no buraco.
+- Sons novos: chuva, porta batendo, aranha andando e sirene. Música nova: "O adeus".
+
+**Mudanças**
+- Capítulos no menu em três colunas.
+- As falas aparecem mesmo com a tela escura (vozes fora de cena).
+- O título "Seis anos depois" passou para o enterro.
+
+**Técnico**
+- `Actor` (`cutscenes/actor.gd`): pose, piscada e boca automáticas. Cada personagem é uma cena em `characters/hd/`.
+- Passos novos de roteiro: `walk`, `move_camera` e o `cast` (quem mexe a boca em cada fala).
+- 78 testes automáticos. Todas as 9 cutscenes rodam até o fim nos testes.
+
 ### v0.4.0 — Capítulo 1: A Voz · 05/11/2026
 
 **Novidades**

@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12_dialogue"]
 [ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13_caption"]
 [ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="14_hint"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/summit.png" id="15_summit"]
+[ext_resource type="PackedScene" path="res://characters/hd/jupiter.tscn" id="16_jupiter"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_summit"]
 size = Vector2(16, 184)
@@ -120,6 +122,37 @@ stream = ExtResource("11_fall_sound")
 volume_db = -6.0
 bus = &"SFX"
 
+[node name="SummitShot" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Stage" type="Node2D" parent="SummitShot"]
+scale = Vector2(0.5, 0.5)
+
+[node name="Background" type="Sprite2D" parent="SummitShot/Stage"]
+texture = ExtResource("15_summit")
+centered = false
+
+[node name="Star" type="Node2D" parent="SummitShot/Stage"]
+position = Vector2(250, 160)
+
+[node name="Glow" type="Sprite2D" parent="SummitShot/Stage/Star"]
+modulate = Color(1, 0.9, 0.5, 0.5)
+texture = ExtResource("7_light")
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite" type="Sprite2D" parent="SummitShot/Stage/Star"]
+texture = ExtResource("6_star")
+hframes = 4
+
+[node name="StarEnd" type="Marker2D" parent="SummitShot/Stage"]
+position = Vector2(560, 196)
+
+[node name="Jupiter" parent="SummitShot/Stage" instance=ExtResource("16_jupiter")]
+position = Vector2(440, 300)
+flip_h = true
+pose = "look_up"
+
 [node name="DialogueBox" parent="." instance=ExtResource("12_dialogue")]
+at_top = true
 
 [node name="Caption" parent="." instance=ExtResource("13_caption")]

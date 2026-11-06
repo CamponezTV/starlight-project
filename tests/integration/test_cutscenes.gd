@@ -3,11 +3,15 @@ extends GutTest
 ## prólogo jogável). O tempo do jogo é acelerado para o teste não demorar.
 
 const SPEED := 6.0
-const REAL_TIME_LIMIT_MS := 30000
+const REAL_TIME_LIMIT_MS := 40000
 const STATIC_CUTSCENES := [
 	"res://cutscenes/stargazing/stargazing.tscn",
+	"res://cutscenes/funeral/funeral.tscn",
 	"res://cutscenes/sophie_memory/sophie_memory.tscn",
 	"res://cutscenes/after_sophie/after_sophie.tscn",
+	"res://cutscenes/spider_memory/spider_memory.tscn",
+	"res://cutscenes/finale/reunion.tscn",
+	"res://cutscenes/finale/morning.tscn",
 ]
 const MOUNTAIN := "res://cutscenes/mountain/mountain.tscn"
 const PRESS_EVERY := 8 ## quadros

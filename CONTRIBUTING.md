@@ -10,7 +10,7 @@ main/        jogo: carrega a fase, troca de sala, morte, checkpoint e recomeço
 story/       StoryStep (um passo da campanha)
 cutscenes/   cutscenes (uma pasta por cena) e seus fundos
 dialogue/    caixa de diálogo e personagens que falam (Speaker)
-characters/  sprites dos personagens das cutscenes e objetos de cena
+characters/  personagens das cutscenes (hd/: folhas e cenas de Actor)
 player/      Jupiter: física, animações, rastro do dash, voz
 companion/   estrela-guia
 levels/      fases, salas (RoomZone), tilesets e fundos
@@ -65,7 +65,11 @@ Level01 (Node2D, levels/level.gd)
 
 - **Ordem da campanha:** `autoload/story.tscn` → Inspetor → `steps`. Cada passo (`StoryStep`) tem título, tipo (`CUTSCENE` ou `LEVEL`) e cena. O menu lista os passos sozinho.
 - **Progresso:** o passo atual fica salvo em `user://progress.cfg` ("Continuar" no menu).
-- **Nova cutscene:** cena com raiz `Node2D` cujo script estende `Cutscene`, com uma `DialogueBox` (`dialogue/dialogue_box.tscn`) e uma `Caption` (`ui/caption.tscn`) como filhas. Escreva o roteiro em `_run()`:
+- **Nova cutscene:** cena com raiz `Node2D` cujo script estende `Cutscene`, com uma `DialogueBox` (`dialogue/dialogue_box.tscn`) e uma `Caption` (`ui/caption.tscn`) como filhas.
+- **Palco em alta:** ponha cenário e personagens num `Node2D` "Stage" com `scale = 0.5` e desenhe em 640×360. Na tela, cada pixel do palco vale meio pixel do jogo. Uma `Camera2D` com `process_callback = Physics` passeia pela cena; `zoom = 2` dá o plano fechado.
+- **Personagens:** instancie `characters/hd/*.tscn` dentro do Stage. A origem fica nos pés. Troque `pose` no roteiro; as poses de cada um estão no Inspetor (`poses`). Cada pose tem 3 quadros na folha: normal, piscando e boca aberta.
+- **Quem mexe a boca:** no `_ready` da cutscene, `cast = {SPEAKER: ator}`.
+- Escreva o roteiro em `_run()`:
 
 ```gdscript
 func _run() -> void:
@@ -75,9 +79,11 @@ func _run() -> void:
 	await say(JUPITER, "Vovô...")
 	end_conversation()
 	await move($Star, Vector2(200, 40), 1.5)
+	await walk(_jupiter, Vector2(800, 330), 4.0)
+	await move_camera(_camera, Vector2(186, 128), 2.0, 3.0)
 ```
 
-- **Passos disponíveis:** `say`, `end_conversation`, `wait`, `show_caption`, `move`, `wait_for_player` e `Transition.fade_in/out`.
+- **Passos disponíveis:** `say`, `end_conversation`, `wait`, `show_caption`, `move`, `walk`, `move_camera`, `wait_for_player` e `Transition.fade_in/out`.
 - **Fim da cena:** ao terminar `_run()`, a campanha segue. Esc pula.
 - **Quem fala:** um `Speaker` (`dialogue/speakers/*.tres`) com nome, cor e tom de voz. `null` = narração.
 - **Diálogo no alto da tela:** marque `at_top` na `DialogueBox` quando os personagens ficam embaixo.
@@ -104,9 +110,8 @@ Provisória. Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 | `entities/checkpoint/star_beacon.png` | estrela adormecida, 2 quadros 16×16 (apagada, acesa) |
 | `entities/*/*.png` | estrela (4 quadros), cristal (2 brilhos + usado), feixe da saída |
 | `ui/hud_star_*.png` | ícones de vida |
-| `characters/*.png` | avô, Jupiter criança e Sophie: 4 quadros 12×16 cada (veja as constantes no script de cada cutscene) |
-| `characters/props/telescope.png` | telescópio do avô |
-| `cutscenes/backgrounds/*.png` | fundos 320×180 das cutscenes |
+| `characters/hd/*.png` | personagens das cutscenes em alta: quadros 64×104 (pés em 32, 100), 3 por pose, na ordem de `poses` |
+| `cutscenes/backgrounds/hd/*.png` | cenários das cutscenes em 640×360 (ou 800×360 quando a câmera passeia), telescópio, aranha, vagalume e gota de chuva |
 | `levels/tilesets/mountain_tiles.png` | mesmo layout do `cave_tiles.png`, recolorido |
 | `entities/sophie_boss/sophie_shadow.png` | 4 quadros 32×40: parada (2), gritando, atordoada |
 

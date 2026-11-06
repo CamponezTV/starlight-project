@@ -34,7 +34,7 @@ _data = {
 }
 
 [node name="DialogueBox" type="CanvasLayer"]
-layer = 20
+layer = 105
 script = ExtResource("1_box")
 
 [node name="Panel" type="Panel" parent="."]

@@ -7,7 +7,7 @@ extends Control
 
 const VERSION_FORMAT := "v%s-dev"
 const SELECT_DELAY := 0.3 ## Tempo para o som de confirmar tocar antes de trocar de cena.
-const CHAPTER_BUTTON_WIDTH := 140.0
+const CHAPTER_BUTTON_WIDTH := 100.0
 const CONTINUE_FORMAT := "Continuar: %s"
 
 @export var dev_steps: Array[StoryStep] = [] ## Extras da build dev, fora da campanha.
@@ -65,6 +65,8 @@ func _add_chapter_button(text: String, action: Callable) -> void:
 	button.text = text
 	button.custom_minimum_size.x = CHAPTER_BUTTON_WIDTH
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.clip_text = true
+	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	button.pressed.connect(_select.bind(action))
 	_chapter_list.add_child(button)
 

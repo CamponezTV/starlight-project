@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/finale/reunion.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/void.png" id="3_background"]
+[ext_resource type="PackedScene" path="res://characters/hd/jupiter.tscn" id="4_jupiter"]
+[ext_resource type="PackedScene" path="res://characters/hd/grandpa.tscn" id="5_grandpa"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="6_star"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="7_light"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8_twinkle"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10_caption"]
+
+[node name="Reunion" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Stage" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Background" type="Sprite2D" parent="Stage"]
+texture = ExtResource("3_background")
+centered = false
+
+[node name="Star" type="Node2D" parent="Stage"]
+position = Vector2(330, -30)
+
+[node name="Glow" type="Sprite2D" parent="Stage/Star"]
+modulate = Color(1, 0.9, 0.55, 0.7)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("7_light")
+
+[node name="Sprite" type="Sprite2D" parent="Stage/Star"]
+texture = ExtResource("6_star")
+hframes = 4
+
+[node name="StarLanding" type="Marker2D" parent="Stage"]
+position = Vector2(390, 250)
+
+[node name="Grandpa" parent="Stage" instance=ExtResource("5_grandpa")]
+position = Vector2(392, 302)
+flip_h = true
+pose = "glow"
+
+[node name="Jupiter" parent="Stage" instance=ExtResource("4_jupiter")]
+position = Vector2(250, 302)
+pose = "look_up"
+
+[node name="HugSpot" type="Marker2D" parent="Stage"]
+position = Vector2(366, 302)
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+position = Vector2(160, 90)
+
+[node name="Flash" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Rect" type="ColorRect" parent="Flash"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.97, 0.88, 0)
+
+[node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_twinkle")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="DialogueBox" parent="." instance=ExtResource("9_dialogue")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("10_caption")]

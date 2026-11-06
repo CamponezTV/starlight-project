@@ -1,0 +1,78 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/funeral/funeral.gd" id="1_script"]
+[ext_resource type="AudioStream" path="res://music/farewell.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/cemetery_stars.png" id="3_stars"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/cemetery_sky.png" id="4_clouds"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/cemetery_ground.png" id="5_ground"]
+[ext_resource type="PackedScene" path="res://characters/hd/jupiter.tscn" id="6_jupiter"]
+[ext_resource type="PackedScene" path="res://characters/hd/sophie.tscn" id="7_sophie"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/raindrop.png" id="8_drop"]
+[ext_resource type="AudioStream" path="res://cutscenes/funeral/rain.wav" id="9_rain"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="10_dialogue"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="11_caption"]
+
+[node name="Funeral" type="Node2D"]
+script = ExtResource("1_script")
+music = ExtResource("2_music")
+
+[node name="Stage" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Stars" type="Sprite2D" parent="Stage"]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("3_stars")
+centered = false
+
+[node name="Clouds" type="Sprite2D" parent="Stage"]
+texture = ExtResource("4_clouds")
+centered = false
+
+[node name="Ground" type="Sprite2D" parent="Stage"]
+texture = ExtResource("5_ground")
+centered = false
+
+[node name="Sophie" parent="Stage" instance=ExtResource("7_sophie")]
+position = Vector2(318, 330)
+pose = "umbrella"
+
+[node name="Jupiter" parent="Stage" instance=ExtResource("6_jupiter")]
+position = Vector2(362, 331)
+pose = "sad"
+
+[node name="SophieExit" type="Marker2D" parent="Stage"]
+position = Vector2(-40, 318)
+
+[node name="JupiterExit" type="Marker2D" parent="Stage"]
+position = Vector2(840, 334)
+
+[node name="Rain" type="CPUParticles2D" parent="Stage"]
+position = Vector2(420, -20)
+amount = 420
+lifetime = 0.8
+preprocess = 1.0
+texture = ExtResource("8_drop")
+emission_shape = 3
+emission_rect_extents = Vector2(460, 1)
+direction = Vector2(-0.12, 1)
+spread = 2.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 480.0
+initial_velocity_max = 560.0
+scale_amount_min = 1.0
+scale_amount_max = 1.0
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+position = Vector2(170, 90)
+
+[node name="RainSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_rain")
+volume_db = -10.0
+autoplay = true
+bus = &"SFX"
+
+[node name="DialogueBox" parent="." instance=ExtResource("10_dialogue")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("11_caption")]

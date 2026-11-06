@@ -9,16 +9,24 @@
 [ext_resource type="PackedScene" path="res://levels/level_02.tscn" id="7_level_02"]
 [ext_resource type="PackedScene" path="res://levels/boss_sophie.tscn" id="8_boss_sophie"]
 [ext_resource type="PackedScene" path="res://cutscenes/after_sophie/after_sophie.tscn" id="9_after_sophie"]
+[ext_resource type="PackedScene" path="res://cutscenes/funeral/funeral.tscn" id="10_funeral"]
+[ext_resource type="PackedScene" path="res://cutscenes/spider_memory/spider_memory.tscn" id="11_spider_memory"]
 
 [sub_resource type="Resource" id="Resource_stargazing"]
 script = ExtResource("2_step")
-title = "Prólogo: as estrelas"
+title = "Prólogo: estrelas"
 kind = 0
 scene = ExtResource("3_stargazing")
 
+[sub_resource type="Resource" id="Resource_funeral"]
+script = ExtResource("2_step")
+title = "Prólogo: o adeus"
+kind = 0
+scene = ExtResource("10_funeral")
+
 [sub_resource type="Resource" id="Resource_mountain"]
 script = ExtResource("2_step")
-title = "Prólogo: a montanha"
+title = "Prólogo: montanha"
 kind = 0
 scene = ExtResource("4_mountain")
 
@@ -52,6 +60,12 @@ title = "Epílogo: a voz"
 kind = 0
 scene = ExtResource("9_after_sophie")
 
+[sub_resource type="Resource" id="Resource_spider_memory"]
+script = ExtResource("2_step")
+title = "Memória: a aranha"
+kind = 0
+scene = ExtResource("11_spider_memory")
+
 [node name="Story" type="Node"]
 script = ExtResource("1_story")
-steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie")])
+steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory")])

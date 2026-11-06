@@ -7,9 +7,15 @@ extends Node2D
 
 signal finished
 
+const WALK_POSES: Array[String] = ["walk_a", "walk_b"]
+const STEP_TIME := 0.2
+
 @export var music: AudioStream
 ## Desligue para a cena não trocar sozinha ao terminar (testes, cenas embutidas).
 @export var advances_story := true
+
+## Quem fala -> quem mexe a boca: { Speaker: Actor }. Preencha no _ready da cutscene.
+var cast := {}
 
 var _is_finished := false
 
@@ -33,7 +39,13 @@ func _run() -> void:
 
 # --- Passos do roteiro (use com await) ---------------------------------------------
 
+## Fala na caixa de diálogo. Se o Speaker estiver no `cast`, o ator mexe a boca enquanto
+## o texto aparece.
 func say(speaker: Speaker, text: String) -> void:
+	var actor := cast.get(speaker) as Actor
+	if actor != null:
+		actor.talking = true
+		dialogue.typing_finished.connect(func() -> void: actor.talking = false, CONNECT_ONE_SHOT)
 	await dialogue.say(speaker, text)
 
 
@@ -73,6 +85,28 @@ func wait_for_player(area: Area2D) -> void:
 			return
 	while not (await area.body_entered) is Player:
 		pass
+
+
+## Leva a câmera até `to` (centro da tela) com `zoom`. Zoom 2 = plano fechado, com os
+## pixels do palco do mesmo tamanho dos da jogabilidade.
+func move_camera(camera: Camera2D, to: Vector2, zoom: float, duration: float) -> void:
+	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "global_position", to, duration)
+	tween.tween_property(camera, "zoom", Vector2.ONE * zoom, duration)
+	await tween.finished
+
+
+## Faz o ator andar até `to` alternando as poses de passo; no fim, fica em `end_pose`.
+func walk(actor: Actor, to: Vector2, duration: float, end_pose := "stand") -> void:
+	actor.flip_h = to.x < actor.global_position.x
+	var tween := create_tween()
+	tween.tween_property(actor, "global_position", to, duration)
+	var time := 0.0
+	while tween.is_running():
+		actor.pose = WALK_POSES[int(time / STEP_TIME) % WALK_POSES.size()]
+		time += get_process_delta_time()
+		await get_tree().process_frame
+	actor.pose = end_pose
 
 
 # --- Fim ------------------------------------------------------------------------------

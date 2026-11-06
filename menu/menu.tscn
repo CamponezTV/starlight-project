@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://story/story_step.gd" id="2_story_step"]
 [ext_resource type="PackedScene" path="res://levels/test_room.tscn" id="3_room_01"]
 [ext_resource type="AudioStream" path="res://music/memory.wav" id="8_fallback_music"]
+[ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
+[ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="4_starfield"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="5_star"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="6_ui_move"]
@@ -18,6 +20,18 @@ script = ExtResource("2_story_step")
 title = "Dev: sala de teste"
 scene = ExtResource("3_room_01")
 
+[sub_resource type="Resource" id="Resource_reunion"]
+script = ExtResource("2_story_step")
+title = "Dev: final 1"
+kind = 0
+scene = ExtResource("9_reunion")
+
+[sub_resource type="Resource" id="Resource_morning"]
+script = ExtResource("2_story_step")
+title = "Dev: final 2"
+kind = 0
+scene = ExtResource("10_morning")
+
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -26,7 +40,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
-dev_steps = Array[ExtResource("2_story_step")]([SubResource("Resource_test_room")])
+dev_steps = Array[ExtResource("2_story_step")]([SubResource("Resource_test_room"), SubResource("Resource_reunion"), SubResource("Resource_morning")])
 fallback_music = ExtResource("8_fallback_music")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -113,7 +127,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
-columns = 2
+columns = 3
 
 [node name="QuitButton" type="Button" parent="Content"]
 unique_name_in_owner = true

@@ -5,6 +5,7 @@ extends CanvasLayer
 ## Uso: `await dialogue_box.say(speaker, "Olá")`. Sem speaker, é narração (sem nome).
 
 signal line_finished
+signal typing_finished ## A fala inteira já está na tela.
 
 const CHARACTERS_PER_SECOND := 40.0
 const PAUSE_AFTER := {".": 0.25, "!": 0.25, "?": 0.25, ",": 0.1, "…": 0.3}
@@ -120,6 +121,7 @@ func _finish_typing() -> void:
 	_is_waiting = true
 	_next_marker.show()
 	set_process(false)
+	typing_finished.emit()
 
 
 func _unhandled_input(event: InputEvent) -> void:

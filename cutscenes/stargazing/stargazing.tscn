@@ -1,55 +1,79 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/stargazing/stargazing.gd" id="1_script"]
 [ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/night_hill.png" id="3_background"]
-[ext_resource type="Texture2D" path="res://characters/props/telescope.png" id="4_telescope"]
-[ext_resource type="Texture2D" path="res://characters/grandpa.png" id="5_grandpa"]
-[ext_resource type="Texture2D" path="res://characters/jupiter_child.png" id="6_child"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/night_hill.png" id="3_background"]
+[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/telescope.png" id="4_telescope"]
+[ext_resource type="PackedScene" path="res://characters/hd/grandpa.tscn" id="5_grandpa"]
+[ext_resource type="PackedScene" path="res://characters/hd/jupiter_child.tscn" id="6_child"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="7_star"]
 [ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8_twinkle"]
 [ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9_dialogue"]
 [ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10_caption"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="11_fireflies"]
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+colors = PackedColorArray(1, 0.95, 0.8, 0.9, 1, 0.9, 0.6, 0)
 
 [node name="Stargazing" type="Node2D"]
 script = ExtResource("1_script")
 music = ExtResource("2_music")
 
-[node name="Background" type="Sprite2D" parent="."]
+[node name="Stage" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Background" type="Sprite2D" parent="Stage"]
 texture = ExtResource("3_background")
 centered = false
 
-[node name="Telescope" type="Sprite2D" parent="."]
-position = Vector2(198, 141)
-texture = ExtResource("4_telescope")
-centered = false
-offset = Vector2(-8, -16)
-
-[node name="Jupiter" type="Sprite2D" parent="."]
-position = Vector2(158, 141)
-texture = ExtResource("6_child")
-centered = false
-offset = Vector2(-6, -16)
-hframes = 4
-frame = 2
-
-[node name="Grandpa" type="Sprite2D" parent="."]
-position = Vector2(175, 141)
-texture = ExtResource("5_grandpa")
-centered = false
-offset = Vector2(-6, -16)
-hframes = 4
-frame = 2
-
-[node name="ShootingStar" type="Sprite2D" parent="."]
+[node name="ShootingStar" type="Node2D" parent="Stage"]
 visible = false
-position = Vector2(60, 26)
-scale = Vector2(0.5, 0.5)
+position = Vector2(120, 40)
+
+[node name="Trail" type="CPUParticles2D" parent="Stage/ShootingStar"]
+amount = 40
+lifetime = 0.5
+local_coords = false
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 0.0
+initial_velocity_max = 0.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_trail")
+
+[node name="Sprite" type="Sprite2D" parent="Stage/ShootingStar"]
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("7_star")
 hframes = 4
 
-[node name="ShootingStarEnd" type="Marker2D" parent="."]
-position = Vector2(236, 78)
+[node name="ShootingStarEnd" type="Marker2D" parent="Stage"]
+position = Vector2(560, 150)
+
+[node name="Telescope" type="Sprite2D" parent="Stage"]
+position = Vector2(500, 290)
+texture = ExtResource("4_telescope")
+centered = false
+offset = Vector2(-20, -64)
+
+[node name="Grandpa" parent="Stage" instance=ExtResource("5_grandpa")]
+position = Vector2(462, 290)
+pose = "sit"
+
+[node name="Jupiter" parent="Stage" instance=ExtResource("6_child")]
+position = Vector2(428, 290)
+pose = "sit"
+
+[node name="Fireflies" parent="Stage" instance=ExtResource("11_fireflies")]
+position = Vector2(420, 250)
+
+[node name="Camera" type="Camera2D" parent="."]
+process_callback = 0
+position = Vector2(160, 90)
+
+[node name="CameraEnd" type="Marker2D" parent="."]
+position = Vector2(226, 90)
 
 [node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_twinkle")
