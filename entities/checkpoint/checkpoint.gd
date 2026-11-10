@@ -1,6 +1,6 @@
 class_name Checkpoint
 extends RoomEntity
-## Checkpoint: o telescópio do vovô. Acende quando Jupiter passa por ele.
+## Checkpoint: uma estrela adormecida num pedestal. Acende quando Jupiter passa por ela.
 
 signal activated(respawn_point: Vector2)
 
@@ -10,6 +10,8 @@ var _is_lit := false
 
 @onready var _sprite: Sprite2D = $Sprite
 @onready var _light: PointLight2D = $Light
+@onready var _glow: Sprite2D = $Sprite/Glow
+@onready var _sparkles: CPUParticles2D = $Sprite/Sparkles
 @onready var _light_up_sound: AudioStreamPlayer = $LightUpSound
 
 
@@ -29,3 +31,5 @@ func _set_lit(value: bool) -> void:
 	_is_lit = value
 	_sprite.frame = Frame.LIT if value else Frame.OFF
 	_light.enabled = value
+	_glow.visible = value
+	_sparkles.emitting = value

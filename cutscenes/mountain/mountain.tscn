@@ -53,7 +53,8 @@ centered = false
 
 [node name="Controls" parent="Hints" instance=ExtResource("14_hint")]
 position = Vector2(100, 152)
-text = "Setas: andar   Espaço: pular"
+text = "Setas: andar
+Espaço: pular"
 
 [node name="SkyStar" type="Node2D" parent="."]
 position = Vector2(470, 28)

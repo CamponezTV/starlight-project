@@ -19,6 +19,34 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.6.0 — Cara nova · 10/11/2026
+
+**Novidades**
+- **Caverna viva:** o fundo preto deu lugar a um cenário em camadas, com céu em degradê, brilhos distantes, colunas de rocha em dois planos, feixes de luz e poeira luminosa no ar. O fundo não escurece mais junto com a fase.
+- **Rocha nova:** miolo escuro, bordas claras e musgo luminoso por cima. Espinhos de cristal bem mais visíveis.
+- **O terreno se enfeita sozinho:** tufos de musgo, cogumelos e cristais que brilham, raízes e estalactites no teto e brotos nas paredes. Nada nasce onde há espinhos.
+- **Cada fase com seu clima:** a Fase 2 puxa para o rosa e a arena da Sophie para o vermelho.
+- **Objetos refeitos:** cristal de dash, estrela adormecida, rocha frágil, barreira de palavras, feixe da saída e estrela-guia. Todos ganharam brilho e faíscas.
+- **Fonte própria:** letras em pixel art desenhadas para o jogo, com todos os acentos. O texto deixou de sair deformado.
+- **Montanha:** céu com Via Láctea, três serras ao fundo, grama e flores no caminho.
+- **Menu** com o céu da montanha, a estrela brilhando e poeira no ar.
+- Vinheta suave nos cantos da tela durante as fases.
+
+**Mudanças**
+- A caverna ficou mais clara: dá para ver o cenário inteiro, e a luz da estrela continua destacando o que está perto.
+- Jupiter com cores mais vivas (terno azul, cabelo castanho), para não sumir no fundo.
+- A estrela-guia deixa um rastro de faíscas. A explosão ao morrer tem mais partículas e cor.
+- As dicas no cenário ficaram um pouco mais largas.
+
+**Técnico**
+- `levels/backgrounds/cave_backdrop.tscn`: o fundo das fases numa cena só. `tint` muda a cor por fase.
+- `levels/decor/terrain_decor.tscn`: filho do `Terrain`, sorteia os enfeites pela posição de cada bloco (sempre iguais).
+- `ui/fonts/starlight_pixel.ttf` como fonte padrão do Theme.
+- 79 testes automáticos. O teste do menu não depende mais do progresso salvo de quem roda.
+
+**Problemas conhecidos**
+- A música do menu não vem no repositório. Sem ela, o menu toca o tema da memória.
+
 ### v0.5.0 — Cutscenes de verdade · 05/11/2026
 
 **Novidades**

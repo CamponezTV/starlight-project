@@ -18,5 +18,5 @@ initial_velocity_min = 10.0
 initial_velocity_max = 40.0
 scale_amount_min = 1.0
 scale_amount_max = 2.0
-color = Color(0.29, 0.227, 0.36, 1)
+color = Color(0.525, 0.447, 0.8, 1)
 script = ExtResource("1_particles")

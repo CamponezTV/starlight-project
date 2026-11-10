@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://companion/star_companion.gd" id="1_companion"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="2_star"]
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
+
+[sub_resource type="Gradient" id="Gradient_sparkle"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="StarCompanion" type="Node2D"]
 script = ExtResource("1_companion")
@@ -12,6 +17,25 @@ color = Color(1, 0.933333, 0.733333, 1)
 energy = 1.25
 texture = ExtResource("3_light")
 texture_scale = 2.6
+
+[node name="Trail" type="CPUParticles2D" parent="."]
+physics_interpolation_mode = 2
+amount = 12
+lifetime = 0.9
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+gravity = Vector2(0, 12)
+initial_velocity_min = 1.0
+initial_velocity_max = 6.0
+color = Color(1, 0.9, 0.55, 1)
+color_ramp = SubResource("Gradient_sparkle")
+
+[node name="Glow" type="Sprite2D" parent="."]
+modulate = Color(1, 0.86, 0.45, 0.55)
+material = ExtResource("80_additive")
+scale = Vector2(0.34, 0.34)
+texture = ExtResource("3_light")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_star")

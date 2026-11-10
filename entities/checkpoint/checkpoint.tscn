@@ -4,9 +4,14 @@
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="2_cgoct"]
 [ext_resource type="Texture2D" path="res://entities/checkpoint/star_beacon.png" id="3_n0t5a"]
 [ext_resource type="AudioStream" path="res://entities/checkpoint/light_up.wav" id="4_cgoct"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bev8p"]
 size = Vector2(12, 16)
+
+[sub_resource type="Gradient" id="Gradient_sparkle"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="Checkpoint" type="Area2D" unique_id=1048092990]
 collision_layer = 0
@@ -30,6 +35,31 @@ texture_scale = 0.6
 position = Vector2(0, -8)
 texture = ExtResource("3_n0t5a")
 hframes = 2
+
+[node name="Glow" type="Sprite2D" parent="Sprite"]
+visible = false
+show_behind_parent = true
+modulate = Color(1, 0.86, 0.45, 0.5)
+material = ExtResource("80_additive")
+position = Vector2(0, -2)
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("2_cgoct")
+
+[node name="Sparkles" type="CPUParticles2D" parent="Sprite"]
+emitting = false
+position = Vector2(0, -2)
+amount = 6
+lifetime = 1.4
+preprocess = 1.4
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 8
+spread = 180.0
+gravity = Vector2(0, -14)
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+color = Color(1, 0.93, 0.6, 1)
+color_ramp = SubResource("Gradient_sparkle")
 
 [node name="LightUpSound" type="AudioStreamPlayer" parent="." unique_id=1658209668]
 stream = ExtResource("4_cgoct")

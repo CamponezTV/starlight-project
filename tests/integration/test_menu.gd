@@ -3,12 +3,22 @@ extends GutTest
 
 const MENU_SCENE := preload("res://menu/menu.tscn")
 
+const TEST_SAVE := "user://test_progress.cfg" ## Para os testes não dependerem do progresso de quem joga.
+
 var _menu: Menu
+var _real_save_path := ""
 
 
 func before_each() -> void:
+	_real_save_path = Story.save_path
+	Story.save_path = TEST_SAVE
 	_menu = MENU_SCENE.instantiate()
 	add_child_autofree(_menu)
+
+
+func after_each() -> void:
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_SAVE))
+	Story.save_path = _real_save_path
 
 
 func test_lists_every_chapter_and_dev_extra_as_enabled_buttons() -> void:
@@ -37,8 +47,6 @@ func test_shows_dev_version() -> void:
 
 
 func test_continue_button_resumes_the_saved_step() -> void:
-	var previous_path := Story.save_path
-	Story.save_path = "user://test_progress.cfg"
 	Story.save_progress(2)
 	var menu: Menu = MENU_SCENE.instantiate()
 	add_child_autofree(menu)
@@ -48,5 +56,3 @@ func test_continue_button_resumes_the_saved_step() -> void:
 	assert_eq(menu.buttons()[0], continue_button, "continuar vem primeiro")
 	Story.save_progress(-1)
 	assert_eq(Story.saved_step(), -1)
-	DirAccess.remove_absolute(ProjectSettings.globalize_path(Story.save_path))
-	Story.save_path = previous_path

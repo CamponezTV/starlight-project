@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="2_13mte"]
 [ext_resource type="Texture2D" path="res://entities/room_exit/light_beam.png" id="3_n3o5x"]
 [ext_resource type="AudioStream" path="res://entities/room_exit/reached.wav" id="4_13mte"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_408vi"]
 size = Vector2(12, 24)
@@ -29,6 +30,10 @@ _data = {
 &"pulse": SubResource("Animation_vrf0b")
 }
 
+[sub_resource type="Gradient" id="Gradient_sparkle"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="RoomExit" type="Area2D" unique_id=2092454115]
 collision_layer = 0
 collision_mask = 2
@@ -49,6 +54,29 @@ texture_scale = 1.2
 [node name="Sprite" type="Sprite2D" parent="." unique_id=142655671]
 position = Vector2(0, -20)
 texture = ExtResource("3_n3o5x")
+
+[node name="Glow" type="Sprite2D" parent="Sprite"]
+show_behind_parent = true
+modulate = Color(1, 0.93, 0.7, 0.55)
+material = ExtResource("80_additive")
+position = Vector2(0, 6)
+scale = Vector2(0.3, 0.5)
+texture = ExtResource("2_13mte")
+
+[node name="Sparkles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+amount = 10
+lifetime = 1.8
+preprocess = 1.8
+local_coords = true
+spread = 180.0
+gravity = Vector2(0, -22)
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+color = Color(1, 0.96, 0.8, 1)
+color_ramp = SubResource("Gradient_sparkle")
+emission_shape = 3
+emission_rect_extents = Vector2(5, 3)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1232204512]
 libraries/ = SubResource("AnimationLibrary_fcgtn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://levels/level_01.tscn" id="2_level"]
@@ -8,13 +8,14 @@
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="6_hud"]
 [ext_resource type="AudioStream" path="res://main/sounds/light_out.wav" id="7_light_out"]
 [ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="9_vignette"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 level_scene = ExtResource("2_level")
 
 [node name="Darkness" type="CanvasModulate" parent="."]
-color = Color(0.3, 0.28, 0.42, 1)
+color = Color(0.64, 0.62, 0.8, 1)
 
 [node name="LevelSlot" type="Node2D" parent="."]
 
@@ -28,6 +29,8 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 limit_smoothed = true
 script = ExtResource("5_camera")
+
+[node name="Vignette" parent="." instance=ExtResource("9_vignette")]
 
 [node name="HUD" parent="." instance=ExtResource("6_hud")]
 

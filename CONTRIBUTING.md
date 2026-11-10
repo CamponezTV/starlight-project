@@ -13,13 +13,13 @@ dialogue/    caixa de diálogo e personagens que falam (Speaker)
 characters/  personagens das cutscenes (hd/: folhas e cenas de Actor)
 player/      Jupiter: física, animações, rastro do dash, voz
 companion/   estrela-guia
-levels/      fases, salas (RoomZone), tilesets e fundos
+levels/      fases, salas (RoomZone), tilesets, fundos e enfeites do terreno
 entities/    objetos de fase: estrela, cristal, estrela adormecida, saída, dica,
              rocha frágil, orbe de voz, barreira de palavras, chefe Sophie
-effects/     efeitos descartáveis (explosão, poeira, estilhaços)
+effects/     efeitos descartáveis (explosão, poeira, estilhaços) e a vinheta
 music/       trilhas (loops)
 camera/      câmera
-ui/          HUD, pausa, legendas e Theme
+ui/          HUD, pausa, legendas, fonte e Theme
 autoload/    App, Stars (vida), Music, Transition (fade), Story (campanha)
 shared/      recursos compartilhados
 tests/       testes (GUT)
@@ -41,9 +41,9 @@ addons/gut/  GUT (MIT)
 
 ```
 Level01 (Node2D, levels/level.gd)
-├── Background       Parallax2D: luzes distantes
-├── CaveSilhouettes  Parallax2D: estalactites em silhueta
+├── Backdrop         cave_backdrop.tscn: fundo em camadas
 ├── Terrain          TileMapLayer: rocha
+│   └── Decor        terrain_decor.tscn: enfeites automáticos
 ├── Hazards          TileMapLayer: espinhos
 ├── Spawn            Marker2D: início da fase
 ├── Rooms            salas (RoomZone), cada uma com Marker2D de renascimento
@@ -55,6 +55,8 @@ Level01 (Node2D, levels/level.gd)
 - **Queda:** sair de uma sala por baixo sem cair em outra sala mata.
 - **Rocha:** `Terrain` → aba TileMap → Terrenos → "Rocha". O autotile escolhe bordas e variações sozinho. Pinte também um anel de rocha por fora da fase, para as bordas não ganharem contorno.
 - **Espinhos:** `Hazards`, com os 4 tiles da linha 2 do atlas (um por direção).
+- **Fundo (`Backdrop`):** instância de `levels/backgrounds/cave_backdrop.tscn`. Fica em CanvasLayers próprias, então a escuridão (`ambient_color`) e as luzes da fase não o afetam. `tint` no Inspetor colore o fundo inteiro; cada fase usa o seu.
+- **Enfeites (`Terrain/Decor`):** instância de `levels/decor/terrain_decor.tscn`, sempre filha da TileMapLayer do terreno. Sorteia musgo, cristais, cogumelos, raízes e brotos pela posição de cada bloco, então o resultado é sempre o mesmo. Pinte a rocha e os enfeites aparecem ao rodar o jogo (não aparecem no editor). As chances e o atlas (`texture`) ficam no Inspetor.
 - **Objetos:** arraste as cenas de `entities/` para `Entities`. A origem fica nos pés, então encaixe no topo de um bloco.
 - **Dicas:** arraste `entities/hint_sign/hint_sign.tscn` para `Hints` e escreva o texto no Inspetor. Ela aparece quando o Jupiter entra na área. Mantenha a dica a pelo menos 8 blocos da borda da sala para o texto não ser cortado.
 - **Mensagens:** `intro_message` e `end_message` no nó raiz da fase.
@@ -98,14 +100,18 @@ func _run() -> void:
 
 ## Arte
 
-Provisória. Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
+Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 
 | Arquivo | Conteúdo |
 |---|---|
 | `player/jupiter.png` | 16 quadros 12×16: parado (0-1), piscada (2), corrida (3-8), pulo (9), topo do pulo (10), queda (11-12), parede (13), dash (14), pouso (15). O broche é **magenta puro** (#ff00ff): o shader troca pela cor de aceso/apagado |
 | `player/jupiter_frames.tres` | animações (SpriteFrames), com duração por quadro |
-| `levels/tilesets/cave_tiles.png` | 8×8: linhas 0, 1 e 3 = rocha (base e variações), linha 2 = espinhos |
-| `levels/backgrounds/*.png` | luzes distantes e silhuetas (repetem a cada 320 px) |
+| `levels/tilesets/cave_tiles.png` | 8×8: linhas 0, 1 e 3 = rocha (base e variações), linha 2 = espinhos. Em cada linha de rocha, a coluna diz quais lados estão expostos: some 1 (cima), 2 (direita), 4 (baixo) e 8 (esquerda) |
+| `levels/backgrounds/cave_*.png` | camadas do fundo da caverna, 320×180. Todas repetem nos dois eixos: céu, brilhos, colunas distantes e colunas próximas |
+| `levels/backgrounds/light_shaft.png` | feixe de luz do fundo (só o alfa importa; a cor vem do shader) |
+| `levels/backgrounds/night_sky.png`, `mountain_far.png` | céu e serras da montanha e do menu (repetem a cada 320 px) |
+| `levels/tilesets/*_decor.png` | enfeites do terreno, células 8×8: linha 0 = tufos, cogumelo e flor; linha 1 = cristais e pedras; linha 2 = pendurados; linha 3 = laterais (desenhados para uma parede à esquerda) |
+| `ui/fonts/starlight_pixel.ttf` | fonte do jogo: 1 pixel por ponto em tamanho 8 (use 8 ou 16). Importada sem antialiasing e sem hinting |
 | `companion/star.png` | estrela-guia, 4 quadros 16×16 |
 | `entities/checkpoint/star_beacon.png` | estrela adormecida, 2 quadros 16×16 (apagada, acesa) |
 | `entities/*/*.png` | estrela (4 quadros), cristal (2 brilhos + usado), feixe da saída |
@@ -144,4 +150,5 @@ Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio
 - `Area2D` que detecta tiles precisa de `monitorable = true`.
 - Efeitos parados (rastro, partículas) usam `physics_interpolation_mode = Off`. Sem isso, aparecem "voando" da origem no primeiro quadro.
 - O jogo renderiza em `canvas_items`, com filtro nearest pra pixel art. As fontes são desenhadas em 8px e ampliadas (sem oversampling), pra manter o visual pixelado.
+- Brilho de um objeto: um `Sprite2D` com `shared/light_soft.tres` e o material `shared/additive.tres`, filho do sprite (assim some junto com ele). A `PointLight2D` ilumina o que está em volta; o sprite aditivo é o halo.
 - Atualize o Patch Notes do README a cada versão.

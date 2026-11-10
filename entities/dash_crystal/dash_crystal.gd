@@ -11,6 +11,8 @@ var _player_inside: Player
 
 @onready var _sprite: Sprite2D = $Sprite
 @onready var _light: PointLight2D = $Light
+@onready var _glow: Sprite2D = $Sprite/Glow
+@onready var _sparkles: CPUParticles2D = $Sprite/Sparkles
 @onready var _respawn_timer: Timer = $RespawnTimer
 @onready var _refill_sound: AudioStreamPlayer = $RefillSound
 @onready var _animation: AnimationPlayer = $AnimationPlayer
@@ -47,6 +49,8 @@ func _is_available() -> bool:
 
 func _refresh() -> void:
 	_light.enabled = _is_available()
+	_glow.visible = _is_available()
+	_sparkles.emitting = _is_available()
 	if _is_available():
 		_animation.play(SHIMMER)
 	else:

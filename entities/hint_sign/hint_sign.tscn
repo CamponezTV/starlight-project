@@ -9,9 +9,9 @@ size = Vector2(120, 64)
 script = ExtResource("1_hint")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -56.0
+offset_left = -60.0
 offset_top = -40.0
-offset_right = 56.0
+offset_right = 60.0
 offset_bottom = -16.0
 grow_vertical = 0
 text = "Dica"

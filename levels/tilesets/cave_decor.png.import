@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhlgsq2x7qg60"
-path="res://.godot/imported/cave_silhouettes.png-8f81cb6dbddadcc771d463941984a3be.ctex"
+uid="uid://dcsc3eo8oy04l"
+path="res://.godot/imported/cave_decor.png-ff81ef57ae4f001d5106a430dd80004e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/backgrounds/cave_silhouettes.png"
-dest_files=["res://.godot/imported/cave_silhouettes.png-8f81cb6dbddadcc771d463941984a3be.ctex"]
+source_file="res://levels/tilesets/cave_decor.png"
+dest_files=["res://.godot/imported/cave_decor.png-ff81ef57ae4f001d5106a430dd80004e.ctex"]
 
 [params]
 

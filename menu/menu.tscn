@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_menu"]
 [ext_resource type="Script" path="res://story/story_step.gd" id="2_story_step"]
@@ -6,10 +6,18 @@
 [ext_resource type="AudioStream" path="res://music/memory.wav" id="8_fallback_music"]
 [ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
 [ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
-[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_starfield.png" id="4_starfield"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="4_sky"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="11_ridges"]
+[ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="12_vignette"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="13_light"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="14_additive"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="5_star"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="6_ui_move"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_select.wav" id="7_ui_select"]
+
+[sub_resource type="Gradient" id="Gradient_mote"]
+offsets = PackedFloat32Array(0, 0.2, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.8, 1, 1, 1, 0.55, 1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_star"]
 atlas = ExtResource("5_star")
@@ -53,7 +61,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.054902, 0.0431373, 0.109804, 1)
 
-[node name="DistantLights" type="TextureRect" parent="."]
+[node name="Sky" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,8 +69,56 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("4_starfield")
+texture = ExtResource("4_sky")
 stretch_mode = 1
+
+[node name="Ridges" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("11_ridges")
+stretch_mode = 1
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.02, 0.09, 0.45)
+
+[node name="StarGlow" type="Sprite2D" parent="."]
+modulate = Color(1, 0.86, 0.45, 0.5)
+material = ExtResource("14_additive")
+position = Vector2(160, 14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("13_light")
+
+[node name="Motes" type="CPUParticles2D" parent="."]
+position = Vector2(160, 90)
+amount = 36
+lifetime = 9.0
+preprocess = 9.0
+emission_shape = 3
+emission_rect_extents = Vector2(176, 100)
+direction = Vector2(-1, -0.4)
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 6.0
+color = Color(1, 0.92, 0.66, 0.7)
+color_ramp = SubResource("Gradient_mote")
+
+[node name="Vignette" parent="." instance=ExtResource("12_vignette")]
+layer = 0
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -87,11 +143,13 @@ stretch_mode = 3
 
 [node name="Title" type="Label" parent="Content"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
 theme_override_font_sizes/font_size = 16
 text = "STARLIGHT"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="Content"]
+modulate = Color(0.8, 0.78, 1, 0.75)
 layout_mode = 2
 text = "Protótipo · Build de desenvolvimento"
 horizontal_alignment = 1

@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://ui/hud_star_empty.png" id="5_empty"]
 
 [node name="HUD" type="CanvasLayer"]
+layer = 2
 script = ExtResource("1_hud")
 
 [node name="StarBar" type="HBoxContainer" parent="."]

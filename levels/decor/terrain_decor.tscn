@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://levels/decor/terrain_decor.gd" id="1_decor"]
+[ext_resource type="Texture2D" path="res://levels/tilesets/cave_decor.png" id="2_atlas"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_glow"]
+blend_mode = 1
+
+[node name="Decor" type="Node2D"]
+script = ExtResource("1_decor")
+texture = ExtResource("2_atlas")
+glow_texture = ExtResource("3_light")
+
+[node name="Glow" type="Node2D" parent="."]
+material = SubResource("CanvasItemMaterial_glow")

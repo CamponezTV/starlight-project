@@ -46,6 +46,17 @@ func test_entities_sit_inside_a_room() -> void:
 			assert_not_null(level.room_at(entity.global_position + PLAYER_CENTER), "%s: %s fora das salas" % [level.name, entity.name])
 
 
+func test_decor_only_grows_on_free_cells() -> void:
+	for level in _levels():
+		var terrain := level.get_node("Terrain") as TileMapLayer
+		var hazards := level.get_node("Hazards") as TileMapLayer
+		var decor := terrain.get_node("Decor") as TerrainDecor
+		assert_gt(decor.piece_count(), 0, "%s sem enfeites" % level.name)
+		for cell in decor.decorated_cells():
+			assert_eq(terrain.get_cell_source_id(cell), -1, "%s: enfeite dentro da rocha em %s" % [level.name, cell])
+			assert_eq(hazards.get_cell_source_id(cell), -1, "%s: enfeite em cima de espinho em %s" % [level.name, cell])
+
+
 func _levels() -> Array[Level]:
 	var scenes: Array[PackedScene] = [load(TEST_ROOM)]
 	for step in Story.steps:

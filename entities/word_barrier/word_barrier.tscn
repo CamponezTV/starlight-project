@@ -1,16 +1,21 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://entities/word_barrier/word_barrier.gd" id="1_barrier"]
 [ext_resource type="Texture2D" path="res://entities/word_barrier/word_barrier.png" id="2_texture"]
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
 [ext_resource type="AudioStream" path="res://entities/word_barrier/break.wav" id="4_break"]
 [ext_resource type="PackedScene" path="res://effects/word_shatter.tscn" id="5_shatter"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sense"]
 size = Vector2(16, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
 size = Vector2(8, 32)
+
+[sub_resource type="Gradient" id="Gradient_sparkle"]
+offsets = PackedFloat32Array(0, 0.25, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="WordBarrier" type="Area2D"]
 collision_layer = 0
@@ -39,6 +44,27 @@ texture_scale = 0.45
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
 texture = ExtResource("2_texture")
+
+[node name="Glow" type="Sprite2D" parent="Sprite"]
+show_behind_parent = true
+modulate = Color(1, 0.3, 0.45, 0.4)
+material = ExtResource("80_additive")
+scale = Vector2(0.22, 0.42)
+texture = ExtResource("3_light")
+
+[node name="Sparkles" type="CPUParticles2D" parent="Sprite"]
+amount = 5
+lifetime = 1.2
+preprocess = 1.2
+local_coords = true
+spread = 180.0
+gravity = Vector2(0, -6)
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
+color = Color(1, 0.6, 0.7, 1)
+color_ramp = SubResource("Gradient_sparkle")
+emission_shape = 3
+emission_rect_extents = Vector2(4, 15)
 
 [node name="BreakSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_break")

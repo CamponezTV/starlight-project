@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://levels/backgrounds/backdrop.gd" id="1_backdrop"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_sky.png" id="2_sky"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_glints.png" id="3_glints"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_far.png" id="4_far"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/cave_near.png" id="5_near"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/light_shaft.png" id="6_shaft"]
+[ext_resource type="Shader" path="res://levels/backgrounds/light_shaft.gdshader" id="7_shaft_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shaft_a"]
+shader = ExtResource("7_shaft_shader")
+shader_parameter/tint = Color(0.55, 0.85, 1, 0.55)
+shader_parameter/speed = 0.5
+shader_parameter/phase = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shaft_b"]
+shader = ExtResource("7_shaft_shader")
+shader_parameter/tint = Color(0.8, 0.7, 1, 0.4)
+shader_parameter/speed = 0.37
+shader_parameter/phase = 2.1
+
+[sub_resource type="Gradient" id="Gradient_mote"]
+offsets = PackedFloat32Array(0, 0.2, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.8, 1, 1, 1, 0.55, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_mote_colors"]
+colors = PackedColorArray(0.62, 0.95, 0.88, 1, 1, 0.92, 0.66, 1)
+
+[node name="CaveBackdrop" type="Node"]
+script = ExtResource("1_backdrop")
+
+[node name="Far" type="CanvasLayer" parent="."]
+layer = -10
+follow_viewport_enabled = true
+
+[node name="Tint" type="CanvasModulate" parent="Far"]
+
+[node name="Sky" type="Parallax2D" parent="Far"]
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(320, 180)
+
+[node name="Sprite" type="Sprite2D" parent="Far/Sky"]
+texture = ExtResource("2_sky")
+centered = false
+
+[node name="Glints" type="Parallax2D" parent="Far"]
+scroll_scale = Vector2(0.06, 0.06)
+repeat_size = Vector2(320, 180)
+
+[node name="Sprite" type="Sprite2D" parent="Far/Glints"]
+texture = ExtResource("3_glints")
+centered = false
+
+[node name="FarRocks" type="Parallax2D" parent="Far"]
+scroll_scale = Vector2(0.16, 0.16)
+repeat_size = Vector2(320, 180)
+
+[node name="Sprite" type="Sprite2D" parent="Far/FarRocks"]
+texture = ExtResource("4_far")
+centered = false
+
+[node name="Shafts" type="Parallax2D" parent="Far"]
+scroll_scale = Vector2(0.22, 0)
+repeat_size = Vector2(320, 0)
+
+[node name="ShaftA" type="Sprite2D" parent="Far/Shafts"]
+material = SubResource("ShaderMaterial_shaft_a")
+position = Vector2(196, 0)
+texture = ExtResource("6_shaft")
+centered = false
+
+[node name="ShaftB" type="Sprite2D" parent="Far/Shafts"]
+material = SubResource("ShaderMaterial_shaft_b")
+position = Vector2(48, 0)
+scale = Vector2(0.7, 1)
+texture = ExtResource("6_shaft")
+centered = false
+
+[node name="NearRocks" type="Parallax2D" parent="Far"]
+scroll_scale = Vector2(0.36, 0.36)
+repeat_size = Vector2(320, 180)
+
+[node name="Sprite" type="Sprite2D" parent="Far/NearRocks"]
+texture = ExtResource("5_near")
+centered = false
+
+[node name="Air" type="CanvasLayer" parent="."]
+layer = -9
+
+[node name="Motes" type="CPUParticles2D" parent="Air"]
+position = Vector2(160, 90)
+amount = 46
+lifetime = 9.0
+preprocess = 9.0
+emission_shape = 3
+emission_rect_extents = Vector2(176, 100)
+direction = Vector2(-1, -0.4)
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 7.0
+color_ramp = SubResource("Gradient_mote")
+color_initial_ramp = SubResource("Gradient_mote_colors")
