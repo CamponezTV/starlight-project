@@ -32,7 +32,7 @@ func test_campaign_opens_with_the_prologue_and_ends_after_the_first_boss() -> vo
 	assert_eq(Story.steps[0].kind, StoryStep.Kind.CUTSCENE, "começa com o prólogo")
 	assert_eq(Story.steps[-1].kind, StoryStep.Kind.CUTSCENE, "termina com uma cena")
 	var titles := Story.steps.map(func(step: StoryStep) -> String: return step.title)
-	assert_lt(titles.find("A Queda"), titles.find("Chefe: Sophie"))
+	assert_lt(titles.find("A Queda"), titles.find("Chefe"))
 
 
 func test_outside_the_campaign_has_no_index() -> void:

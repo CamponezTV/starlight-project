@@ -1,79 +1,96 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/finale/morning.gd" id="1"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/morning_wide.png" id="2"]
-[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/morning_wide_sophie.png" id="4"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/morning_back.png" id="5"]
-[ext_resource type="PackedScene" path="res://characters/busts/sophie.tscn" id="6"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/hole_inside.png" id="7"]
-[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="9"]
-[ext_resource type="AudioStream" path="res://cutscenes/finale/siren.wav" id="10"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="12"]
+[ext_resource type="AudioStream" path="res://music/morning.wav" id="2"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/morning_wide.png" id="3"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="4"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/fg_grass_day.png" id="5"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/morning_wide_sophie.png" id="6"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/morning_back.png" id="7"]
+[ext_resource type="PackedScene" path="res://characters/busts/sophie.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hole_inside.png" id="9"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="11"]
+[ext_resource type="AudioStream" path="res://cutscenes/finale/siren.wav" id="12"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="14"]
 
 [node name="Morning" type="Node2D"]
 script = ExtResource("1")
+music = ExtResource("2")
 
 [node name="Shots" type="Node2D" parent="."]
 
 [node name="Wide" type="Node2D" parent="Shots"]
 
 [node name="Art" type="Sprite2D" parent="Shots/Wide"]
-texture = ExtResource("2")
+texture = ExtResource("3")
 centered = false
 
 [node name="RedLight" type="Sprite2D" parent="Shots/Wide"]
 modulate = Color(1, 0.25, 0.25, 0.6)
 position = Vector2(260, 90)
 scale = Vector2(0.3, 0.2)
-texture = ExtResource("3")
+texture = ExtResource("4")
 
 [node name="BlueLight" type="Sprite2D" parent="Shots/Wide"]
 visible = false
 modulate = Color(0.3, 0.45, 1, 0.6)
 position = Vector2(280, 90)
 scale = Vector2(0.3, 0.2)
-texture = ExtResource("3")
+texture = ExtResource("4")
+
+[node name="Fg" type="Sprite2D" parent="Shots/Wide"]
+z_index = 5
+position = Vector2(-30, 140)
+texture = ExtResource("5")
+centered = false
 
 [node name="Arrival" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Arrival"]
-texture = ExtResource("4")
+texture = ExtResource("6")
+centered = false
+
+[node name="Fg" type="Sprite2D" parent="Shots/Arrival"]
+z_index = 5
+position = Vector2(-30, 140)
+texture = ExtResource("5")
 centered = false
 
 [node name="Close" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Close"]
-texture = ExtResource("5")
+texture = ExtResource("7")
 centered = false
 
-[node name="Sophie" parent="Shots/Close" instance=ExtResource("6")]
-position = Vector2(156, 180)
+[node name="Sophie" parent="Shots/Close" instance=ExtResource("8")]
+position = Vector2(160, 180)
 pose = "away"
+tint = Color(1, 1, 1, 1)
+rim = Color(1, 1, 0.9, 0.7)
 
 [node name="Inside" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Inside"]
-texture = ExtResource("7")
+texture = ExtResource("9")
 centered = false
 
-[node name="Star" parent="Shots/Inside" instance=ExtResource("8")]
+[node name="Star" parent="Shots/Inside" instance=ExtResource("10")]
 position = Vector2(182, 140)
 
-[node name="Frame" parent="." instance=ExtResource("9")]
+[node name="Frame" parent="." instance=ExtResource("11")]
 
 [node name="Siren" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10")
+stream = ExtResource("12")
 volume_db = -14.0
 autoplay = true
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("11")]
+[node name="DialogueBox" parent="." instance=ExtResource("13")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("12")]
+[node name="Caption" parent="." instance=ExtResource("14")]

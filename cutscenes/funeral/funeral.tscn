@@ -1,18 +1,20 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/funeral/funeral.gd" id="1"]
 [ext_resource type="AudioStream" path="res://music/farewell.wav" id="2"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/funeral_wide.png" id="3"]
 [ext_resource type="PackedScene" path="res://cutscenes/rain.tscn" id="4"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/funeral_back_umbrella.png" id="5"]
-[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://characters/busts/sophie.tscn" id="7"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/funeral_back.png" id="8"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/summit_back.png" id="9"]
-[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="10"]
-[ext_resource type="AudioStream" path="res://cutscenes/funeral/rain.wav" id="11"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/fg_grass.png" id="5"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/funeral_back_umbrella.png" id="6"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://characters/busts/sophie.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/funeral_back.png" id="9"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/summit_back.png" id="10"]
+[ext_resource type="PackedScene" path="res://cutscenes/twinkles.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="12"]
+[ext_resource type="AudioStream" path="res://cutscenes/funeral/rain.wav" id="13"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="14"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="15"]
 
 [node name="Funeral" type="Node2D"]
 script = ExtResource("1")
@@ -28,21 +30,32 @@ centered = false
 
 [node name="Rain" parent="Shots/Wide" instance=ExtResource("4")]
 
+[node name="Fg" type="Sprite2D" parent="Shots/Wide"]
+modulate = Color(0.5, 0.62, 0.6, 1)
+z_index = 5
+position = Vector2(-30, 138)
+texture = ExtResource("5")
+centered = false
+
 [node name="Close" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Close"]
-texture = ExtResource("5")
+texture = ExtResource("6")
 centered = false
 
-[node name="Jupiter" parent="Shots/Close" instance=ExtResource("6")]
-position = Vector2(92, 180)
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("7")]
+position = Vector2(88, 180)
 pose = "hollow"
+tint = Color(0.84, 0.9, 0.96, 1)
+rim = Color(0.9, 0.96, 1, 0.6)
 
-[node name="Sophie" parent="Shots/Close" instance=ExtResource("7")]
-position = Vector2(228, 180)
+[node name="Sophie" parent="Shots/Close" instance=ExtResource("8")]
+position = Vector2(232, 180)
 flip_h = true
 pose = "tired"
+tint = Color(0.84, 0.9, 0.96, 1)
+rim = Color(0.9, 0.96, 1, 0.6)
 
 [node name="Rain" parent="Shots/Close" instance=ExtResource("4")]
 
@@ -50,12 +63,14 @@ pose = "tired"
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Alone"]
-texture = ExtResource("8")
+texture = ExtResource("9")
 centered = false
 
-[node name="Jupiter" parent="Shots/Alone" instance=ExtResource("6")]
-position = Vector2(156, 180)
+[node name="Jupiter" parent="Shots/Alone" instance=ExtResource("7")]
+position = Vector2(160, 180)
 pose = "hollow"
+tint = Color(0.84, 0.9, 0.96, 1)
+rim = Color(0.9, 0.96, 1, 0.6)
 
 [node name="Rain" parent="Shots/Alone" instance=ExtResource("4")]
 
@@ -63,22 +78,27 @@ pose = "hollow"
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Sky"]
-texture = ExtResource("9")
+texture = ExtResource("10")
 centered = false
 
-[node name="Jupiter" parent="Shots/Sky" instance=ExtResource("6")]
-position = Vector2(156, 180)
-pose = "look_up"
+[node name="Twinkles" parent="Shots/Sky" instance=ExtResource("11")]
+position = Vector2(176, 50)
 
-[node name="Frame" parent="." instance=ExtResource("10")]
+[node name="Jupiter" parent="Shots/Sky" instance=ExtResource("7")]
+position = Vector2(160, 180)
+pose = "look_up"
+tint = Color(0.82, 0.8, 1, 1)
+rim = Color(0.72, 0.8, 1, 0.9)
+
+[node name="Frame" parent="." instance=ExtResource("12")]
 
 [node name="RainSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11")
+stream = ExtResource("13")
 volume_db = -10.0
 autoplay = true
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("12")]
+[node name="DialogueBox" parent="." instance=ExtResource("14")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("13")]
+[node name="Caption" parent="." instance=ExtResource("15")]

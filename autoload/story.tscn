@@ -10,23 +10,30 @@
 [ext_resource type="PackedScene" path="res://levels/boss_sophie.tscn" id="8_boss_sophie"]
 [ext_resource type="PackedScene" path="res://cutscenes/after_sophie/after_sophie.tscn" id="9_after_sophie"]
 [ext_resource type="PackedScene" path="res://cutscenes/funeral/funeral.tscn" id="10_funeral"]
+[ext_resource type="PackedScene" path="res://cutscenes/hospital/hospital.tscn" id="12_hospital"]
 [ext_resource type="PackedScene" path="res://cutscenes/spider_memory/spider_memory.tscn" id="11_spider_memory"]
 
 [sub_resource type="Resource" id="Resource_stargazing"]
 script = ExtResource("2_step")
-title = "Prólogo: estrelas"
+title = "Estrelas"
 kind = 0
 scene = ExtResource("3_stargazing")
 
+[sub_resource type="Resource" id="Resource_hospital"]
+script = ExtResource("2_step")
+title = "Hospital"
+kind = 0
+scene = ExtResource("12_hospital")
+
 [sub_resource type="Resource" id="Resource_funeral"]
 script = ExtResource("2_step")
-title = "Prólogo: o adeus"
+title = "O adeus"
 kind = 0
 scene = ExtResource("10_funeral")
 
 [sub_resource type="Resource" id="Resource_mountain"]
 script = ExtResource("2_step")
-title = "Prólogo: montanha"
+title = "Montanha"
 kind = 0
 scene = ExtResource("4_mountain")
 
@@ -38,7 +45,7 @@ scene = ExtResource("5_level_01")
 
 [sub_resource type="Resource" id="Resource_sophie_memory"]
 script = ExtResource("2_step")
-title = "Memória: Sophie"
+title = "Sophie"
 kind = 0
 scene = ExtResource("6_sophie_memory")
 
@@ -50,22 +57,22 @@ scene = ExtResource("7_level_02")
 
 [sub_resource type="Resource" id="Resource_boss_sophie"]
 script = ExtResource("2_step")
-title = "Chefe: Sophie"
+title = "Chefe"
 kind = 1
 scene = ExtResource("8_boss_sophie")
 
 [sub_resource type="Resource" id="Resource_after_sophie"]
 script = ExtResource("2_step")
-title = "Epílogo: a voz"
+title = "A voz"
 kind = 0
 scene = ExtResource("9_after_sophie")
 
 [sub_resource type="Resource" id="Resource_spider_memory"]
 script = ExtResource("2_step")
-title = "Memória: a aranha"
+title = "A aranha"
 kind = 0
 scene = ExtResource("11_spider_memory")
 
 [node name="Story" type="Node"]
 script = ExtResource("1_story")
-steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory")])
+steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_hospital"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory")])

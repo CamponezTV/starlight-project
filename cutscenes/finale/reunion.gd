@@ -45,6 +45,7 @@ func _run() -> void:
 	await say(JUPITER, "...")
 	_jupiter.pose = "sad"
 	await say(JUPITER, "Você não lembra.")
+	await say(JUPITER, "No hospital você também não lembrava. Mas lá você pedia desculpa.")
 	await say(GRANDPA, "Eu lembro de você. Não basta?")
 	_jupiter.pose = "hollow"
 	await say(JUPITER, "Vovô. Eu caí de muito alto?")

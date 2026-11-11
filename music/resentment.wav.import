@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://w51147713pih"
-path="res://.godot/imported/memory.wav-fbe3db5421f038054e9689ce660086ff.sample"
+uid="uid://bj3gsnpcdfwxu"
+path="res://.godot/imported/resentment.wav-4c097b26931e0f92088115415970430b.sample"
 
 [deps]
 
-source_file="res://music/memory.wav"
-dest_files=["res://.godot/imported/memory.wav-fbe3db5421f038054e9689ce660086ff.sample"]
+source_file="res://music/resentment.wav"
+dest_files=["res://.godot/imported/resentment.wav-4c097b26931e0f92088115415970430b.sample"]
 
 [params]
 

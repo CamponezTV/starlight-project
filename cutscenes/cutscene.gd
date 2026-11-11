@@ -8,6 +8,8 @@ extends Node2D
 signal finished
 
 const PAN_DISTANCE := 32.0 ## Sobra de largura dos planos abertos (352 px numa tela de 320).
+## Camadas que deslizam em outra velocidade no pan: na frente (mais rápido) e ao fundo.
+const LAYER_DEPTH := {&"Fg": 1.9, &"Clouds": 0.45}
 
 @export var music: AudioStream
 ## Desligue para a cena não trocar sozinha ao terminar (testes, cenas embutidas).
@@ -99,10 +101,17 @@ func cut_to(shot: Node2D, fade := 0.0) -> void:
 
 
 ## Desliza o plano devagar para o lado (a arte dos planos abertos é mais larga que a tela).
+## Os filhos chamados Fg e Clouds deslizam em outra velocidade, o que dá profundidade.
 ## Não espera terminar.
 func pan(shot: Node2D, distance: float, duration: float) -> void:
 	shot.position.x = 0.0
-	create_tween().tween_property(shot, "position:x", -distance, duration)
+	var tween := create_tween().set_parallel()
+	tween.tween_property(shot, "position:x", -distance, duration)
+	for child in shot.get_children():
+		if LAYER_DEPTH.has(child.name):
+			var layer := child as Node2D
+			var extra: float = distance * (LAYER_DEPTH[child.name] - 1.0)
+			tween.tween_property(layer, "position:x", layer.position.x - extra, duration)
 
 
 # --- Fim ------------------------------------------------------------------------------

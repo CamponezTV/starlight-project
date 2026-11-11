@@ -1,5 +1,5 @@
 extends Cutscene
-## Prólogo, o adeus: seis anos depois, o enterro do avô, na chuva. O pai não veio. Sophie
+## Prólogo, o adeus: três semanas depois do hospital, o enterro do avô, na chuva. O pai não veio. Sophie
 ## não sabe o que dizer e vai embora. Jupiter, sozinho, confessa que não chorou. A chuva
 ## para, e ele olha pra cima mesmo sabendo que "virar estrela" não é verdade.
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _run() -> void:
 	Transition.fade_out(0.0)
-	await show_caption("Seis anos depois", 3.0)
+	await show_caption("Três semanas depois", 3.0)
 	await say(null, "\"Ele descansou.\"")
 	await say(null, "\"Ele está num lugar melhor.\"")
 	await say(null, "\"Era a hora dele.\"")
@@ -53,6 +53,7 @@ func _run() -> void:
 	await wait(1.5)
 	await say(JUPITER, "Eu não chorei, vovô.")
 	await say(JUPITER, "Fiquei o velório inteiro esperando a vontade vir. Não veio.")
+	await say(JUPITER, "Eu já tinha te perdido antes, no quarto 214. Acho que gastei tudo lá.")
 	_jupiter_alone.pose = "sad"
 	await say(JUPITER, "Tem alguma coisa quebrada em mim?")
 	await say(JUPITER, "Você disse que ia virar uma estrela.")

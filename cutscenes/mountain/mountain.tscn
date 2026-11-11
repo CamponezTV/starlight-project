@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/mountain/mountain.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://music/mountain.wav" id="2_music"]
+[ext_resource type="AudioStream" path="res://music/summit.wav" id="2_music"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="3_sky"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="4_far"]
 [ext_resource type="PackedScene" path="res://cutscenes/mountain/mountain_terrain.tscn" id="5_terrain"]
@@ -151,8 +151,10 @@ texture = ExtResource("18_summit_back")
 centered = false
 
 [node name="Jupiter" parent="SummitShot/Shots/Close" instance=ExtResource("16_jupiter")]
-position = Vector2(156, 180)
+position = Vector2(160, 180)
 pose = "look_up"
+tint = Color(0.82, 0.8, 1, 1)
+rim = Color(0.72, 0.8, 1, 0.9)
 
 [node name="Frame" parent="SummitShot" instance=ExtResource("19_frame")]
 

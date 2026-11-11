@@ -19,6 +19,24 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.7.0 — Trilha nova e cutscenes com luz · 11/11/2026
+
+**Novidades**
+- **Trilha sonora nova, 10 faixas.** Todas giram em torno de um mesmo tema, "A Promessa", que volta transformado em cada cena: caixinha de música na colina, quase parando sobre o bipe do monitor no hospital, em Ré menor no enterro, em oitavas de piano na luta contra a Sophie, com coro no reencontro e num piano só na manhã final.
+- Instrumentos novos: piano, naipe de cordas, coro, violoncelo, harpa, caixinha de música e tímpanos. O canal de música ganhou reverb e abertura estéreo.
+- **Bustos refeitos:** maiores, com olhos em camadas (íris, pupila, brilho), cabelo com mechas e faixa de luz, sombra arroxeada no rosto e dobras na roupa.
+- **Luz de cena nos personagens:** cada ambiente banha os bustos na sua cor e acende uma luz de contorno (azul da lua, verde do monitor, dourado da estrela, laranja da porta).
+- **Profundidade nos planos abertos:** grama e galhos em primeiro plano e nuvens ao fundo deslizam em velocidades diferentes.
+- Céus mais ricos: nuvens com borda iluminada, lua, pontilhado entre as faixas de cor. Estrelas piscando e vinheta em todas as cenas.
+- **Cena nova, "Hospital":** o avô já não reconhece o Jupiter e fala do neto de oito anos para o próprio neto. Por um instante ele volta e cobra a promessa.
+- Caixa de diálogo redesenhada.
+
+**Mudanças**
+- O enterro agora acontece "três semanas depois" do hospital, e o Jupiter cita o quarto 214.
+- No reencontro, o Jupiter percebe que o avô não lembra, como no hospital.
+- Menu em quatro colunas, com nomes curtos.
+- Saíram as 6 faixas antigas.
+
 ### v0.6.0 — Cutscenes de cinema · 10/11/2026
 
 **Novidades**

@@ -70,6 +70,8 @@ Level01 (Node2D, levels/level.gd)
 - **Nova cutscene:** cena com raiz `Node2D` cujo script estende `Cutscene`, com uma `DialogueBox` (`dialogue/dialogue_box.tscn`) e uma `Caption` (`ui/caption.tscn`) como filhas.
 - **Planos:** cada filho de `Shots` é um plano (um `Node2D` com a arte, os bustos e os efeitos). `cut_to(plano)` mostra só aquele. Tudo na resolução do jogo (320×180); a arte dos planos abertos tem 352 px de largura para o `pan`.
 - **Bustos:** instancie `characters/busts/*.tscn` no plano, em y = 180 (a origem fica embaixo, no meio). Dois personagens: x = 92 e x = 228, o da direita com `flip_h`. Troque a expressão com `pose`; as de cada um estão no Inspetor (`poses`). Cada expressão tem 3 quadros na folha: normal, piscando e falando.
+- **Luz do ambiente:** cada busto tem `tint` (a cor que banha o personagem) e `rim` (a luz de contorno, do lado para onde ele olha). Use os mesmos valores para todos os bustos de um plano.
+- **Profundidade:** num plano aberto, um filho chamado `Fg` (primeiro plano) ou `Clouds` desliza em outra velocidade durante o `pan`.
 - **Quem mexe a boca:** no `_ready` da cutscene, `cast = {SPEAKER: busto}`.
 - **Narrador:** `say(null, "(...)")`. É a voz que diz o que o Jupiter evita pensar.
 - **Falas:** no máximo duas linhas na caixa (um teste confere).
@@ -127,7 +129,7 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 
 - Buses: `Music` (-6 dB) e `SFX`. Todo `AudioStreamPlayer` usa um dos dois.
 - Os efeitos ficam junto de quem os toca (`player/sounds/`, `entities/*/`, `menu/sounds/`, `main/sounds/`, `dialogue/`, `cutscenes/*/`). Foram sintetizados na pentatônica de Ré maior, com timbre de sino e eco longo.
-- **Trilhas** (`music/`): loops sem emenda. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor.
+- **Trilhas** (`music/`): loops sem emenda, todas variações do tema "A Promessa" (`promise`). O bus `Music` tem reverb e abertura estéreo, então as faixas são mono. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor.
 - **Música do menu:** coloque o arquivo em `menu/music/menu_theme.mp3` (ou mude `music_path` no Menu). Ela toca em loop. Sem o arquivo, toca `fallback_music`. A pasta `menu/music/` fica fora do Git porque a música é de terceiros.
 - **Para fechar o jogo, use `App.quit()`**, nunca `get_tree().quit()`. O App espera o áudio ser liberado antes de sair. O X da janela já passa por ele.
 

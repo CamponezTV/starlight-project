@@ -1,17 +1,18 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/finale/reunion.gd" id="1"]
-[ext_resource type="AudioStream" path="res://music/memory.wav" id="2"]
+[ext_resource type="AudioStream" path="res://music/reunion.wav" id="2"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/void_wide.png" id="3"]
-[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="4"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/void_back.png" id="5"]
-[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://characters/busts/grandpa.tscn" id="7"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/void_wide_together.png" id="8"]
-[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="9"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="10"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://cutscenes/twinkles.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="5"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/void_back.png" id="6"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://characters/busts/grandpa.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/void_wide_together.png" id="9"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="10"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="11"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13"]
 
 [node name="Reunion" type="Node2D"]
 script = ExtResource("1")
@@ -25,36 +26,49 @@ music = ExtResource("2")
 texture = ExtResource("3")
 centered = false
 
-[node name="Star" parent="Shots/Wide" instance=ExtResource("4")]
+[node name="Twinkles" parent="Shots/Wide" instance=ExtResource("4")]
+position = Vector2(176, 50)
+
+[node name="Star" parent="Shots/Wide" instance=ExtResource("5")]
 position = Vector2(196, -12)
 
 [node name="StarLanding" type="Marker2D" parent="Shots/Wide"]
-position = Vector2(196, 128)
+position = Vector2(196, 124)
 
 [node name="Close" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Close"]
-texture = ExtResource("5")
+texture = ExtResource("6")
 centered = false
 
-[node name="Jupiter" parent="Shots/Close" instance=ExtResource("6")]
-position = Vector2(92, 180)
-pose = "cry"
+[node name="Twinkles" parent="Shots/Close" instance=ExtResource("4")]
+position = Vector2(176, 50)
 
-[node name="Grandpa" parent="Shots/Close" instance=ExtResource("7")]
-position = Vector2(228, 180)
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("7")]
+position = Vector2(88, 180)
+pose = "cry"
+tint = Color(0.86, 0.8, 1, 1)
+rim = Color(1, 0.78, 1, 0.9)
+
+[node name="Grandpa" parent="Shots/Close" instance=ExtResource("8")]
+position = Vector2(232, 180)
 flip_h = true
 pose = "empty"
+tint = Color(0.86, 0.8, 1, 1)
+rim = Color(1, 0.78, 1, 0.9)
 
 [node name="Together" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Together"]
-texture = ExtResource("8")
+texture = ExtResource("9")
 centered = false
 
-[node name="Frame" parent="." instance=ExtResource("9")]
+[node name="Twinkles" parent="Shots/Together" instance=ExtResource("4")]
+position = Vector2(176, 50)
+
+[node name="Frame" parent="." instance=ExtResource("10")]
 
 [node name="Flash" type="CanvasLayer" parent="."]
 layer = 10
@@ -69,11 +83,11 @@ mouse_filter = 2
 color = Color(1, 0.97, 0.88, 0)
 
 [node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10")
+stream = ExtResource("11")
 volume_db = -8.0
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("11")]
+[node name="DialogueBox" parent="." instance=ExtResource("12")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("12")]
+[node name="Caption" parent="." instance=ExtResource("13")]

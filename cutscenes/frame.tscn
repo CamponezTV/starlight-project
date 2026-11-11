@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Texture2D" path="res://cutscenes/art/frame.png" id="1_frame"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/vignette.png" id="1_vignette"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/frame.png" id="2_frame"]
 
 [node name="Frame" type="Sprite2D"]
 z_index = 50
-texture = ExtResource("1_frame")
+texture = ExtResource("1_vignette")
+centered = false
+
+[node name="Border" type="Sprite2D" parent="."]
+texture = ExtResource("2_frame")
 centered = false

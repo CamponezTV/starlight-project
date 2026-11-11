@@ -1,18 +1,22 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/stargazing/stargazing.gd" id="1"]
-[ext_resource type="AudioStream" path="res://music/memory.wav" id="2"]
+[ext_resource type="AudioStream" path="res://music/promise.wav" id="2"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/hill_wide.png" id="3"]
-[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="5"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/hill_back.png" id="6"]
-[ext_resource type="PackedScene" path="res://characters/busts/jupiter_child.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://characters/busts/grandpa.tscn" id="8"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/hand_star.png" id="9"]
-[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="10"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="11"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://cutscenes/twinkles.tscn" id="4"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/clouds_drift.png" id="5"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="7"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/fg_grass.png" id="8"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hill_back.png" id="9"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter_child.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://characters/busts/grandpa.tscn" id="11"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/fg_branch.png" id="12"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hand_star.png" id="13"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="14"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="15"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="16"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="17"]
 
 [node name="Stargazing" type="Node2D"]
 script = ExtResource("1")
@@ -26,50 +30,81 @@ music = ExtResource("2")
 texture = ExtResource("3")
 centered = false
 
-[node name="Fireflies" parent="Shots/Wide" instance=ExtResource("4")]
+[node name="Twinkles" parent="Shots/Wide" instance=ExtResource("4")]
+position = Vector2(176, 50)
+
+[node name="Clouds" type="Sprite2D" parent="Shots/Wide"]
+modulate = Color(1, 1, 1, 0.5)
+position = Vector2(-60, 30)
+texture = ExtResource("5")
+centered = false
+
+[node name="Fireflies" parent="Shots/Wide" instance=ExtResource("6")]
 position = Vector2(190, 138)
 
-[node name="ShootingStar" parent="Shots/Wide" instance=ExtResource("5")]
+[node name="ShootingStar" parent="Shots/Wide" instance=ExtResource("7")]
 visible = false
 position = Vector2(40, 14)
 
 [node name="ShootingStarEnd" type="Marker2D" parent="Shots/Wide"]
 position = Vector2(300, 64)
 
+[node name="Fg" type="Sprite2D" parent="Shots/Wide"]
+z_index = 5
+position = Vector2(-30, 136)
+texture = ExtResource("8")
+centered = false
+
 [node name="Close" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Close"]
-texture = ExtResource("6")
+texture = ExtResource("9")
 centered = false
 
-[node name="Jupiter" parent="Shots/Close" instance=ExtResource("7")]
-position = Vector2(92, 180)
-pose = "neutral"
+[node name="Twinkles" parent="Shots/Close" instance=ExtResource("4")]
+position = Vector2(176, 50)
 
-[node name="Grandpa" parent="Shots/Close" instance=ExtResource("8")]
-position = Vector2(228, 180)
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("10")]
+position = Vector2(88, 180)
+pose = "neutral"
+tint = Color(0.82, 0.8, 1, 1)
+rim = Color(0.72, 0.8, 1, 0.9)
+
+[node name="Grandpa" parent="Shots/Close" instance=ExtResource("11")]
+position = Vector2(232, 180)
 flip_h = true
 pose = "neutral"
+tint = Color(0.82, 0.8, 1, 1)
+rim = Color(0.72, 0.8, 1, 0.9)
+
+[node name="Fg" type="Sprite2D" parent="Shots/Close"]
+z_index = 5
+position = Vector2(-10, -6)
+texture = ExtResource("12")
+centered = false
 
 [node name="Hand" type="Node2D" parent="Shots"]
 visible = false
 
 [node name="Art" type="Sprite2D" parent="Shots/Hand"]
-texture = ExtResource("9")
+texture = ExtResource("13")
 centered = false
 
-[node name="Star" parent="Shots/Hand" instance=ExtResource("5")]
+[node name="Twinkles" parent="Shots/Hand" instance=ExtResource("4")]
+position = Vector2(176, 50)
+
+[node name="Star" parent="Shots/Hand" instance=ExtResource("7")]
 position = Vector2(150, 54)
 
-[node name="Frame" parent="." instance=ExtResource("10")]
+[node name="Frame" parent="." instance=ExtResource("14")]
 
 [node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11")
+stream = ExtResource("15")
 volume_db = -8.0
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("12")]
+[node name="DialogueBox" parent="." instance=ExtResource("16")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("13")]
+[node name="Caption" parent="." instance=ExtResource("17")]

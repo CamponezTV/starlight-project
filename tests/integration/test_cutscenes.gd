@@ -7,6 +7,7 @@ const REAL_TIME_LIMIT_MS := 60000
 const MAX_DIALOGUE_LINES := 2
 const STATIC_CUTSCENES := [
 	"res://cutscenes/stargazing/stargazing.tscn",
+	"res://cutscenes/hospital/hospital.tscn",
 	"res://cutscenes/funeral/funeral.tscn",
 	"res://cutscenes/sophie_memory/sophie_memory.tscn",
 	"res://cutscenes/after_sophie/after_sophie.tscn",

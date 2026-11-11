@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_menu"]
 [ext_resource type="Script" path="res://story/story_step.gd" id="2_story_step"]
 [ext_resource type="PackedScene" path="res://levels/test_room.tscn" id="3_room_01"]
-[ext_resource type="AudioStream" path="res://music/memory.wav" id="8_fallback_music"]
+[ext_resource type="AudioStream" path="res://music/promise.wav" id="8_fallback_music"]
 [ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
 [ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
 [ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="4_sky"]
@@ -25,18 +25,18 @@ region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="Resource" id="Resource_test_room"]
 script = ExtResource("2_story_step")
-title = "Dev: sala de teste"
+title = "Teste"
 scene = ExtResource("3_room_01")
 
 [sub_resource type="Resource" id="Resource_reunion"]
 script = ExtResource("2_story_step")
-title = "Dev: final 1"
+title = "Final 1"
 kind = 0
 scene = ExtResource("9_reunion")
 
 [sub_resource type="Resource" id="Resource_morning"]
 script = ExtResource("2_story_step")
-title = "Dev: final 2"
+title = "Final 2"
 kind = 0
 scene = ExtResource("10_morning")
 
@@ -176,7 +176,7 @@ text = "Novo jogo"
 [node name="ChaptersHeader" type="Label" parent="Content"]
 modulate = Color(1, 1, 1, 0.6)
 layout_mode = 2
-text = "Capítulos · tudo liberado nesta build"
+text = "Capítulos e extras · tudo liberado nesta build"
 horizontal_alignment = 1
 
 [node name="ChapterList" type="GridContainer" parent="Content"]
@@ -185,7 +185,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
-columns = 3
+columns = 4
 
 [node name="QuitButton" type="Button" parent="Content"]
 unique_name_in_owner = true

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/sophie_memory/sophie_memory.gd" id="1"]
-[ext_resource type="AudioStream" path="res://music/memory_dark.wav" id="2"]
+[ext_resource type="AudioStream" path="res://music/resentment.wav" id="2"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/bedroom_wide.png" id="3"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/bedroom_back.png" id="4"]
 [ext_resource type="PackedScene" path="res://characters/busts/jupiter_pajama.tscn" id="5"]
@@ -31,13 +31,17 @@ texture = ExtResource("4")
 centered = false
 
 [node name="Jupiter" parent="Shots/Close" instance=ExtResource("5")]
-position = Vector2(92, 180)
+position = Vector2(88, 180)
 pose = "scared"
+tint = Color(0.84, 0.8, 0.98, 1)
+rim = Color(0.7, 0.78, 1, 0.85)
 
 [node name="Sophie" parent="Shots/Close" instance=ExtResource("6")]
-position = Vector2(228, 180)
+position = Vector2(232, 180)
 flip_h = true
 pose = "cold"
+tint = Color(0.84, 0.8, 0.98, 1)
+rim = Color(0.7, 0.78, 1, 0.85)
 
 [node name="Alone" type="Node2D" parent="Shots"]
 visible = false
@@ -47,8 +51,10 @@ texture = ExtResource("4")
 centered = false
 
 [node name="Jupiter" parent="Shots/Alone" instance=ExtResource("5")]
-position = Vector2(156, 180)
+position = Vector2(160, 180)
 pose = "silent"
+tint = Color(0.84, 0.8, 0.98, 1)
+rim = Color(0.7, 0.78, 1, 0.85)
 
 [node name="Frame" parent="." instance=ExtResource("7")]
 

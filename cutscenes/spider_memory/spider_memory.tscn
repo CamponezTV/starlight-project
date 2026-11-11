@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://cutscenes/spider_memory/spider_memory.gd" id="1"]
-[ext_resource type="AudioStream" path="res://music/memory_dark.wav" id="2"]
+[ext_resource type="AudioStream" path="res://music/spider.wav" id="2"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/shed_wide.png" id="3"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/spider_shadow.png" id="4"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/spider.png" id="5"]
@@ -51,8 +51,10 @@ texture = ExtResource("6")
 centered = false
 
 [node name="Jupiter" parent="Shots/Close" instance=ExtResource("7")]
-position = Vector2(156, 180)
+position = Vector2(160, 180)
 pose = "scared"
+tint = Color(0.5, 0.5, 0.76, 1)
+rim = Color(0.6, 0.68, 1, 0.7)
 
 [node name="Door" type="Node2D" parent="Shots"]
 visible = false
@@ -62,13 +64,17 @@ texture = ExtResource("8")
 centered = false
 
 [node name="Jupiter" parent="Shots/Door" instance=ExtResource("7")]
-position = Vector2(92, 180)
+position = Vector2(88, 180)
 pose = "silent"
+tint = Color(1, 0.93, 0.84, 1)
+rim = Color(1, 0.85, 0.55, 1)
 
 [node name="Grandpa" parent="Shots/Door" instance=ExtResource("9")]
-position = Vector2(228, 180)
+position = Vector2(232, 180)
 flip_h = true
 pose = "sad"
+tint = Color(1, 0.93, 0.84, 1)
+rim = Color(1, 0.85, 0.55, 1)
 
 [node name="Frame" parent="." instance=ExtResource("10")]
 
