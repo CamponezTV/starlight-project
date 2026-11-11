@@ -1,7 +1,6 @@
 class_name Menu
 extends Control
-## Menu principal do protótipo: continuar, novo jogo, capítulos (todos liberados nesta build de
-## desenvolvimento) e sair. Os capítulos vêm da campanha (autoload Story).
+## Menu principal do protótipo: continuar, novo jogo
 ## Música: toca `music_path` se o arquivo existir. A pasta menu/music/ fica fora do Git
 ## (música de terceiros não vai para o repositório). Sem ele, toca `fallback_music`.
 

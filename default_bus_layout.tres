@@ -1,11 +1,9 @@
-[gd_resource type="AudioBusLayout" load_steps=3 format=3]
+[gd_resource type="AudioBusLayout" format=3 uid="uid://qq4frdr3ohht"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_hall"]
 room_size = 0.7
 damping = 0.6
-spread = 1.0
 hipass = 0.15
-dry = 1.0
 wet = 0.22
 
 [sub_resource type="AudioEffectStereoEnhance" id="AudioEffectStereoEnhance_wide"]
