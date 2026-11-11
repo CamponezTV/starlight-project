@@ -1,20 +1,15 @@
 extends Cutscene
-## Memória antes do chefe 1: dois anos atrás, no quarto, Sophie pega Jupiter olhando
-## Saturno pelo telescópio do avô e o confisca. Ele não responde. É aqui que nasce o medo.
+## Memória antes do chefe 1: aos doze anos, Jupiter é pego à meia-noite olhando Saturno.
+## Sophie não é só cruel: está exausta, criando o filho de outra, e vê nele a mãe que foi
+## embora. Ela leva o telescópio. Ele tem uma resposta e não consegue dizer.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter_child.tres")
 const SOPHIE := preload("res://dialogue/speakers/sophie.tres")
 
-const WALK_TIME := 2.0
-const CLOSE_UP := Vector2(214, 118)
-const WIDE := Vector2(160, 90)
-
-@onready var _jupiter: Actor = $Stage/Jupiter
-@onready var _sophie: Actor = $Stage/Sophie
-@onready var _telescope: Sprite2D = $Stage/Telescope
-@onready var _door: Marker2D = $Stage/Door
-@onready var _sophie_stop: Marker2D = $Stage/SophieStop
-@onready var _camera: Camera2D = $Camera
+@onready var _close: Node2D = $Shots/Close
+@onready var _alone: Node2D = $Shots/Alone
+@onready var _jupiter: Actor = $Shots/Close/Jupiter
+@onready var _sophie: Actor = $Shots/Close/Sophie
 @onready var _door_sound: AudioStreamPlayer = $DoorSound
 
 
@@ -26,47 +21,42 @@ func _ready() -> void:
 func _run() -> void:
 	Transition.fade_out(0.0)
 	await show_caption("Dois anos antes", 2.8)
-	Transition.fade_in(2.0)
-	await wait(2.0)
-	await say(JUPITER, "Dá pra ver os anéis de Saturno hoje... o vovô ia adorar.")
+	Transition.fade_in(2.5)
+	await wait(3.0)
+	await say(JUPITER, "Saturno tá com os anéis abertos hoje. O vovô ia querer ver.")
 	end_conversation()
-	_sophie.global_position = _door.global_position
-	_sophie.show()
-	await walk(_sophie, _sophie_stop.global_position, WALK_TIME)
-	await move_camera(_camera, CLOSE_UP, 2.0, 1.5)
-	await say(SOPHIE, "Jupiter. Já passou da meia-noite.")
-	_jupiter.pose = "stand"
-	await say(JUPITER, "Desculpa... é que Saturno tá bem alto hoje.")
-	_sophie.pose = "crossed"
-	await say(SOPHIE, "Saturno.")
-	await say(SOPHIE, "Você tem prova amanhã e tá aqui olhando pro céu de novo.")
-	await say(JUPITER, "O vovô disse que um dia eu posso ser astronauta.")
-	_sophie.pose = "point"
-	await say(SOPHIE, "Astronauta? Você não consegue nem acordar na hora da escola.")
-	await say(SOPHIE, "Seu avô subiu uma vez e passou o resto da vida olhando pra cima. Não vou deixar você fazer o mesmo.")
+	_door_sound.play()
+	await wait(0.8)
+	await cut_to(_close, 0.3)
+	await say(SOPHIE, "Meia-noite e dez.")
+	await say(JUPITER, "Desculpa. Eu já ia dormir.")
+	await say(SOPHIE, "Você tem prova amanhã. Eu assinei três advertências este mês. Três.")
 	_jupiter.pose = "sad"
-	await say(JUPITER, "Mas...")
-	_sophie.pose = "stand"
+	await say(JUPITER, "É que hoje dá pra ver Saturno, e o vovô disse que...")
+	_sophie.pose = "angry"
+	await say(SOPHIE, "O seu avô.")
+	await say(SOPHIE, "O seu avô subiu uma vez num foguete e passou quarenta anos sem conseguir descer.")
+	_sophie.pose = "tired"
+	await say(SOPHIE, "Sabe quem paga a luz desta casa? Seu pai manda dinheiro e acha que isso é ser pai.")
+	await say(SOPHIE, "E quem fica sou eu. Criando o filho de outra.")
+	_jupiter.pose = "silent"
+	await say(JUPITER, "...")
+	_sophie.pose = "away"
+	await say(SOPHIE, "Você tem os olhos dela.")
+	_sophie.pose = "tired"
+	await say(SOPHIE, "Eu odeio isso. E odeio que eu odeio isso.")
+	_sophie.pose = "cold"
 	await say(SOPHIE, "Isso aqui fica comigo.")
-	end_conversation()
-	await walk(_sophie, _telescope.global_position + Vector2(16, 0), WALK_TIME * 0.4)
-	_telescope.hide()
-	_sophie.pose = "hold"
-	_sophie.flip_h = false
-	await wait(0.6)
-	_jupiter.pose = "reach"
+	_jupiter.pose = "plead"
 	await say(JUPITER, "Não! É do vovô!")
 	await say(SOPHIE, "Então ele que venha buscar.")
 	end_conversation()
-	move_camera(_camera, WIDE, 1.0, 2.0)
-	await walk(_sophie, _door.global_position, WALK_TIME, "hold")
-	_sophie.hide()
+	await cut_to(_alone, 0.6)
 	_door_sound.play()
-	await wait(1.2)
-	_jupiter.pose = "sad"
-	await wait(1.5)
-	await say(null, "Eu não respondi.")
-	await say(null, "Nunca respondi. Nenhuma vez.")
+	await wait(2.0)
+	await say(null, "(Você tinha uma resposta.)")
+	await say(null, "(Você sempre tem. Ela sobe até a garganta e fica lá.)")
+	await say(null, "(Faz três anos que nada passa dali.)")
 	end_conversation()
-	await wait(1.0)
+	await wait(1.5)
 	await Transition.fade_out(2.5)

@@ -3,7 +3,8 @@ extends GutTest
 ## prólogo jogável). O tempo do jogo é acelerado para o teste não demorar.
 
 const SPEED := 6.0
-const REAL_TIME_LIMIT_MS := 40000
+const REAL_TIME_LIMIT_MS := 60000
+const MAX_DIALOGUE_LINES := 2
 const STATIC_CUTSCENES := [
 	"res://cutscenes/stargazing/stargazing.tscn",
 	"res://cutscenes/funeral/funeral.tscn",
@@ -41,6 +42,22 @@ func test_escape_skips_a_cutscene() -> void:
 	TestHelpers.tap(&"quit")
 	await wait_process_frames(1)
 	assert_true(cutscene.is_finished())
+
+
+## Toda fala escrita nos roteiros cabe na caixa de diálogo (duas linhas).
+func test_every_line_fits_the_dialogue_box() -> void:
+	var box: DialogueBox = (load("res://dialogue/dialogue_box.tscn") as PackedScene).instantiate()
+	add_child_autofree(box)
+	var label := box.get_node("%Text") as Label
+	var pattern := RegEx.create_from_string("say\\(\\w+, \"((?:[^\"\\\\]|\\\\.)*)\"\\)")
+	var checked := 0
+	for path: String in STATIC_CUTSCENES + [MOUNTAIN]:
+		var source := FileAccess.get_file_as_string(path.replace(".tscn", ".gd"))
+		for found in pattern.search_all(source):
+			label.text = found.get_string(1).c_unescape()
+			checked += 1
+			assert_lte(label.get_line_count(), MAX_DIALOGUE_LINES, "não cabe: %s" % label.text)
+	assert_gt(checked, 100, "deveria ter achado as falas dos roteiros")
 
 
 func _play(path: String, walk_right: bool) -> bool:

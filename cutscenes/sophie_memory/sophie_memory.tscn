@@ -1,57 +1,63 @@
 [gd_scene load_steps=11 format=3]
 
-[ext_resource type="Script" path="res://cutscenes/sophie_memory/sophie_memory.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://music/memory_dark.wav" id="2_music"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/bedroom.png" id="3_background"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/telescope.png" id="4_telescope"]
-[ext_resource type="PackedScene" path="res://characters/hd/jupiter_pajama.tscn" id="5_jupiter"]
-[ext_resource type="PackedScene" path="res://characters/hd/sophie.tscn" id="6_sophie"]
-[ext_resource type="AudioStream" path="res://cutscenes/spider_memory/door.wav" id="7_door"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="8_dialogue"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="9_caption"]
+[ext_resource type="Script" path="res://cutscenes/sophie_memory/sophie_memory.gd" id="1"]
+[ext_resource type="AudioStream" path="res://music/memory_dark.wav" id="2"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/bedroom_wide.png" id="3"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/bedroom_back.png" id="4"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter_pajama.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://characters/busts/sophie.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="7"]
+[ext_resource type="AudioStream" path="res://cutscenes/spider_memory/door.wav" id="8"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10"]
 
 [node name="SophieMemory" type="Node2D"]
-script = ExtResource("1_script")
-music = ExtResource("2_music")
+script = ExtResource("1")
+music = ExtResource("2")
 
-[node name="Stage" type="Node2D" parent="."]
-scale = Vector2(0.5, 0.5)
+[node name="Shots" type="Node2D" parent="."]
 
-[node name="Background" type="Sprite2D" parent="Stage"]
-texture = ExtResource("3_background")
+[node name="Wide" type="Node2D" parent="Shots"]
+
+[node name="Art" type="Sprite2D" parent="Shots/Wide"]
+texture = ExtResource("3")
 centered = false
 
-[node name="Telescope" type="Sprite2D" parent="Stage"]
-position = Vector2(412, 300)
-texture = ExtResource("4_telescope")
-centered = false
-offset = Vector2(-20, -64)
-
-[node name="Jupiter" parent="Stage" instance=ExtResource("5_jupiter")]
-position = Vector2(384, 300)
-pose = "look_up"
-
-[node name="Sophie" parent="Stage" instance=ExtResource("6_sophie")]
+[node name="Close" type="Node2D" parent="Shots"]
 visible = false
-position = Vector2(612, 300)
+
+[node name="Art" type="Sprite2D" parent="Shots/Close"]
+texture = ExtResource("4")
+centered = false
+
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("5")]
+position = Vector2(92, 180)
+pose = "scared"
+
+[node name="Sophie" parent="Shots/Close" instance=ExtResource("6")]
+position = Vector2(228, 180)
 flip_h = true
+pose = "cold"
 
-[node name="Door" type="Marker2D" parent="Stage"]
-position = Vector2(612, 300)
+[node name="Alone" type="Node2D" parent="Shots"]
+visible = false
 
-[node name="SophieStop" type="Marker2D" parent="Stage"]
-position = Vector2(468, 300)
+[node name="Art" type="Sprite2D" parent="Shots/Alone"]
+texture = ExtResource("4")
+centered = false
 
-[node name="Camera" type="Camera2D" parent="."]
-process_callback = 0
-position = Vector2(160, 90)
+[node name="Jupiter" parent="Shots/Alone" instance=ExtResource("5")]
+position = Vector2(156, 180)
+pose = "silent"
+
+[node name="Frame" parent="." instance=ExtResource("7")]
 
 [node name="DoorSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_door")
-volume_db = -6.0
+stream = ExtResource("8")
+volume_db = -5.0
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("8_dialogue")]
+[node name="DialogueBox" parent="." instance=ExtResource("9")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("9_caption")]
+[node name="Caption" parent="." instance=ExtResource("10")]

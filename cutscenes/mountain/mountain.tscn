@@ -14,8 +14,11 @@
 [ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12_dialogue"]
 [ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13_caption"]
 [ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="14_hint"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/summit.png" id="15_summit"]
-[ext_resource type="PackedScene" path="res://characters/hd/jupiter.tscn" id="16_jupiter"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/summit_wide.png" id="15_summit"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="16_jupiter"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="17_star"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/summit_back.png" id="18_summit_back"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="19_frame"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_summit"]
 size = Vector2(16, 184)
@@ -126,32 +129,32 @@ bus = &"SFX"
 [node name="SummitShot" type="CanvasLayer" parent="."]
 layer = 5
 
-[node name="Stage" type="Node2D" parent="SummitShot"]
-scale = Vector2(0.5, 0.5)
+[node name="Shots" type="Node2D" parent="SummitShot"]
 
-[node name="Background" type="Sprite2D" parent="SummitShot/Stage"]
+[node name="Wide" type="Node2D" parent="SummitShot/Shots"]
+
+[node name="Art" type="Sprite2D" parent="SummitShot/Shots/Wide"]
 texture = ExtResource("15_summit")
 centered = false
 
-[node name="Star" type="Node2D" parent="SummitShot/Stage"]
-position = Vector2(250, 160)
+[node name="Star" parent="SummitShot/Shots/Wide" instance=ExtResource("17_star")]
+position = Vector2(150, 52)
 
-[node name="Glow" type="Sprite2D" parent="SummitShot/Stage/Star"]
-modulate = Color(1, 0.9, 0.5, 0.5)
-texture = ExtResource("7_light")
-scale = Vector2(0.5, 0.5)
+[node name="StarEnd" type="Marker2D" parent="SummitShot/Shots/Wide"]
+position = Vector2(318, 88)
 
-[node name="Sprite" type="Sprite2D" parent="SummitShot/Stage/Star"]
-texture = ExtResource("6_star")
-hframes = 4
+[node name="Close" type="Node2D" parent="SummitShot/Shots"]
+visible = false
 
-[node name="StarEnd" type="Marker2D" parent="SummitShot/Stage"]
-position = Vector2(560, 196)
+[node name="Art" type="Sprite2D" parent="SummitShot/Shots/Close"]
+texture = ExtResource("18_summit_back")
+centered = false
 
-[node name="Jupiter" parent="SummitShot/Stage" instance=ExtResource("16_jupiter")]
-position = Vector2(440, 300)
-flip_h = true
+[node name="Jupiter" parent="SummitShot/Shots/Close" instance=ExtResource("16_jupiter")]
+position = Vector2(156, 180)
 pose = "look_up"
+
+[node name="Frame" parent="SummitShot" instance=ExtResource("19_frame")]
 
 [node name="DialogueBox" parent="." instance=ExtResource("12_dialogue")]
 at_top = true

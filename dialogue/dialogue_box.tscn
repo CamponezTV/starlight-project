@@ -43,7 +43,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
-offset_top = -58.0
+offset_top = -52.0
 offset_right = -10.0
 offset_bottom = -6.0
 grow_horizontal = 2
@@ -65,16 +65,16 @@ layout_mode = 0
 offset_left = 7.0
 offset_top = 13.0
 offset_right = 289.0
-offset_bottom = 50.0
+offset_bottom = 44.0
 autowrap_mode = 3
 
 [node name="NextMarker" type="Label" parent="Panel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 290.0
-offset_top = 39.0
+offset_top = 33.0
 offset_right = 298.0
-offset_bottom = 50.0
+offset_bottom = 44.0
 text = "»"
 
 [node name="Blip" type="AudioStreamPlayer" parent="."]

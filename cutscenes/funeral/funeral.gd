@@ -1,23 +1,22 @@
 extends Cutscene
-## Prólogo, o adeus: seis anos depois, no enterro do avô. Chove; todos vão embora e
-## Jupiter fica sozinho no túmulo. A chuva para, as nuvens abrem e as estrelas aparecem.
-## Ele decide subir a montanha onde os dois olhavam o céu.
+## Prólogo, o adeus: seis anos depois, o enterro do avô, na chuva. O pai não veio. Sophie
+## não sabe o que dizer e vai embora. Jupiter, sozinho, confessa que não chorou. A chuva
+## para, e ele olha pra cima mesmo sabendo que "virar estrela" não é verdade.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
 const SOPHIE := preload("res://dialogue/speakers/sophie.tres")
 
-const CLEARING_TIME := 5.0
-const CLOSE_UP := Vector2(186, 128)
+const RAIN_FADE := 3.0
 
-@onready var _jupiter: Actor = $Stage/Jupiter
-@onready var _sophie: Actor = $Stage/Sophie
-@onready var _clouds: Sprite2D = $Stage/Clouds
-@onready var _stars: Sprite2D = $Stage/Stars
-@onready var _rain: CPUParticles2D = $Stage/Rain
+@onready var _wide: Node2D = $Shots/Wide
+@onready var _close: Node2D = $Shots/Close
+@onready var _alone: Node2D = $Shots/Alone
+@onready var _sky: Node2D = $Shots/Sky
+@onready var _jupiter: Actor = $Shots/Close/Jupiter
+@onready var _sophie: Actor = $Shots/Close/Sophie
+@onready var _jupiter_alone: Actor = $Shots/Alone/Jupiter
+@onready var _jupiter_sky: Actor = $Shots/Sky/Jupiter
 @onready var _rain_sound: AudioStreamPlayer = $RainSound
-@onready var _camera: Camera2D = $Camera
-@onready var _sophie_exit: Marker2D = $Stage/SophieExit
-@onready var _jupiter_exit: Marker2D = $Stage/JupiterExit
 
 
 func _ready() -> void:
@@ -28,42 +27,47 @@ func _ready() -> void:
 func _run() -> void:
 	Transition.fade_out(0.0)
 	await show_caption("Seis anos depois", 3.0)
+	await say(null, "\"Ele descansou.\"")
+	await say(null, "\"Ele está num lugar melhor.\"")
+	await say(null, "\"Era a hora dele.\"")
+	await say(null, "(Todo mundo falou dele como se ele tivesse viajado.)")
+	end_conversation()
 	Transition.fade_in(3.0)
-	await move_camera(_camera, CLOSE_UP, 2.0, 5.0)
-	await say(SOPHIE, "Jupiter. Vamos. Todo mundo já foi.")
-	await say(JUPITER, "Só mais um pouco.")
+	pan(_wide, PAN_DISTANCE, 30.0)
+	await wait(5.0)
+	await cut_to(_close, 0.5)
+	await say(SOPHIE, "Seu pai ligou. Não conseguiu voo.")
+	await say(JUPITER, "Eu sei.")
+	await say(SOPHIE, "Ele mandou flores.")
+	await say(JUPITER, "Eu vi. Vieram com o nome do vovô escrito errado.")
+	_sophie.pose = "away"
 	await say(SOPHIE, "...")
-	await say(SOPHIE, "Não demora. Vai acabar pegando um resfriado.")
+	_sophie.pose = "tired"
+	await say(SOPHIE, "Eu não sei o que dizer pra você, Jupiter. Nunca soube.")
+	await say(JUPITER, "Não precisa dizer nada.")
+	_sophie.pose = "cold"
+	await say(SOPHIE, "Não fica aí até escurecer. Eu não vou voltar pra te buscar.")
 	end_conversation()
-	await walk(_sophie, _sophie_exit.global_position, 4.0, "umbrella")
-	_sophie.hide()
-	await wait(1.0)
-	_jupiter.pose = "kneel"
+	await cut_to(_alone, 0.8)
+	cast[JUPITER] = _jupiter_alone
 	await wait(1.5)
-	await say(JUPITER, "Você prometeu que a gente ia junto, vovô.")
-	_jupiter.pose = "cry"
-	await say(JUPITER, "Quem vai me mostrar as estrelas agora?")
+	await say(JUPITER, "Eu não chorei, vovô.")
+	await say(JUPITER, "Fiquei o velório inteiro esperando a vontade vir. Não veio.")
+	_jupiter_alone.pose = "sad"
+	await say(JUPITER, "Tem alguma coisa quebrada em mim?")
+	await say(JUPITER, "Você disse que ia virar uma estrela.")
+	_jupiter_alone.pose = "bitter"
+	await say(JUPITER, "Eu tenho catorze anos. Eu sei que não é assim que funciona.")
+	await say(JUPITER, "Eu sei o que tem dentro daquela caixa.")
 	end_conversation()
-	await wait(1.5)
-	await _clear_the_sky()
-	_jupiter.pose = "look_up"
-	await wait(1.5)
-	await say(JUPITER, "...")
-	await say(JUPITER, "A montanha. Dá pra ver tudo de lá.")
+	create_tween().tween_property(_rain_sound, "volume_db", -50.0, RAIN_FADE)
+	await cut_to(_sky, 1.5)
+	cast[JUPITER] = _jupiter_sky
+	await say(null, "(A chuva parou.)")
+	await say(null, "(Você olhou pra cima mesmo assim.)")
+	await say(JUPITER, "...Uma delas não tá piscando.")
+	_jupiter_sky.pose = "awe"
+	await say(JUPITER, "A montanha. De lá dá pra ver melhor.")
+	await say(null, "(Você prometeu que não ia ter pressa.)")
 	end_conversation()
-	move_camera(_camera, Vector2(230, 90), 1.0, 3.0)
-	await walk(_jupiter, _jupiter_exit.global_position, 5.0)
-	await Transition.fade_out(2.0)
-
-
-## A chuva para, as nuvens somem e o céu estrelado aparece por trás.
-func _clear_the_sky() -> void:
-	_rain.emitting = false
-	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE)
-	tween.tween_property(_rain_sound, "volume_db", -40.0, CLEARING_TIME)
-	tween.tween_property(_clouds, "modulate:a", 0.0, CLEARING_TIME)
-	tween.tween_property(_stars, "modulate:a", 1.0, CLEARING_TIME)
-	tween.tween_property(_camera, "zoom", Vector2.ONE, CLEARING_TIME)
-	tween.tween_property(_camera, "global_position", Vector2(200, 90), CLEARING_TIME)
-	await tween.finished
-	_rain_sound.stop()
+	await Transition.fade_out(2.5)

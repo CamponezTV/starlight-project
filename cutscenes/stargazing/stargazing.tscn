@@ -1,86 +1,75 @@
 [gd_scene load_steps=14 format=3]
 
-[ext_resource type="Script" path="res://cutscenes/stargazing/stargazing.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/night_hill.png" id="3_background"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/telescope.png" id="4_telescope"]
-[ext_resource type="PackedScene" path="res://characters/hd/grandpa.tscn" id="5_grandpa"]
-[ext_resource type="PackedScene" path="res://characters/hd/jupiter_child.tscn" id="6_child"]
-[ext_resource type="Texture2D" path="res://companion/star.png" id="7_star"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8_twinkle"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9_dialogue"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10_caption"]
-[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="11_fireflies"]
-
-[sub_resource type="Gradient" id="Gradient_trail"]
-colors = PackedColorArray(1, 0.95, 0.8, 0.9, 1, 0.9, 0.6, 0)
+[ext_resource type="Script" path="res://cutscenes/stargazing/stargazing.gd" id="1"]
+[ext_resource type="AudioStream" path="res://music/memory.wav" id="2"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hill_wide.png" id="3"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="5"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hill_back.png" id="6"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter_child.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://characters/busts/grandpa.tscn" id="8"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hand_star.png" id="9"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="10"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="11"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13"]
 
 [node name="Stargazing" type="Node2D"]
-script = ExtResource("1_script")
-music = ExtResource("2_music")
+script = ExtResource("1")
+music = ExtResource("2")
 
-[node name="Stage" type="Node2D" parent="."]
-scale = Vector2(0.5, 0.5)
+[node name="Shots" type="Node2D" parent="."]
 
-[node name="Background" type="Sprite2D" parent="Stage"]
-texture = ExtResource("3_background")
+[node name="Wide" type="Node2D" parent="Shots"]
+
+[node name="Art" type="Sprite2D" parent="Shots/Wide"]
+texture = ExtResource("3")
 centered = false
 
-[node name="ShootingStar" type="Node2D" parent="Stage"]
+[node name="Fireflies" parent="Shots/Wide" instance=ExtResource("4")]
+position = Vector2(190, 138)
+
+[node name="ShootingStar" parent="Shots/Wide" instance=ExtResource("5")]
 visible = false
-position = Vector2(120, 40)
+position = Vector2(40, 14)
 
-[node name="Trail" type="CPUParticles2D" parent="Stage/ShootingStar"]
-amount = 40
-lifetime = 0.5
-local_coords = false
-direction = Vector2(0, 0)
-spread = 0.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 0.0
-initial_velocity_max = 0.0
-scale_amount_min = 2.0
-scale_amount_max = 2.0
-color_ramp = SubResource("Gradient_trail")
+[node name="ShootingStarEnd" type="Marker2D" parent="Shots/Wide"]
+position = Vector2(300, 64)
 
-[node name="Sprite" type="Sprite2D" parent="Stage/ShootingStar"]
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("7_star")
-hframes = 4
+[node name="Close" type="Node2D" parent="Shots"]
+visible = false
 
-[node name="ShootingStarEnd" type="Marker2D" parent="Stage"]
-position = Vector2(560, 150)
-
-[node name="Telescope" type="Sprite2D" parent="Stage"]
-position = Vector2(500, 290)
-texture = ExtResource("4_telescope")
+[node name="Art" type="Sprite2D" parent="Shots/Close"]
+texture = ExtResource("6")
 centered = false
-offset = Vector2(-20, -64)
 
-[node name="Grandpa" parent="Stage" instance=ExtResource("5_grandpa")]
-position = Vector2(462, 290)
-pose = "sit"
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("7")]
+position = Vector2(92, 180)
+pose = "neutral"
 
-[node name="Jupiter" parent="Stage" instance=ExtResource("6_child")]
-position = Vector2(428, 290)
-pose = "sit"
+[node name="Grandpa" parent="Shots/Close" instance=ExtResource("8")]
+position = Vector2(228, 180)
+flip_h = true
+pose = "neutral"
 
-[node name="Fireflies" parent="Stage" instance=ExtResource("11_fireflies")]
-position = Vector2(420, 250)
+[node name="Hand" type="Node2D" parent="Shots"]
+visible = false
 
-[node name="Camera" type="Camera2D" parent="."]
-process_callback = 0
-position = Vector2(160, 90)
+[node name="Art" type="Sprite2D" parent="Shots/Hand"]
+texture = ExtResource("9")
+centered = false
 
-[node name="CameraEnd" type="Marker2D" parent="."]
-position = Vector2(226, 90)
+[node name="Star" parent="Shots/Hand" instance=ExtResource("5")]
+position = Vector2(150, 54)
+
+[node name="Frame" parent="." instance=ExtResource("10")]
 
 [node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_twinkle")
+stream = ExtResource("11")
 volume_db = -8.0
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("9_dialogue")]
+[node name="DialogueBox" parent="." instance=ExtResource("12")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("10_caption")]
+[node name="Caption" parent="." instance=ExtResource("13")]

@@ -1,15 +1,15 @@
 extends Cutscene
 ## Cut Scene 2 (jogável): logo após o enterro, Jupiter sobe a montanha onde olhava as
-## estrelas com o avô. No topo, a cena corta para um plano aberto (SummitShot) em que ele
-## fala com o céu e uma estrela parada começa a viajar. De volta ao jogo, ele a segue
-## olhando para cima e cai num buraco. A estrela vai atrás dele.
+## estrelas com o avô. No topo, a cena corta para os planos de cinema (SummitShot): ele
+## fala com o céu, e a estrela que não pisca começa a andar. De volta ao jogo, ele a segue
+## olhando para cima e cai num buraco. A estrela vai atrás. Não doeu, e devia.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
 
 const STAR_LEAD := Vector2(56, -44) ## Onde a estrela fica, em relação ao Jupiter, enquanto guia.
 const STAR_SHARPNESS := 1.6
 const STAR_FIRST_MOVE := Vector2(32, 12)
-const CUT_TIME := 0.8 ## Fade de cada corte entre o jogo e o plano aberto.
+const CUT_TIME := 0.8 ## Fade de cada corte entre o jogo e os planos do topo.
 
 @export var bounds := Rect2(0, 0, 880, 184) ## Limites da câmera.
 
@@ -26,9 +26,11 @@ var _star_is_leading := false
 @onready var _star_sound: AudioStreamPlayer = $StarSound
 @onready var _fall_sound: AudioStreamPlayer = $FallSound
 @onready var _summit_shot: CanvasLayer = $SummitShot
-@onready var _shot_jupiter: Actor = $SummitShot/Stage/Jupiter
-@onready var _shot_star: Node2D = $SummitShot/Stage/Star
-@onready var _shot_star_end: Marker2D = $SummitShot/Stage/StarEnd
+@onready var _wide: Node2D = $SummitShot/Shots/Wide
+@onready var _close: Node2D = $SummitShot/Shots/Close
+@onready var _shot_jupiter: Actor = $SummitShot/Shots/Close/Jupiter
+@onready var _shot_star: Node2D = $SummitShot/Shots/Wide/Star
+@onready var _shot_star_end: Marker2D = $SummitShot/Shots/Wide/StarEnd
 
 
 func _ready() -> void:
@@ -57,19 +59,7 @@ func _run() -> void:
 	await wait_for_player(_summit)
 	_player.controllable = false
 	await wait(0.8)
-	await _cut_to_summit_shot(true)
-	await wait(1.5)
-	await say(JUPITER, "Vovô...")
-	await say(JUPITER, "Eu não sei se você está aí em cima me observando...")
-	await say(JUPITER, "...mas quero que saiba que um dia eu vou te buscar.")
-	await say(JUPITER, "E quando eu te encontrar, a gente volta pra todos aqueles nossos planos de ir atrás de todas as estrelas do espaço.")
-	end_conversation()
-	await wait(2.0)
-	_star_sound.play()
-	await move(_shot_star, _shot_star_end.global_position, 2.5)
-	await say(JUPITER, "...vovô?")
-	end_conversation()
-	await _cut_to_summit_shot(false)
+	await _talk_to_the_sky()
 	_star.global_position += STAR_FIRST_MOVE
 	_star_is_leading = true
 	_player.controllable = true
@@ -86,10 +76,42 @@ func _run() -> void:
 	_star_sound.play()
 	await move(_star, _hole_bottom.global_position, 1.2, Tween.EASE_IN)
 	await Transition.fade_out(1.0)
+	await wait(1.5)
+	await say(null, "(Você caiu por muito tempo.)")
+	await say(null, "(Não doeu.)")
+	await say(null, "(Isso devia ter te assustado.)")
+	end_conversation()
+	await wait(1.0)
 
 
-## Corta (com fade) para o plano aberto do topo, ou de volta para o jogo.
-func _cut_to_summit_shot(show_shot: bool) -> void:
+## Os planos do topo: o pedido ao céu e a estrela que começa a andar.
+func _talk_to_the_sky() -> void:
 	await Transition.fade_out(CUT_TIME)
-	_summit_shot.visible = show_shot
+	_summit_shot.show()
+	cut_to(_wide)
+	pan(_wide, PAN_DISTANCE, 25.0)
+	await Transition.fade_in(CUT_TIME)
+	await wait(3.0)
+	await cut_to(_close, 0.5)
+	await say(JUPITER, "Vovô.")
+	await say(JUPITER, "Eu não sei se você tá aí em cima me olhando.")
+	_shot_jupiter.pose = "sad"
+	await say(JUPITER, "Eu ia trazer o telescópio. Ela vendeu.")
+	await say(JUPITER, "Aqui embaixo ninguém fala a nossa língua. Ninguém olha pra cima.")
+	_shot_jupiter.pose = "hollow"
+	await say(JUPITER, "Eu tô cansado de caber atrás do dedo de todo mundo.")
+	_shot_jupiter.pose = "look_up"
+	await say(JUPITER, "Eu sei que eu prometi demorar.")
+	await say(JUPITER, "Mas um dia eu vou te buscar. E a gente volta pros nossos planos. Todas as estrelas do espaço.")
+	end_conversation()
+	await cut_to(_wide, 0.5)
+	await wait(1.5)
+	_star_sound.play()
+	await move(_shot_star, _shot_star_end.global_position, 3.0)
+	await cut_to(_close, 0.3)
+	_shot_jupiter.pose = "awe"
+	await say(JUPITER, "...vovô?")
+	end_conversation()
+	await Transition.fade_out(CUT_TIME)
+	_summit_shot.hide()
 	await Transition.fade_in(CUT_TIME)

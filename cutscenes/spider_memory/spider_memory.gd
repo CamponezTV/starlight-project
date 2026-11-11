@@ -1,32 +1,26 @@
 extends Cutscene
-## Memória antes do chefe 2: cinco anos atrás, Sophie tranca Jupiter no galpão como
-## castigo. No escuro, uma aranha desce do teto e a sombra dela cresce na parede. Horas
-## depois, o avô o encontra e mostra que a aranha era pequenininha.
+## Memória antes do chefe 2: aos nove anos, Jupiter responde "você não é minha mãe" e é
+## trancado no galpão. Passa a noite com uma aranha olhando pra ele. É aqui que ele
+## aprende que ficar quieto funciona. De manhã o avô o encontra, e ele não fala.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter_child.tres")
 const SOPHIE := preload("res://dialogue/speakers/sophie.tres")
 const GRANDPA := preload("res://dialogue/speakers/grandpa.tres")
 
 const SPIDER_DESCENT := 5.0
-const SHADOW_SCALE_SCARY := 2.2
-const SHADOW_SCALE_SMALL := 0.5
-const TREMBLE_PIXELS := 1.0
-const KID_CLOSE_UP := Vector2(150, 124)
-const DOOR_VIEW := Vector2(230, 110)
-const HUG_CLOSE_UP := Vector2(238, 118)
+const SHADOW_ALPHA := 0.6
+const SHADOW_SCALE := 1.6
 
-var _tremble: Tween
-
-@onready var _jupiter: Actor = $Stage/Jupiter
-@onready var _grandpa: Actor = $Stage/Grandpa
-@onready var _spider: Sprite2D = $Stage/Spider
-@onready var _thread: Line2D = $Stage/Thread
-@onready var _shadow: Sprite2D = $Stage/SpiderShadow
-@onready var _spider_low: Marker2D = $Stage/SpiderLow
-@onready var _door_light: Polygon2D = $Stage/DoorLight
-@onready var _flashlight: PointLight2D = $Stage/Grandpa/Flashlight
-@onready var _hug_spot: Marker2D = $Stage/HugSpot
-@onready var _camera: Camera2D = $Camera
+@onready var _wide: Node2D = $Shots/Wide
+@onready var _close: Node2D = $Shots/Close
+@onready var _door: Node2D = $Shots/Door
+@onready var _jupiter: Actor = $Shots/Close/Jupiter
+@onready var _jupiter_found: Actor = $Shots/Door/Jupiter
+@onready var _grandpa: Actor = $Shots/Door/Grandpa
+@onready var _spider: Sprite2D = $Shots/Wide/Spider
+@onready var _thread: Line2D = $Shots/Wide/Thread
+@onready var _shadow: Sprite2D = $Shots/Wide/SpiderShadow
+@onready var _spider_low: Marker2D = $Shots/Wide/SpiderLow
 @onready var _door_sound: AudioStreamPlayer = $DoorSound
 @onready var _skitter_sound: AudioStreamPlayer = $SkitterSound
 
@@ -34,7 +28,6 @@ var _tremble: Tween
 func _ready() -> void:
 	super()
 	cast = {JUPITER: _jupiter, GRANDPA: _grandpa}
-	_grandpa.hide()
 
 
 func _process(_delta: float) -> void:
@@ -44,52 +37,60 @@ func _process(_delta: float) -> void:
 func _run() -> void:
 	Transition.fade_out(0.0)
 	await show_caption("Cinco anos antes", 2.8)
+	await say(SOPHIE, "Repete.")
+	await say(SOPHIE, "Repete o que você disse.")
+	await say(JUPITER, "...Você não é minha mãe.")
+	await say(SOPHIE, "Não. Não sou.")
+	await say(SOPHIE, "A sua mãe pôde ir embora. Eu fiquei.")
+	end_conversation()
 	_door_sound.play()
-	await wait(1.2)
-	await say(SOPHIE, "Fica aí pensando no que você fez.")
-	await say(SOPHIE, "Quem sabe assim você aprende.")
-	end_conversation()
+	await wait(1.5)
 	Transition.fade_in(3.0)
-	await move_camera(_camera, KID_CLOSE_UP, 2.0, 3.0)
-	await say(JUPITER, "Tá escuro...")
-	await say(JUPITER, "Me deixa sair... por favor...")
+	await wait(4.0)
+	await cut_to(_close, 0.5)
+	await say(JUPITER, "Um. Dois. Três.")
+	await say(JUPITER, "O vovô disse pra contar estrelas quando eu tiver medo.")
+	_jupiter.pose = "cry"
+	await say(JUPITER, "Não tem estrela aqui.")
 	end_conversation()
-	await wait(1.0)
+	await cut_to(_wide, 0.5)
 	await _spider_descends()
-	_jupiter.pose = "crouch_up"
-	await say(JUPITER, "...!")
-	await say(JUPITER, "Vai embora... vai embora...")
+	await cut_to(_close, 0.3)
+	_jupiter.pose = "scared"
+	await say(JUPITER, "...")
+	await say(null, "(Ela não fez nada.)")
+	await say(null, "(Só ficou te olhando. A noite inteira.)")
+	await say(null, "(Você também.)")
 	end_conversation()
-	_start_trembling()
-	await wait(2.0)
 	await Transition.fade_out(2.0)
-	await show_caption("Horas depois", 2.5)
-	_stop_trembling()
-	_jupiter.pose = "crouch"
-	Transition.fade_in(1.5)
-	await wait(1.0)
-	await _grandpa_opens_the_door()
-	await say(GRANDPA, "Jupiter? Meu Deus... quem te trancou aqui?")
-	_jupiter.pose = "stand"
-	await say(JUPITER, "Vovô!")
-	end_conversation()
-	await move(_jupiter, _hug_spot.global_position, 1.0)
-	_grandpa.pose = "kneel_hug"
-	_jupiter.pose = "hug"
-	await move_camera(_camera, HUG_CLOSE_UP, 2.0, 1.5)
-	await say(GRANDPA, "Pronto, pronto. Eu tô aqui.")
-	await say(JUPITER, "Tinha uma aranha... enorme...")
-	await _light_on_the_spider()
-	await say(GRANDPA, "Essa pequenininha aqui? Olha só... ela tem mais medo de você do que você dela.")
-	await say(GRANDPA, "Sabe o que as aranhas fazem? Tecem teias que nem constelações. Cada fio ligando uma estrela na outra.")
-	await say(JUPITER, "...Mesmo assim eu não gosto delas.")
-	await say(GRANDPA, "Tudo bem. Ninguém precisa gostar de tudo.")
+	await show_caption("De manhã", 2.5)
+	await cut_to(_door)
+	cast[JUPITER] = _jupiter_found
+	_door_sound.play()
+	await Transition.fade_in(1.5)
+	await say(GRANDPA, "Jupiter. Meu Deus.")
+	await say(GRANDPA, "Há quanto tempo você tá aqui?")
+	await say(JUPITER, "...")
+	await say(GRANDPA, "Fala comigo, filho.")
+	await say(JUPITER, "...")
+	await say(null, "(Naquela noite você descobriu que ficar quieto funciona.)")
+	await say(null, "(Ninguém tranca quem não responde.)")
+	_grandpa.pose = "look_up"
+	await say(GRANDPA, "Ah. Foi ela que te fez companhia?")
+	_grandpa.pose = "smile"
+	await say(GRANDPA, "Sabe o que elas fazem? Ligam um ponto no outro com fio. Igual a gente faz com as constelações.")
+	await say(GRANDPA, "Ela tava só desenhando o céu dela.")
+	_jupiter_found.pose = "sad"
+	await say(JUPITER, "...Eu não gosto do céu dela.")
+	await say(GRANDPA, "Tudo bem. Não precisa.")
+	_grandpa.pose = "sad"
 	await say(GRANDPA, "Vamos pra casa. Eu converso com a Sophie.")
 	end_conversation()
-	await wait(1.5)
+	await wait(1.0)
 	await Transition.fade_out(2.5)
-	await show_caption("Ele conversou com ela.", 2.8)
-	await show_caption("Não adiantou.", 2.8)
+	await show_caption("Ele conversou.", 2.5)
+	await show_caption("Ela chorou. Pediu desculpa.", 3.0)
+	await show_caption("Durou onze dias.", 3.0)
 	await show_caption("Capítulo 2: em breve", 3.5)
 
 
@@ -98,37 +99,6 @@ func _spider_descends() -> void:
 	_skitter_sound.play()
 	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE)
 	tween.tween_property(_spider, "position", _spider_low.position, SPIDER_DESCENT)
-	tween.tween_property(_shadow, "modulate:a", 0.85, SPIDER_DESCENT)
-	tween.tween_property(_shadow, "scale", Vector2.ONE * SHADOW_SCALE_SCARY, SPIDER_DESCENT)
+	tween.tween_property(_shadow, "modulate:a", SHADOW_ALPHA, SPIDER_DESCENT)
+	tween.tween_property(_shadow, "scale", Vector2.ONE * SHADOW_SCALE, SPIDER_DESCENT)
 	await tween.finished
-
-
-func _grandpa_opens_the_door() -> void:
-	_door_sound.play()
-	_grandpa.show()
-	_grandpa.pose = "flashlight"
-	var tween := create_tween().set_parallel()
-	tween.tween_property(_door_light, "modulate:a", 1.0, 0.6)
-	tween.tween_property(_camera, "global_position", DOOR_VIEW, 1.5)
-	await tween.finished
-
-
-## A lanterna mostra a aranha de verdade: a sombra encolhe.
-func _light_on_the_spider() -> void:
-	_flashlight.enabled = true
-	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE)
-	tween.tween_property(_shadow, "scale", Vector2.ONE * SHADOW_SCALE_SMALL, 1.5)
-	tween.tween_property(_shadow, "modulate:a", 0.25, 1.5)
-	await tween.finished
-
-
-func _start_trembling() -> void:
-	var origin := _jupiter.position
-	_tremble = create_tween().set_loops()
-	_tremble.tween_property(_jupiter, "position:x", origin.x + TREMBLE_PIXELS, 0.05)
-	_tremble.tween_property(_jupiter, "position:x", origin.x - TREMBLE_PIXELS, 0.05)
-
-
-func _stop_trembling() -> void:
-	if _tremble != null:
-		_tremble.kill()

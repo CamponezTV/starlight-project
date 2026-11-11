@@ -1,62 +1,56 @@
 [gd_scene load_steps=11 format=3]
 
-[ext_resource type="Script" path="res://cutscenes/after_sophie/after_sophie.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://music/memory.wav" id="2_music"]
-[ext_resource type="Texture2D" path="res://cutscenes/backgrounds/hd/cave.png" id="3_background"]
-[ext_resource type="PackedScene" path="res://characters/hd/jupiter.tscn" id="4_jupiter"]
-[ext_resource type="Texture2D" path="res://companion/star.png" id="5_star"]
-[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="6_light"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="7_twinkle"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="8_dialogue"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="9_caption"]
+[ext_resource type="Script" path="res://cutscenes/after_sophie/after_sophie.gd" id="1"]
+[ext_resource type="AudioStream" path="res://music/memory.wav" id="2"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/cave_wide.png" id="3"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="4"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/cave_back.png" id="5"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="7"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="8"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10"]
 
 [node name="AfterSophie" type="Node2D"]
-script = ExtResource("1_script")
-music = ExtResource("2_music")
+script = ExtResource("1")
+music = ExtResource("2")
 
-[node name="Darkness" type="CanvasModulate" parent="."]
-color = Color(0.42, 0.38, 0.56, 1)
+[node name="Shots" type="Node2D" parent="."]
 
-[node name="Stage" type="Node2D" parent="."]
-scale = Vector2(0.5, 0.5)
+[node name="Wide" type="Node2D" parent="Shots"]
 
-[node name="Background" type="Sprite2D" parent="Stage"]
-texture = ExtResource("3_background")
+[node name="Art" type="Sprite2D" parent="Shots/Wide"]
+texture = ExtResource("3")
 centered = false
 
-[node name="Jupiter" parent="Stage" instance=ExtResource("4_jupiter")]
-position = Vector2(300, 302)
-pose = "sad"
+[node name="Star" parent="Shots/Wide" instance=ExtResource("4")]
+position = Vector2(134, 112)
 
-[node name="Star" type="Node2D" parent="Stage"]
-position = Vector2(270, 230)
+[node name="StarAhead" type="Marker2D" parent="Shots/Wide"]
+position = Vector2(310, 96)
 
-[node name="Light" type="PointLight2D" parent="Stage/Star"]
-color = Color(1, 0.9, 0.55, 1)
-energy = 1.2
-texture = ExtResource("6_light")
-texture_scale = 2.0
+[node name="Close" type="Node2D" parent="Shots"]
+visible = false
 
-[node name="Sprite" type="Sprite2D" parent="Stage/Star"]
-texture = ExtResource("5_star")
-hframes = 4
+[node name="Art" type="Sprite2D" parent="Shots/Close"]
+texture = ExtResource("5")
+centered = false
 
-[node name="StarAhead" type="Marker2D" parent="Stage"]
-position = Vector2(560, 210)
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("6")]
+position = Vector2(136, 180)
+pose = "hollow"
 
-[node name="JupiterAhead" type="Marker2D" parent="Stage"]
-position = Vector2(470, 302)
+[node name="Star" parent="Shots/Close" instance=ExtResource("4")]
+position = Vector2(226, 78)
 
-[node name="Camera" type="Camera2D" parent="."]
-process_callback = 0
-position = Vector2(160, 90)
+[node name="Frame" parent="." instance=ExtResource("7")]
 
 [node name="TwinkleSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_twinkle")
+stream = ExtResource("8")
 volume_db = -8.0
 bus = &"SFX"
 
-[node name="DialogueBox" parent="." instance=ExtResource("8_dialogue")]
+[node name="DialogueBox" parent="." instance=ExtResource("9")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("9_caption")]
+[node name="Caption" parent="." instance=ExtResource("10")]

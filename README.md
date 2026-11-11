@@ -19,6 +19,29 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.6.0 — Cutscenes de cinema · 10/11/2026
+
+**Novidades**
+- **Cutscenes refeitas em planos de cinema.** Cada cena agora corta entre três tipos de plano:
+  - plano aberto: figuras pequenas, de costas, diante de um céu enorme;
+  - plano fechado: bustos grandes dos personagens, com expressões (triste, vazio, chorando, com medo, com raiva...);
+  - detalhe: a mão de uma criança erguida para pegar uma estrela.
+- Céus novos em faixas de cor chapada, com nuvens marmorizadas. Moldura arredondada em todas as cutscenes.
+- **Roteiro reescrito, mais pesado.** As falas ficaram mais curtas e dizem mais. Um narrador entre parênteses diz o que o Jupiter não quer pensar.
+  - O avô explica que a luz das estrelas é a carta de coisas que já morreram, e pede uma promessa: não ter pressa.
+  - No enterro, o pai não veio, e Jupiter confessa que não chorou.
+  - A Sophie deixou de ser só vilã: está exausta, criando o filho de outra.
+  - A memória da aranha agora mostra quando ele aprendeu a ficar calado.
+  - Os dois finais (menu dev) foram reescritos.
+
+**Mudanças**
+- Caixa de diálogo mais baixa (duas linhas), sempre no alto durante as cutscenes.
+- Saíram os personagens articulados e os cenários da v0.5.0.
+
+**Técnico**
+- Passos novos de roteiro: `cut_to` (corta de plano) e `pan` (desliza o plano aberto).
+- 80 testes automáticos. Um deles confere que toda fala dos roteiros cabe na caixa de diálogo.
+
 ### v0.6.0 — Cara nova · 10/11/2026
 
 **Novidades**

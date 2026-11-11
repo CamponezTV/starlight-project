@@ -1,79 +1,73 @@
 extends Cutscene
-## Final, parte 1 (GDD "Final Cut Scene 1"): a estrela finalmente leva Jupiter até o avô.
-## O avô quer que ele deixe a vida na Terra; Jupiter hesita, mas os dois se abraçam e
-## sobem juntos. Fica fora da campanha até o resto do jogo existir (menu dev).
+## Final, parte 1 (GDD "Final Cut Scene 1"): a estrela leva Jupiter até o avô. Mas o avô
+## não lembra da promessa que ele mesmo pediu, e Jupiter entende onde está. Ele vai
+## mesmo assim. Fica fora da campanha até o resto do jogo existir (menu dev).
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
 const GRANDPA := preload("res://dialogue/speakers/grandpa.tres")
 
-const FLOAT_HEIGHT := 420.0
-const FLOAT_TIME := 7.0
-const CLOSE_UP := Vector2(160, 116)
-
-@onready var _jupiter: Actor = $Stage/Jupiter
-@onready var _grandpa: Actor = $Stage/Grandpa
-@onready var _star: Node2D = $Stage/Star
-@onready var _star_landing: Marker2D = $Stage/StarLanding
-@onready var _hug_spot: Marker2D = $Stage/HugSpot
+@onready var _wide: Node2D = $Shots/Wide
+@onready var _close: Node2D = $Shots/Close
+@onready var _together: Node2D = $Shots/Together
+@onready var _jupiter: Actor = $Shots/Close/Jupiter
+@onready var _grandpa: Actor = $Shots/Close/Grandpa
+@onready var _star: Node2D = $Shots/Wide/Star
+@onready var _star_landing: Marker2D = $Shots/Wide/StarLanding
 @onready var _flash: ColorRect = $Flash/Rect
-@onready var _camera: Camera2D = $Camera
 @onready var _twinkle_sound: AudioStreamPlayer = $TwinkleSound
 
 
 func _ready() -> void:
 	super()
 	cast = {JUPITER: _jupiter, GRANDPA: _grandpa}
-	_grandpa.hide()
 
 
 func _run() -> void:
 	Transition.fade_out(0.0)
 	Transition.fade_in(3.0)
-	await wait(2.0)
+	await wait(2.5)
 	_twinkle_sound.play()
 	await move(_star, _star_landing.global_position, 4.0)
-	await _star_becomes_grandpa()
-	await move_camera(_camera, CLOSE_UP, 2.0, 2.0)
-	_jupiter.pose = "cry"
-	await say(JUPITER, "Vovô! Finalmente te encontrei!")
-	_grandpa.pose = "stand"
-	await say(GRANDPA, "Meu neto... eu estava esperando por você.")
-	await say(GRANDPA, "Agora podemos finalmente continuar a jornada que você tanto queria.")
-	await say(GRANDPA, "Você vai poder deixar a sua vida na Terra, e nós vamos alcançar as estrelas juntos.")
-	_jupiter.pose = "stand"
-	await say(JUPITER, "Espera, vovô... como assim?")
+	await _flash_to(_close)
+	await say(JUPITER, "Vovô.")
+	await say(GRANDPA, "Meu neto. Eu estava esperando por você.")
+	await say(GRANDPA, "Agora a gente pode continuar a nossa jornada. Você pode deixar a vida lá embaixo.")
+	_jupiter.pose = "neutral"
+	await say(JUPITER, "Espera. Como assim, deixar?")
 	_jupiter.pose = "sad"
-	await say(JUPITER, "Eu não posso deixar a vida na Terra. Ainda tenho muitos sonhos.")
-	await say(JUPITER, "Eu quero ser astronauta... quero ter uma família.")
-	await say(GRANDPA, "Meu neto, não se apegue à vida passageira.")
-	await say(GRANDPA, "Comigo você vai viver pra sempre, fazendo o que a gente mais gosta: olhando e conversando sobre o universo.")
-	_grandpa.pose = "arms_open"
+	await say(JUPITER, "Eu ainda queria ser astronauta. Queria ter uma família.")
+	await say(JUPITER, "Queria ver se um dia a Sophie ia pedir desculpa.")
+	await say(GRANDPA, "Não se apegue à vida passageira, meu neto. Comigo você vive pra sempre.")
 	await say(GRANDPA, "Não era isso que você queria? Buscar as estrelas comigo?")
-	await say(GRANDPA, "Agora temos todo o tempo do mundo.")
+	_jupiter.pose = "hollow"
+	await say(JUPITER, "Você me fez prometer que eu ia demorar.")
+	await say(GRANDPA, "Eu fiz?")
+	await say(JUPITER, "...")
+	_jupiter.pose = "sad"
+	await say(JUPITER, "Você não lembra.")
+	await say(GRANDPA, "Eu lembro de você. Não basta?")
+	_jupiter.pose = "hollow"
+	await say(JUPITER, "Vovô. Eu caí de muito alto?")
+	await say(GRANDPA, "...")
+	await say(JUPITER, "Não doeu. Devia ter doído, né?")
+	_grandpa.pose = "smile"
+	await say(GRANDPA, "Vem.")
+	await say(null, "(Você sabe.)")
+	await say(null, "(Você soube desde a queda.)")
+	_jupiter.pose = "smile"
+	await say(JUPITER, "...Tá bom.")
+	await say(null, "(Você vai mesmo assim.)")
 	end_conversation()
-	await wait(1.5)
-	await walk(_jupiter, _hug_spot.global_position, 2.0, "hug")
-	_grandpa.pose = "hug"
-	await wait(2.0)
-	move_camera(_camera, Vector2(160, 90), 1.0, 3.0)
-	await _float_away()
-	await Transition.fade_out(3.0)
+	await cut_to(_together, 1.0)
+	pan(_together, PAN_DISTANCE, 12.0)
+	await wait(5.0)
+	await Transition.fade_out(4.0)
 
 
-## Clarão: a estrela vira o avô.
-func _star_becomes_grandpa() -> void:
+## Clarão branco que troca de plano (a estrela vira o avô).
+func _flash_to(shot: Node2D) -> void:
 	var tween := create_tween()
-	tween.tween_property(_flash, "color:a", 0.9, 0.4)
-	tween.tween_callback(func() -> void:
-		_star.hide()
-		_grandpa.show())
-	tween.tween_property(_flash, "color:a", 0.0, 1.5)
-	await tween.finished
-
-
-## Os dois sobem juntos até sumir no alto.
-func _float_away() -> void:
-	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	for actor: Actor in [_jupiter, _grandpa]:
-		tween.tween_property(actor, "position:y", actor.position.y - FLOAT_HEIGHT, FLOAT_TIME)
+	tween.tween_property(_flash, "color:a", 1.0, 0.5)
+	tween.tween_callback(cut_to.bind(shot))
+	tween.tween_property(_flash, "color:a", 0.0, 2.0)
 	await tween.finished

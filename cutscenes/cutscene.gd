@@ -1,14 +1,13 @@
 class_name Cutscene
 extends Node2D
 ## Base das cutscenes: um roteiro escrito em _run() com falas, esperas e movimentos.
-## A cena monta o palco (fundo, personagens, câmera, DialogueBox e Caption); o script
-## da cutscene só escreve o roteiro. Quando ele acaba, a campanha segue (Story.advance()).
+## A cena monta os planos (filhos de Shots: arte, bustos, efeitos), a DialogueBox e a
+## Caption; o script da cutscene só escreve o roteiro e corta de um plano para o outro. Quando ele acaba, a campanha segue (Story.advance()).
 ## Esc pula a cena inteira.
 
 signal finished
 
-const WALK_POSES: Array[String] = ["walk_a", "walk_b"]
-const STEP_TIME := 0.2
+const PAN_DISTANCE := 32.0 ## Sobra de largura dos planos abertos (352 px numa tela de 320).
 
 @export var music: AudioStream
 ## Desligue para a cena não trocar sozinha ao terminar (testes, cenas embutidas).
@@ -87,26 +86,23 @@ func wait_for_player(area: Area2D) -> void:
 		pass
 
 
-## Leva a câmera até `to` (centro da tela) com `zoom`. Zoom 2 = plano fechado, com os
-## pixels do palco do mesmo tamanho dos da jogabilidade.
-func move_camera(camera: Camera2D, to: Vector2, zoom: float, duration: float) -> void:
-	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(camera, "global_position", to, duration)
-	tween.tween_property(camera, "zoom", Vector2.ONE * zoom, duration)
-	await tween.finished
+## Corta para o plano `shot`: mostra só ele entre os irmãos (os filhos de Shots).
+## Com `fade` > 0, o corte passa pelo preto.
+func cut_to(shot: Node2D, fade := 0.0) -> void:
+	if fade > 0.0:
+		await Transition.fade_out(fade)
+	for sibling in shot.get_parent().get_children():
+		if sibling is Node2D:
+			(sibling as Node2D).visible = sibling == shot
+	if fade > 0.0:
+		await Transition.fade_in(fade)
 
 
-## Faz o ator andar até `to` alternando as poses de passo; no fim, fica em `end_pose`.
-func walk(actor: Actor, to: Vector2, duration: float, end_pose := "stand") -> void:
-	actor.flip_h = to.x < actor.global_position.x
-	var tween := create_tween()
-	tween.tween_property(actor, "global_position", to, duration)
-	var time := 0.0
-	while tween.is_running():
-		actor.pose = WALK_POSES[int(time / STEP_TIME) % WALK_POSES.size()]
-		time += get_process_delta_time()
-		await get_tree().process_frame
-	actor.pose = end_pose
+## Desliza o plano devagar para o lado (a arte dos planos abertos é mais larga que a tela).
+## Não espera terminar.
+func pan(shot: Node2D, distance: float, duration: float) -> void:
+	shot.position.x = 0.0
+	create_tween().tween_property(shot, "position:x", -distance, duration)
 
 
 # --- Fim ------------------------------------------------------------------------------

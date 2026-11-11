@@ -2,7 +2,7 @@ extends GutTest
 ## Atores das cutscenes: pose escolhe o quadro, piscam sozinhos e mexem a boca enquanto
 ## falam. A Cutscene liga a boca de quem está no `cast` durante a fala.
 
-const GRANDPA_SCENE := preload("res://characters/hd/grandpa.tscn")
+const GRANDPA_SCENE := preload("res://characters/busts/grandpa.tscn")
 const BOX_SCENE := preload("res://dialogue/dialogue_box.tscn")
 const CAPTION_SCENE := preload("res://ui/caption.tscn")
 const GRANDPA := preload("res://dialogue/speakers/grandpa.tres")
@@ -16,25 +16,25 @@ func before_each() -> void:
 
 
 func test_pose_picks_the_first_frame_of_that_pose() -> void:
-	_actor.pose = "hug"
-	assert_eq(_actor.frame, _actor.poses.find("hug") * Actor.VARIANTS)
+	_actor.pose = "smile"
+	assert_eq(_actor.frame, _actor.poses.find("smile") * Actor.VARIANTS)
 
 
 func test_unknown_pose_keeps_the_current_frame() -> void:
-	_actor.pose = "sit"
+	_actor.pose = "sad"
 	var frame := _actor.frame
 	_actor.pose = "dançando"
 	assert_eq(_actor.frame, frame)
 
 
 func test_talking_alternates_the_mouth() -> void:
-	_actor.pose = "stand"
+	_actor.pose = "neutral"
 	_actor.talking = true
 	var frames := {}
 	for i in 30:
 		await wait_process_frames(1)
 		frames[_actor.frame] = true
-	var base := _actor.poses.find("stand") * Actor.VARIANTS
+	var base := _actor.poses.find("neutral") * Actor.VARIANTS
 	assert_true(frames.has(base + Actor.VARIANT_TALK), "deveria abrir a boca")
 
 
