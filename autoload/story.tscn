@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://cutscenes/after_sophie/after_sophie.tscn" id="9_after_sophie"]
 [ext_resource type="PackedScene" path="res://cutscenes/funeral/funeral.tscn" id="10_funeral"]
 [ext_resource type="PackedScene" path="res://cutscenes/hospital/hospital.tscn" id="12_hospital"]
+[ext_resource type="PackedScene" path="res://levels/level_03.tscn" id="13_level_03"]
 [ext_resource type="PackedScene" path="res://cutscenes/spider_memory/spider_memory.tscn" id="11_spider_memory"]
 
 [sub_resource type="Resource" id="Resource_stargazing"]
@@ -18,6 +19,12 @@ script = ExtResource("2_step")
 title = "Estrelas"
 kind = 0
 scene = ExtResource("3_stargazing")
+
+[sub_resource type="Resource" id="Resource_level_03"]
+script = ExtResource("2_step")
+title = "Fios"
+kind = 1
+scene = ExtResource("13_level_03")
 
 [sub_resource type="Resource" id="Resource_hospital"]
 script = ExtResource("2_step")
@@ -75,4 +82,4 @@ scene = ExtResource("11_spider_memory")
 
 [node name="Story" type="Node"]
 script = ExtResource("1_story")
-steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_hospital"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory")])
+steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_hospital"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory"), SubResource("Resource_level_03")])

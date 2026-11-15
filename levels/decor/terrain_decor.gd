@@ -35,6 +35,8 @@ const GLOW_SIZE := Vector2(22, 22)
 @export var texture: Texture2D ## Atlas de decoração.
 @export var glow_texture: Texture2D ## Mancha de luz suave dos cristais e cogumelos.
 @export var hazards_path := ^"../../Hazards" ## Onde há espinhos, nada cresce.
+## Onde há um objeto (ou uma dica, ou uma plataforma), também não.
+@export var object_paths: Array[NodePath] = [^"../../Entities", ^"../../Hints", ^"../../Platforms"]
 @export_range(0, 100) var top_chance := 62 ## % dos blocos com algo em cima.
 @export_range(0, 100) var hanging_chance := 38
 @export_range(0, 100) var side_chance := 16
@@ -43,6 +45,7 @@ const GLOW_SIZE := Vector2(22, 22)
 
 var _pieces: Array[Dictionary] = [] ## {cell, atlas, flipped}
 var _glows: Array[Dictionary] = [] ## {position, color}
+var _blocked := {} ## Células ocupadas por objetos ou por outro enfeite.
 
 @onready var _glow: Node2D = $Glow
 
@@ -51,6 +54,7 @@ func _ready() -> void:
 	var terrain := get_parent() as TileMapLayer
 	assert(terrain != null, "TerrainDecor precisa ser filho de uma TileMapLayer.")
 	var hazards := get_node_or_null(hazards_path) as TileMapLayer
+	_block_object_cells()
 	for cell in terrain.get_used_cells():
 		_decorate(cell, terrain, hazards)
 	_glow.draw.connect(_draw_glows)
@@ -103,8 +107,21 @@ func _decorate(cell: Vector2i, terrain: TileMapLayer, hazards: TileMapLayer) -> 
 				_add(beside, SIDES[pick % SIDES.size()], flipped)
 
 
+## Marca as células em volta de cada objeto (a origem deles fica nos pés).
+func _block_object_cells() -> void:
+	for path in object_paths:
+		var container := get_node_or_null(path)
+		if container == null:
+			continue
+		for child in container.get_children():
+			var feet := Vector2i(((child as Node2D).position + Vector2(0, -1)) / CELL)
+			for dx in [-1, 0, 1]:
+				for dy in [-2, -1, 0]:
+					_blocked[feet + Vector2i(dx, dy)] = true
+
+
 func _is_free(cell: Vector2i, terrain: TileMapLayer, hazards: TileMapLayer) -> bool:
-	if terrain.get_cell_source_id(cell) != -1:
+	if _blocked.has(cell) or terrain.get_cell_source_id(cell) != -1:
 		return false
 	return hazards == null or hazards.get_cell_source_id(cell) == -1
 
@@ -117,6 +134,7 @@ func _roll(cell: Vector2i, salt: int) -> int:
 
 
 func _add(cell: Vector2i, atlas: Vector2i, flipped: bool, glow := Color.TRANSPARENT, glow_offset := Vector2.ZERO) -> void:
+	_blocked[cell] = true
 	_pieces.append({"cell": cell, "atlas": atlas, "flipped": flipped})
 	if glow.a > 0.0:
 		_glows.append({"position": Vector2(cell * CELL) + glow_offset, "color": glow})

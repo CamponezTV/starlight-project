@@ -3,7 +3,8 @@ extends Node
 ## Os passos ficam em `steps`, no Inspetor de autoload/story.tscn. Fases rodam dentro
 ## do jogo (main/main.tscn); cutscenes são cenas próprias. Quem termina chama advance().
 ## Fora da campanha (fase aberta direto no editor ou pelo menu dev), advance() volta ao menu.
-## O último passo começado fica salvo em `save_path`, para o "Continuar" do menu.
+## O último passo começado fica salvo em `save_path`, para o "Continuar" do menu, junto
+## com o que o jogador escolheu nas conversas (remember/recall). Um jogo novo esquece tudo.
 
 signal step_started(index: int)
 
@@ -12,6 +13,7 @@ const MENU_SCENE := "res://menu/menu.tscn"
 const FADE_TIME := 0.5
 const SAVE_SECTION := "story"
 const SAVE_KEY := "step"
+const CHOICES_SECTION := "choices"
 
 @export var steps: Array[StoryStep] = []
 
@@ -30,6 +32,8 @@ func current_index() -> int:
 func start(index := 0) -> void:
 	assert(index >= 0 and index < steps.size(), "passo %d fora da campanha" % index)
 	_index = index
+	if index == 0:
+		forget_choices()
 	save_progress(index)
 	await _change_scene(instantiate_step(steps[index]))
 	step_started.emit(index)
@@ -59,18 +63,41 @@ func back_to_menu() -> void:
 
 ## Passo salvo para continuar a campanha, ou -1 se não há o que continuar.
 func saved_step() -> int:
-	var config := ConfigFile.new()
-	if config.load(save_path) != OK:
-		return -1
-	var step: int = config.get_value(SAVE_SECTION, SAVE_KEY, -1)
+	var step: int = _load_save().get_value(SAVE_SECTION, SAVE_KEY, -1)
 	return step if step >= 0 and step < steps.size() else -1
 
 
 ## Guarda o passo atual (-1 apaga: campanha terminada).
 func save_progress(index: int) -> void:
-	var config := ConfigFile.new()
+	var config := _load_save()
 	config.set_value(SAVE_SECTION, SAVE_KEY, index)
 	config.save(save_path)
+
+
+## Guarda o que o jogador escolheu numa conversa (ex.: "diana" -> "forgiven").
+func remember(key: String, value: String) -> void:
+	var config := _load_save()
+	config.set_value(CHOICES_SECTION, key, value)
+	config.save(save_path)
+
+
+## A escolha guardada em `key`, ou "" se o jogador ainda não escolheu.
+func recall(key: String) -> String:
+	return _load_save().get_value(CHOICES_SECTION, key, "")
+
+
+func forget_choices() -> void:
+	var config := _load_save()
+	if config.has_section(CHOICES_SECTION):
+		config.erase_section(CHOICES_SECTION)
+		config.save(save_path)
+
+
+## O arquivo de progresso (vazio se ainda não existe).
+func _load_save() -> ConfigFile:
+	var config := ConfigFile.new()
+	config.load(save_path)
+	return config
 
 
 ## Monta a cena do passo: a própria cutscene, ou o jogo já com a fase.

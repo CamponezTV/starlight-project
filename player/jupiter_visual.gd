@@ -18,10 +18,15 @@ const LAND_ANIMATION := &"land"
 const LAND_TIME := 0.08 ## Quanto tempo o Jupiter fica agachado ao pousar.
 const SQUASH_RECOVERY := 14.0
 const MIN_RUN_ANIMATION_SPEED := 0.5
+const LEAN_DEGREES := 6.0 ## Inclinação do corpo na corrida e no ar.
+const LEAN_SHARPNESS := 14.0
+const FALL_STRETCH := 0.14 ## Quanto o corpo estica subindo ou caindo rápido.
 const PIN_READY := Color("ffe680")
 const PIN_SPENT := Color("5a5a70")
 
 var facing := 1
+var lean := 0.0 ## Velocidade horizontal, de -1 a 1 (o Player atualiza).
+var fall := 0.0 ## Velocidade vertical, de -1 (subindo) a 1 (caindo).
 var dash_ready := true:
 	set(value):
 		if value != dash_ready:
@@ -66,7 +71,10 @@ func current_frame() -> Texture2D:
 func _process(delta: float) -> void:
 	_land_time_left -= delta
 	_squash = _squash.lerp(Vector2.ONE, 1.0 - exp(-SQUASH_RECOVERY * delta))
-	scale = Vector2(_squash.x * facing, _squash.y)
+	var stretch := 1.0 + FALL_STRETCH * clampf(absf(fall), 0.0, 1.0)
+	scale = Vector2(_squash.x * facing / sqrt(stretch), _squash.y * stretch)
+	var target := deg_to_rad(LEAN_DEGREES) * clampf(lean, -1.5, 1.5)
+	rotation = lerp_angle(rotation, target, 1.0 - exp(-LEAN_SHARPNESS * delta))
 
 
 func _update_pin() -> void:

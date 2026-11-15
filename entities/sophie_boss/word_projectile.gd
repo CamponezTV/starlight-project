@@ -5,6 +5,7 @@ extends AnimatableBody2D
 
 const LIFETIME := 9.0
 const HITBOX_MARGIN := Vector2(4, 4)
+const POP_TIME := 0.14 ## A palavra "estoura" na tela ao nascer.
 
 var text := ""
 var velocity := Vector2.ZERO
@@ -21,6 +22,9 @@ func _ready() -> void:
 	_label.size = size
 	_label.position = -size / 2.0
 	(_collision.shape as RectangleShape2D).size = (size - HITBOX_MARGIN).max(Vector2.ONE)
+	_label.pivot_offset = size / 2.0
+	_label.scale = Vector2.ZERO
+	create_tween().tween_property(_label, "scale", Vector2.ONE, POP_TIME).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _physics_process(delta: float) -> void:

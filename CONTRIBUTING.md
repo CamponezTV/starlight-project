@@ -102,6 +102,25 @@ func _run() -> void:
 - **Barreira de palavras** (`WordBarrier`): 8×32. Quebra com dash + voz e gasta a voz. Volta no reset da fase.
 - **Chefe Sophie** (`SophieBoss`): aponte `arena` para a `RoomZone` da luta e posicione os `Marker2D` de `OrbSpots` (filhos editáveis). Ritmo e dificuldade ficam nas constantes por fase no topo do script.
 
+## Habilidades
+
+- **Dash:** `Player.dash_unlocked`. Uma fase com `starts_with_dash` desligado começa sem ele; o `DashUnlock` (o broche) ensina e a fase avisa com o sinal `skill_unlocked`.
+- **Enfeites** (`TerrainDecor`): não nascem nas células em volta dos filhos de `Entities`, `Hints` e `Platforms`.
+
+## Conversas e escolhas
+
+- **Escolhas** (`ChoiceBox`, `dialogue/choice_box.tscn`): coloque na cutscene ao lado da `DialogueBox` (mesmo `at_top`). No roteiro: `var picked := await choose(["Sim.", "Não."])`. A última fala fica na tela enquanto o jogador decide.
+- **Memória** (`Story.remember(key, value)` / `Story.recall(key)`): o que o jogador decidiu, salvo junto do progresso. `Story.start(0)` (jogo novo) esquece tudo.
+- **Conversa dentro da fase** (`Encounter`): objeto de `Entities` com uma cutscene em `scene`. Com o Jupiter na área, Cima pede a conversa; o `Main` pausa o jogo, toca a cena por cima da fase e chama `conclude()` no fim. A cena não pode ter `Camera2D`. Subclasses sobrescrevem `is_available()` e `_on_concluded()`; o sinal `gifted` vale uma estrela.
+- **Diana** (`DianaHut` + `cutscenes/diana`): a decisão fica em `DianaTalk.CHOICE_KEY`. Uma conversa nova segue o mesmo par: um `Encounter` na fase e uma cutscene que chama `Story.remember`.
+
+## Mecânicas da Fase 3
+
+- **Broto-mola** (`Sprout`): em `Entities`. Ajuste `bounce_speed` no Inspetor.
+- **Sussurro** (`Whisper`): em `Entities`. Patrulha de onde foi colocado até `travel`.
+- **Plataforma móvel** (`MovingPlatform`): em `Platforms` (não em `Entities`, porque é um corpo sólido). Vai até `travel` e volta a cada `period` segundos.
+- **Tremor de câmera:** um objeto da fase pode pedir com o sinal `shake_requested` do `Level`.
+
 ## Arte
 
 Para trocar, substitua os PNGs mantendo o tamanho dos quadros.

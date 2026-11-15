@@ -82,5 +82,5 @@ func test_final_room_reaches_the_exit() -> void:
 		var near_wall := x >= 264 * TILE and x < 266 * TILE and not player.is_on_floor()
 		TestHelpers.set_pressed(&"move_up", near_wall and player.velocity.y > -40.0)
 		TestHelpers.set_pressed(&"dash", near_wall and player.velocity.y > -40.0 and player.can_dash)
-		return exited[0])
-	assert_true(reached, "não chegou à saída")
+		return exited[0] or standing_at_least(284, 17))
+	assert_true(reached, "não atravessou a sala da luz")

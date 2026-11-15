@@ -5,6 +5,9 @@ extends CanvasLayer
 
 signal checkpoint_requested
 
+## Com a trava, Esc não abre a pausa (uma conversa está tocando por cima da fase).
+var locked := false
+
 @onready var _panel: Control = $Panel
 @onready var _continue_button: Button = %ContinueButton
 @onready var _checkpoint_button: Button = %CheckpointButton
@@ -22,7 +25,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"quit"):
+	if event.is_action_pressed(&"quit") and not locked:
 		get_viewport().set_input_as_handled()
 		if is_open():
 			close()

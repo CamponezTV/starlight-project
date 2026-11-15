@@ -4,8 +4,9 @@ extends PlaythroughTest
 
 const BOSS_LEVEL := preload("res://levels/boss_sophie.tscn")
 const START_CELL := Vector2i(4, 19)
-const SIDE_OFFSET := Vector2(-22, -11) ## Do pé da Sophie até onde o Jupiter se posiciona para o dash.
+const SIDE_OFFSET := Vector2(-26, -32) ## Do pé da Sophie até onde o Jupiter se posiciona para o dash.
 const FIGHT_SPEED := 4.0
+const DASH_ATTEMPTS := 4
 
 var _boss: SophieBoss
 
@@ -27,7 +28,7 @@ func test_throws_words_on_the_hazard_layer_after_the_intro() -> void:
 
 func test_touching_her_without_voice_costs_a_star() -> void:
 	await _start()
-	player.respawn(_boss.global_position)
+	player.respawn(_boss.global_position + Vector2(0, -30))
 	await wait_physics_frames(3)
 	assert_true(player.is_dead())
 	assert_eq(_boss.health, SophieBoss.MAX_HEALTH)
@@ -82,15 +83,20 @@ func _start() -> void:
 
 
 ## Põe o Jupiter ao lado dela com a voz e dá dash na direção dela. True se acertou.
+## Ela se move, então o robô tenta algumas vezes antes de desistir.
 func _dash_into_boss() -> bool:
 	var health := _boss.health
-	player.respawn(_boss.global_position + SIDE_OFFSET)
-	player.gain_voice()
-	Input.action_press(&"move_right")
-	Input.action_press(&"dash")
-	for frame in 30:
-		await get_tree().physics_frame
+	for attempt in DASH_ATTEMPTS:
+		player.respawn(_boss.global_position + SIDE_OFFSET)
+		player.gain_voice()
+		Input.action_press(&"move_right")
+		Input.action_press(&"dash")
+		for frame in 30:
+			await get_tree().physics_frame
+			if _boss.health < health:
+				break
+		TestHelpers.release_all_actions()
 		if _boss.health < health:
-			break
-	TestHelpers.release_all_actions()
-	return _boss.health < health
+			return true
+		await wait_physics_frames(2)
+	return false

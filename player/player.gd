@@ -65,6 +65,8 @@ const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não ca
 
 var facing := 1
 var can_dash := true
+## O dash é uma habilidade: fases do começo do jogo travam até o Jupiter achar o broche.
+var dash_unlocked := true
 ## Desligado em cutscenes: os controles são ignorados (a gravidade continua).
 var controllable := true
 ## Sem controle, o Jupiter anda sozinho nesta direção (-1, 0 ou 1).
@@ -126,6 +128,19 @@ func is_dead() -> bool:
 
 func is_dashing() -> bool:
 	return _state == State.DASHING
+
+
+## Chamado por brotos-mola: lança para cima e devolve o dash.
+func bounce(speed: float) -> void:
+	if is_dead():
+		return
+	_state = State.NORMAL
+	velocity.y = -speed
+	_jump_sustain_left = 0.0
+	_coyote_left = 0.0
+	_dash_cooldown_left = 0.0
+	can_dash = true
+	_visual.squash(JUMP_SQUASH)
 
 
 ## Chamado por orbes de voz. Retorna false se ele já estava com a voz (ou morto).
@@ -357,7 +372,7 @@ func _preferred_side() -> int:
 # --- Dash ----------------------------------------------------------------------------
 
 func _can_start_dash() -> bool:
-	return can_dash and _dash_cooldown_left <= 0.0
+	return dash_unlocked and can_dash and _dash_cooldown_left <= 0.0
 
 
 func _start_dash(input: Vector2i) -> void:
@@ -431,7 +446,9 @@ func _kick_up_run_dust(delta: float) -> void:
 
 func _update_visual() -> void:
 	_visual.facing = facing
-	_visual.dash_ready = can_dash
+	_visual.dash_ready = can_dash and dash_unlocked
+	_visual.lean = velocity.x / run_speed
+	_visual.fall = velocity.y / max_fall_speed
 	_visual.set_pose(_current_pose(), absf(velocity.x) / run_speed)
 
 

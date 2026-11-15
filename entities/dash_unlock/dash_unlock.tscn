@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://entities/dash_unlock/dash_unlock.gd" id="1_unlock"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="2_star"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
+[ext_resource type="AudioStream" path="res://entities/checkpoint/light_up.wav" id="4_pickup"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pickup"]
+size = Vector2(12, 14)
+
+[node name="DashUnlock" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_unlock")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_pickup")
+
+[node name="Visual" type="Node2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="Light" type="PointLight2D" parent="Visual"]
+color = Color(0.5, 0.92, 1, 1)
+energy = 1.1
+texture = ExtResource("3_light")
+texture_scale = 0.8
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+modulate = Color(0.55, 0.95, 1, 1)
+texture = ExtResource("2_star")
+hframes = 4
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_pickup")
+volume_db = -4.0
+bus = &"SFX"

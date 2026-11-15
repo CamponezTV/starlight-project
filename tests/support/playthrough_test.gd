@@ -21,6 +21,7 @@ func start_at(level_scene: PackedScene, cell: Vector2i) -> void:
 	main.level_scene = level_scene
 	add_child_autofree(main)
 	player = main.get_node("Player")
+	player.dash_unlocked = true # Os robôs testam as salas como quem já tem o dash.
 	await wait_physics_frames(2)
 	player.respawn(TestHelpers.cell_feet(cell))
 	await wait_physics_frames(3)

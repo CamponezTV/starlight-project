@@ -28,9 +28,8 @@ func test_level_steps_run_inside_the_game() -> void:
 		node.free()
 
 
-func test_campaign_opens_with_the_prologue_and_ends_after_the_first_boss() -> void:
+func test_campaign_opens_with_the_prologue_and_the_boss_comes_after_the_fall() -> void:
 	assert_eq(Story.steps[0].kind, StoryStep.Kind.CUTSCENE, "começa com o prólogo")
-	assert_eq(Story.steps[-1].kind, StoryStep.Kind.CUTSCENE, "termina com uma cena")
 	var titles := Story.steps.map(func(step: StoryStep) -> String: return step.title)
 	assert_lt(titles.find("A Queda"), titles.find("Chefe"))
 

@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://cutscenes/diana/diana.gd" id="1"]
+[ext_resource type="AudioStream" path="res://music/diana.wav" id="2"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hut_wide.png" id="3"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hut_back.png" id="4"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://characters/busts/diana.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://dialogue/choice_box.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="10"]
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.2, 1)
+colors = PackedColorArray(0.85, 0.82, 0.95, 0, 0.85, 0.82, 0.95, 0.5, 0.85, 0.82, 0.95, 0)
+
+[node name="Diana" type="Node2D"]
+script = ExtResource("1")
+music = ExtResource("2")
+
+[node name="Shots" type="Node2D" parent="."]
+
+[node name="Wide" type="Node2D" parent="Shots"]
+
+[node name="Art" type="Sprite2D" parent="Shots/Wide"]
+texture = ExtResource("3")
+centered = false
+
+[node name="Smoke" type="CPUParticles2D" parent="Shots/Wide"]
+position = Vector2(211, 121)
+amount = 10
+lifetime = 4.0
+preprocess = 4.0
+direction = Vector2(0.2, -1)
+spread = 14.0
+gravity = Vector2(0, -2)
+initial_velocity_min = 4.0
+initial_velocity_max = 8.0
+scale_amount_min = 1.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_smoke")
+
+[node name="Close" type="Node2D" parent="Shots"]
+visible = false
+
+[node name="Art" type="Sprite2D" parent="Shots/Close"]
+texture = ExtResource("4")
+centered = false
+
+[node name="Jupiter" parent="Shots/Close" instance=ExtResource("5")]
+position = Vector2(84, 180)
+pose = "hollow"
+tint = Color(0.74, 0.7, 0.92, 1)
+rim = Color(1, 0.72, 0.42, 0.9)
+
+[node name="Diana" parent="Shots/Close" instance=ExtResource("6")]
+position = Vector2(236, 180)
+flip_h = true
+pose = "smoke"
+tint = Color(1, 0.88, 0.78, 1)
+rim = Color(1, 0.74, 0.4, 1)
+
+[node name="Frame" parent="." instance=ExtResource("7")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("8")]
+at_top = true
+
+[node name="ChoiceBox" parent="." instance=ExtResource("9")]
+at_top = true
+
+[node name="Caption" parent="." instance=ExtResource("10")]

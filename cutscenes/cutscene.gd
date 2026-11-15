@@ -3,6 +3,7 @@ extends Node2D
 ## Base das cutscenes: um roteiro escrito em _run() com falas, esperas e movimentos.
 ## A cena monta os planos (filhos de Shots: arte, bustos, efeitos), a DialogueBox e a
 ## Caption; o script da cutscene só escreve o roteiro e corta de um plano para o outro. Quando ele acaba, a campanha segue (Story.advance()).
+## Com uma ChoiceBox na cena, o roteiro também pode perguntar ao jogador (choose).
 ## Esc pula a cena inteira.
 
 signal finished
@@ -22,6 +23,7 @@ var _is_finished := false
 
 @onready var dialogue: DialogueBox = $DialogueBox
 @onready var caption: Caption = $Caption
+@onready var choices: ChoiceBox = get_node_or_null(^"ChoiceBox")
 
 
 func _ready() -> void:
@@ -48,6 +50,13 @@ func say(speaker: Speaker, text: String) -> void:
 		actor.talking = true
 		dialogue.typing_finished.connect(func() -> void: actor.talking = false, CONNECT_ONE_SHOT)
 	await dialogue.say(speaker, text)
+
+
+## Pergunta ao jogador e devolve o índice da resposta escolhida. A última fala continua
+## na tela enquanto ele decide. A cena precisa ter uma ChoiceBox.
+func choose(options: PackedStringArray) -> int:
+	assert(choices != null, "esta cutscene não tem ChoiceBox")
+	return await choices.choose(options)
 
 
 ## Fecha a caixa de diálogo entre uma conversa e outra.
@@ -132,6 +141,8 @@ func _finish() -> void:
 		return
 	_is_finished = true
 	dialogue.close()
+	if choices != null:
+		choices.close()
 	finished.emit()
 	if advances_story:
 		Story.advance()

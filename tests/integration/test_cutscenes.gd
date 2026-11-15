@@ -14,16 +14,27 @@ const STATIC_CUTSCENES := [
 	"res://cutscenes/spider_memory/spider_memory.tscn",
 	"res://cutscenes/finale/reunion.tscn",
 	"res://cutscenes/finale/morning.tscn",
+	"res://cutscenes/diana/diana.tscn",
 ]
 const MOUNTAIN := "res://cutscenes/mountain/mountain.tscn"
 const PRESS_EVERY := 8 ## quadros
 const JUMP_HOLD := 12 ## quadros segurando o pulo, a cada PRESS_EVERY * 4
+const TEST_SAVE := "user://test_cutscenes.cfg" ## As escolhas das conversas não vão para o save de verdade.
+
+var _real_save_path := ""
+
+
+func before_each() -> void:
+	_real_save_path = Story.save_path
+	Story.save_path = TEST_SAVE
 
 
 func after_each() -> void:
 	Engine.time_scale = 1.0
 	TestHelpers.release_all_actions()
 	Transition.fade_in(0.0)
+	DirAccess.remove_absolute(TEST_SAVE)
+	Story.save_path = _real_save_path
 
 
 func test_static_cutscenes_play_to_the_end() -> void:

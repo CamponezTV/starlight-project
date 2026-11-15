@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://entities/whisper/whisper.gd" id="1_whisper"]
+[ext_resource type="Texture2D" path="res://entities/whisper/whisper.png" id="2_texture"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
+[ext_resource type="AudioStream" path="res://entities/word_barrier/break.wav" id="4_dissolve"]
+[ext_resource type="PackedScene" path="res://effects/word_shatter.tscn" id="5_shatter"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(9, 11)
+
+[node name="Whisper" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_whisper")
+shatter_effect = ExtResource("5_shatter")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Light" type="PointLight2D" parent="."]
+position = Vector2(0, -8)
+color = Color(0.6, 0.35, 0.82, 1)
+energy = 0.7
+texture = ExtResource("3_light")
+texture_scale = 0.45
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_texture")
+hframes = 4
+
+[node name="DissolveSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_dissolve")
+volume_db = -10.0
+pitch_scale = 1.4
+bus = &"SFX"

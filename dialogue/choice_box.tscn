@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://dialogue/choice_box.gd" id="1_box"]
+[ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="2_move"]
+[ext_resource type="AudioStream" path="res://menu/sounds/ui_select.wav" id="3_select"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0.012, 0.008, 0.035, 0.94)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.86, 0.5, 1)
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 2
+
+[node name="ChoiceBox" type="CanvasLayer"]
+layer = 106
+script = ExtResource("1_box")
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -55.0
+offset_right = -10.0
+offset_bottom = -55.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="List" type="VBoxContainer" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="MoveSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_move")
+volume_db = -8.0
+bus = &"SFX"
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_select")
+volume_db = -8.0
+bus = &"SFX"

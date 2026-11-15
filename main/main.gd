@@ -3,6 +3,7 @@ extends Node2D
 ## Orquestra o jogo: carrega a fase escolhida, liga Jupiter, estrela-guia, câmera e HUD,
 ## acompanha em qual sala o Jupiter está (câmera e renascimento) e cuida do ciclo de
 ## morte, checkpoint e recomeço. Na saída da fase, a campanha segue (Story.advance()).
+## Conversas (Encounter) tocam por cima da fase, com o jogo parado.
 
 const RESPAWN_DELAY := 0.7
 const DEATH_SHAKE := 4.0
@@ -16,6 +17,9 @@ const INTRO_DURATION := 3.5
 const CHECKPOINT_DURATION := 2.0
 const LIGHT_OUT_DURATION := 3.0
 const END_DURATION := 4.0
+const SKILL_DURATION := 4.5
+const ENCOUNTER_LAYER := 50 ## Acima do HUD e da pausa, abaixo da cortina de transição.
+const ENCOUNTER_FADE := 0.4
 
 ## Fase carregada ao iniciar. O menu troca antes de adicionar a cena.
 @export var level_scene: PackedScene
@@ -40,6 +44,7 @@ func _ready() -> void:
 	_darkness.color = _level.ambient_color
 	Music.play(_level.music)
 	Stars.reset()
+	_player.dash_unlocked = _level.starts_with_dash
 	_camera.target = _player
 	_place_player_at_start()
 	_companion.follow(_player)
@@ -75,6 +80,13 @@ func _connect_signals() -> void:
 	_level.checkpoint_reached.connect(_on_checkpoint_reached)
 	_level.star_collected.connect(_on_star_collected)
 	_level.exit_reached.connect(_on_exit_reached)
+	_level.shake_requested.connect(_camera.shake)
+	_level.skill_unlocked.connect(_hud.show_message.bind(SKILL_DURATION))
+	_level.encounter_requested.connect(_on_encounter_requested)
+	var boss := _level.boss()
+	if boss != null:
+		_hud.show_boss(SophieBoss.DISPLAY_NAME, SophieBoss.MAX_HEALTH)
+		boss.health_changed.connect(_hud.set_boss_health)
 	_pause_menu.checkpoint_requested.connect(_return_to_checkpoint)
 
 
@@ -142,6 +154,29 @@ func _on_checkpoint_reached(respawn_point: Vector2) -> void:
 func _on_star_collected() -> void:
 	Stars.gain()
 	_companion.pulse()
+
+
+## Para o jogo, toca a conversa por cima da fase e devolve o controle quando ela acaba.
+func _on_encounter_requested(encounter: Encounter) -> void:
+	get_tree().paused = true
+	_pause_menu.locked = true
+	await Transition.fade_out(ENCOUNTER_FADE)
+	var stage := CanvasLayer.new()
+	stage.layer = ENCOUNTER_LAYER
+	stage.process_mode = Node.PROCESS_MODE_ALWAYS
+	var cutscene: Cutscene = encounter.scene.instantiate()
+	cutscene.advances_story = false
+	stage.add_child(cutscene)
+	add_child(stage)
+	Transition.fade_in(ENCOUNTER_FADE)
+	await cutscene.finished
+	await Transition.fade_out(ENCOUNTER_FADE)
+	stage.queue_free()
+	Music.play(_level.music)
+	_pause_menu.locked = false
+	get_tree().paused = false
+	encounter.conclude()
+	Transition.fade_in(ENCOUNTER_FADE)
 
 
 func _on_exit_reached() -> void:

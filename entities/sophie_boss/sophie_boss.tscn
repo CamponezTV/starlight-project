@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://entities/sophie_boss/sophie_boss.gd" id="1_boss"]
 [ext_resource type="Texture2D" path="res://entities/sophie_boss/sophie_shadow.png" id="2_texture"]
@@ -10,9 +10,18 @@
 [ext_resource type="AudioStream" path="res://entities/sophie_boss/word.wav" id="8_word"]
 [ext_resource type="AudioStream" path="res://entities/sophie_boss/hit.wav" id="9_hit"]
 [ext_resource type="AudioStream" path="res://entities/sophie_boss/defeat.wav" id="10_defeat"]
+[ext_resource type="Texture2D" path="res://entities/sophie_boss/hand.png" id="11_hand"]
+[ext_resource type="PackedScene" path="res://effects/word_shatter.tscn" id="12_shatter"]
+[ext_resource type="AudioStream" path="res://entities/crumble_block/crack.wav" id="13_slam"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
-size = Vector2(14, 30)
+size = Vector2(18, 46)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hand"]
+size = Vector2(14, 22)
+
+[sub_resource type="Gradient" id="Gradient_wisps"]
+colors = PackedColorArray(0.2, 0.08, 0.3, 0.9, 0.2, 0.08, 0.3, 0)
 
 [node name="SophieBoss" type="Area2D"]
 collision_layer = 0
@@ -21,22 +30,37 @@ monitorable = false
 script = ExtResource("1_boss")
 word_scene = ExtResource("5_word")
 orb_scene = ExtResource("6_orb")
+shatter_effect = ExtResource("12_shatter")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -17)
+position = Vector2(0, -38)
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Light" type="PointLight2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(0, -44)
 color = Color(1, 0.29, 0.35, 1)
 energy = 1.1
 texture = ExtResource("3_light")
-texture_scale = 1.3
+texture_scale = 1.6
+
+[node name="Wisps" type="CPUParticles2D" parent="."]
+position = Vector2(0, -6)
+amount = 18
+lifetime = 1.2
+emission_shape = 3
+emission_rect_extents = Vector2(18, 2)
+direction = Vector2(0, 1)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 22.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_wisps")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(0, -40)
 texture = ExtResource("2_texture")
-hframes = 4
+hframes = 7
 
 [node name="Taunt" type="Label" parent="."]
 offset_left = -90.0
@@ -63,6 +87,33 @@ script = ExtResource("4_fading")
 [node name="OrbSpots" type="Node2D" parent="."]
 top_level = true
 
+[node name="Hand" type="AnimatableBody2D" parent="."]
+top_level = true
+collision_layer = 4
+collision_mask = 0
+sync_to_physics = false
+
+[node name="Sprite" type="Sprite2D" parent="Hand"]
+texture = ExtResource("11_hand")
+hframes = 2
+
+[node name="Collision" type="CollisionShape2D" parent="Hand"]
+shape = SubResource("RectangleShape2D_hand")
+disabled = true
+
+[node name="Warning" type="Node2D" parent="."]
+visible = false
+top_level = true
+
+[node name="Mark" type="Label" parent="Warning"]
+offset_left = -10.0
+offset_top = -14.0
+offset_right = 10.0
+offset_bottom = -3.0
+theme_override_colors/font_color = Color(1, 0.35, 0.42, 1)
+text = "!"
+horizontal_alignment = 1
+
 [node name="ShoutSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_shout")
 volume_db = -8.0
@@ -77,6 +128,12 @@ bus = &"SFX"
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_hit")
 volume_db = -3.0
+bus = &"SFX"
+
+[node name="SlamSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_slam")
+volume_db = -3.0
+pitch_scale = 0.7
 bus = &"SFX"
 
 [node name="DefeatSound" type="AudioStreamPlayer" parent="."]

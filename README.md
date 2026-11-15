@@ -10,6 +10,7 @@ Plataforma 2D em pixel art sobre Jupiter, seu avô e as estrelas. Feito em Godot
 | Pular | Espaço / C / J | A |
 | Dash | X / K / Shift | X / B |
 | Avançar diálogo | Espaço / Enter | A |
+| Conversar / Escolher resposta | Cima / Cima e Baixo | Analógico / D-pad |
 | Voltar ao checkpoint | R | Back |
 | Pausa / Pular cutscene | Esc | — |
 
@@ -18,6 +19,77 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 ---
 
 ## Patch Notes
+
+### v0.10.1 — Planos abertos redesenhados · 15/11/2026
+
+**Mudanças**
+- **Todos os planos abertos das cutscenes foram redesenhados** com mais objetos, textura e luz: colina, hospital, enterro, montanha, quarto, galpão, caverna, fundo do buraco, manhã e a cabana da Diana. Os fundos dos planos fechados acompanham.
+- **Figuras refeitas:** proporção, sombra no chão, dobras de roupa, cabelo com volume e luz de contorno da cena (lua, lampião, monitor).
+- **Cenários com mais vida:** paredes de pedra facetada, tábuas com veios e nós, grama em camadas com flores, pinheiros e casinhas acesas ao longe, capela e cerca no cemitério, serra nevada na montanha.
+- **Cabana da Diana na fase** maior e detalhada: telhado de zinco, luzinhas, cortina, janela acesa, lenha e vaso.
+
+### v0.10.0 — Diana e as escolhas · 15/11/2026
+
+**Novidades**
+- **Diana:** uma conversa opcional na Fase 3. No chão da sala "Subida" há uma cabana, e nela a Diana (17), amiga que sumiu da vida do Jupiter há dois anos, fuma escondida. Chegue perto e aperte Cima.
+- **Escolhas:** mecânica nova. Em alguns momentos da conversa o jogador responde pelo Jupiter (Cima e Baixo trocam a resposta, Espaço confirma). Duas respostas mudam o tom da conversa; a última decide se ele perdoa ou não.
+- **A decisão fica:** perdoada, a Diana continua na cabana e entrega o isqueiro (uma estrela). Sem perdão, a cabana fica vazia e a lanterna apagada. A escolha é salva com o progresso; um jogo novo apaga.
+- Busto da Diana com 8 expressões, dois planos novos (a cabana na caverna e a parede de tábuas) e uma faixa nova na trilha.
+
+**Mudanças**
+- Pular a conversa (Esc) não decide nada: ela continua disponível.
+
+**Técnico**
+- 105 testes automáticos. Os novos cobrem a caixa de escolhas, os dois desfechos, a conversa pulada e a cabana na fase.
+
+### v0.9.1 — Fundos de volta e Fase 1 maior · 15/11/2026
+
+**Novidades**
+- **Fase 1 maior:** duas salas novas depois da luz. "Brotos" (dois degraus altos demais para o pulo, vencidos com as molas) e "Travessia" (plataforma móvel e um cristal sobre espinhos). A saída foi para o fim da travessia.
+
+**Correções**
+- As fases 2 e 3 e a arena da Sophie estavam sem fundo. Voltaram a ter o fundo da caverna.
+
+**Técnico**
+- 95 testes automáticos. Um deles garante que nenhuma fase da campanha fica sem fundo.
+
+### v0.9.0 — Dash como habilidade, fases maiores e sons novos · 13/11/2026
+
+**Novidades**
+- **O dash agora se ganha.** A Fase 1 começa sem ele; o broche do avô, na sala do vão, ensina. As fases seguintes já começam com o dash.
+- **Fase 2 maior:** duas salas novas. "O Coro" (rochas frágeis soltas, um Sussurro no caminho, a voz e uma barreira no fim) e "O Silêncio" (mola, plataforma móvel e dois cristais sobre um mar de espinhos).
+- **Fase 3 maior:** duas salas novas. "A Teia" (três plataformas que sobem e descem sobre espinhos) e "O Nó" (duas molas, um Sussurro no ar, a voz e a última barreira).
+- **Movimento mais fluido:** o Jupiter inclina o corpo na corrida e no ar e estica ao subir e cair rápido. Os Sussurros flutuam.
+- **Efeitos sonoros refeitos** com os instrumentos da trilha (harpa, caixinha de música, piano, cordas e coro): pulo, pouso, dash, morte, estrela, cristal, estrela adormecida, saída, luz apagada e menu. Som próprio para o broto-mola.
+
+**Correções**
+- Enfeites do terreno (grama, cogumelos, cristais) nasciam em cima de objetos e uns sobre os outros. Agora nada nasce onde há um objeto, uma dica ou uma plataforma, e nunca dois na mesma célula.
+
+**Técnico**
+- 92 testes automáticos. Robôs vencem as duas salas finais novas; o dash travado e os enfeites têm testes próprios.
+
+### v0.8.0 — Chefe novo, Fase 3 e mecânicas · 11/11/2026
+
+**Novidades**
+- **Sophie redesenhada:** uma sombra alta com garras, vestido esfarrapado costurado de palavras e boca que abre no grito. Flutua animada, treme quando atordoada e solta estilhaços ao ser atingida.
+- **Ataques novos da Sophie:**
+  - A mão: mira em você, avisa com um "!" e despenca. O impacto treme a tela e solta duas ondas de choque pelo chão.
+  - O anel: palavras em todas as direções, com uma brecha.
+  - Na última fase: mão duas vezes seguidas, dois anéis desencontrados e duas frases rasteiras que se cruzam.
+- **Luta mais difícil:** 4 pontos de vida (eram 3) e quatro fases, cada uma mais rápida. Arena nova, sem a plataforma do meio.
+- **Barra de vida do chefe** na tela.
+- **Fase 3, "Fios":** 5 salas com as mecânicas novas.
+- **Broto-mola:** lança o Jupiter mais alto que um pulo e devolve o dash.
+- **Plataformas móveis:** vão e voltam, na horizontal ou na vertical.
+- **Sussurros:** sombras que patrulham. Encostar apaga uma estrela; um dash com a voz desfaz.
+- As palavras da Sophie "estouram" na tela ao nascer.
+
+**Mudanças**
+- A câmera treme nos impactos da luta.
+- A campanha agora termina na Fase 3.
+
+**Técnico**
+- 88 testes automáticos, com as mecânicas novas e os ataques da mão e do anel.
 
 ### v0.7.0 — Trilha nova e cutscenes com luz · 11/11/2026
 

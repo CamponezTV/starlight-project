@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://entities/diana_hut/diana_hut.gd" id="1_hut"]
+[ext_resource type="Texture2D" path="res://entities/diana_hut/hut.png" id="2_texture"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="4_additive"]
+[ext_resource type="PackedScene" path="res://cutscenes/diana/diana.tscn" id="5_talk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_area"]
+size = Vector2(52, 24)
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.2, 1)
+colors = PackedColorArray(0.85, 0.82, 0.95, 0, 0.85, 0.82, 0.95, 0.55, 0.85, 0.82, 0.95, 0)
+
+[node name="DianaHut" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_hut")
+scene = ExtResource("5_talk")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(-30, -12)
+shape = SubResource("RectangleShape2D_area")
+
+[node name="Lantern" type="PointLight2D" parent="."]
+position = Vector2(-20, -28)
+color = Color(1, 0.72, 0.4, 1)
+energy = 0.6
+texture = ExtResource("3_light")
+texture_scale = 0.9
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+texture = ExtResource("2_texture")
+hframes = 3
+
+[node name="Ember" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0.5, 0.2, 0.9)
+material = ExtResource("4_additive")
+position = Vector2(-38, -9)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("3_light")
+
+[node name="Smoke" type="CPUParticles2D" parent="."]
+position = Vector2(-38, -10)
+amount = 6
+lifetime = 2.6
+preprocess = 2.6
+direction = Vector2(0.15, -1)
+spread = 12.0
+gravity = Vector2(0, -2)
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
+color_ramp = SubResource("Gradient_smoke")
+
+[node name="Prompt" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -76.0
+offset_right = 10.0
+offset_bottom = -64.0
+text = "Cima: conversar"
+horizontal_alignment = 1
