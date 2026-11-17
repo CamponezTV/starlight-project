@@ -15,6 +15,7 @@ const STAR_SIZE := Vector2(20, 20)
 const READ_TIME := 0.5
 const PROMPT_BLINK := 0.6
 const CONFIRM_ACTIONS: Array[StringName] = [&"jump", &"dash", &"ui_accept"]
+const STATS_TEXT := "Quedas  %d        Tempo  %s"
 
 @export var full_star: Texture2D
 @export var empty_star: Texture2D
@@ -46,7 +47,7 @@ func present(summary: LevelSummary, focus: Vector2) -> void:
 	_title.text = summary.title
 	_title.visible = not summary.title.is_empty()
 	_message.text = summary.message
-	_stats.text = "Quedas  %d        Tempo  %s" % [summary.deaths, format_time(summary.seconds)]
+	_stats.text = tr(STATS_TEXT) % [summary.deaths, format_time(summary.seconds)]
 	var icons := _build_stars(summary.star_total)
 	for item: Control in [_sky, _title, _message, _stars, _stats, _prompt]:
 		item.modulate.a = 0.0

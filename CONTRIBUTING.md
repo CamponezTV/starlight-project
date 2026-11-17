@@ -5,7 +5,9 @@
 Organizada por funcionalidade: cada pasta guarda cena, script e arte de uma coisa.
 
 ```
-menu/        menu principal: continuar, novo jogo e capítulos
+menu/        tela de título: páginas, logo (art/) e sons
+locale/      traduções (en.po)
+tools/i18n/  catálogo de textos e o atualizador do en.po
 main/        jogo: carrega a fase, troca de sala, morte, checkpoint e recomeço
 story/       StoryStep (um passo da campanha)
 cutscenes/   cutscenes (uma pasta por cena) e seus fundos
@@ -20,7 +22,8 @@ effects/     efeitos descartáveis (explosão, poeira, estilhaços) e a vinheta
 music/       trilhas (loops)
 camera/      câmera
 ui/          HUD, pausa, holofote de habilidade, resumo da fase, legendas, fonte e Theme
-autoload/    App, Stars (estrelas guardadas), Music, Transition (fade), Story (campanha)
+autoload/    App, Settings (configurações), Stars (estrelas guardadas), Music,
+             Transition (fade), Story (campanha), Presence (status no Discord)
 shared/      recursos compartilhados
 tests/       testes (GUT)
 addons/gut/  GUT (MIT)
@@ -62,7 +65,7 @@ Level01 (Node2D, levels/level.gd)
 - **Objetos largos:** aumente `decor_clearance` (blocos para cada lado) para os enfeites do chão não nascerem embaixo deles.
 - **Dicas:** arraste `entities/hint_sign/hint_sign.tscn` para `Hints` e escreva o texto no Inspetor. Ela aparece quando o Jupiter entra na área. Mantenha a dica a pelo menos 8 blocos da borda da sala para o texto não ser cortado, e a pelo menos 15 blocos de outra dica (um teste falha se duas áreas se encostam).
 - **Mensagens:** `intro_message` (ao começar) e `end_message` (no resumo do fim) no nó raiz da fase.
-- **Nova fase:** duplique uma fase existente e limpe o conteúdo. Depois adicione um `LevelInfo` em `levels` no `menu/menu.tscn`.
+- **Nova fase:** duplique uma fase existente e limpe o conteúdo. Depois adicione um passo em `steps` (`autoload/story.tscn`); o menu lista os capítulos sozinho.
 - **Novo objeto:** cena com raiz `Area2D` cujo script estende `RoomEntity`, com máscara na camada `player`.
 
 ## Campanha e cutscenes
@@ -103,7 +106,7 @@ func _run() -> void:
 - **Orbe de voz** (`VoiceOrb`): dá `has_voice` ao Jupiter. Com `respawns`, volta depois do `RespawnTimer`.
 - **Barreira de palavras** (`WordBarrier`): 8×32. Quebra com dash + voz e gasta a voz. Volta no reset da fase.
 - **Chefe Sophie** (`SophieBoss`): aponte `arena` para a `RoomZone` da luta e posicione os `Marker2D` de `OrbSpots` (filhos editáveis). Ritmo e dificuldade ficam nas constantes por fase no topo do script.
-  - **Falas:** `INTRO_LINE`, `TAUNTS`, `KILL_LINES`, `RETORTS` (uma por ponto de vida) e as listas de palavras arremessadas. A colisão de cada palavra tem o tamanho do texto: palavras da chuva e do anel com até 5 letras, frases rasteiras com até 27 (um teste confere).
+  - **Falas:** `INTRO_TEXT`, `TAUNT_TEXTS`, `KILL_TEXTS`, `RETORT_TEXTS` (uma por ponto de vida) e as listas de palavras arremessadas. A colisão de cada palavra tem o tamanho do texto: palavras da chuva e do anel com até 5 letras, frases rasteiras com até 27 (um teste confere).
   - **Olhos:** `Sprite/Eyes` usa `sophie_eyes.png` (mesmos quadros do corpo) sem sombreamento, para aparecer no escuro.
   - **Camadas:** `Voices` (falas, fora do escuro da fase, acompanha a câmera) e `Dread` (o escuro pulsando e o clarão vermelho dos golpes).
 
@@ -180,8 +183,34 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 - Buses: `Music` (-6 dB) e `SFX`. Todo `AudioStreamPlayer` usa um dos dois.
 - Os efeitos ficam junto de quem os toca (`player/sounds/`, `entities/*/`, `menu/sounds/`, `main/sounds/`, `dialogue/`, `cutscenes/*/`). Foram sintetizados na pentatônica de Ré maior, com timbre de sino e eco longo.
 - **Trilhas** (`music/`): loops sem emenda, todas variações do tema "A Promessa" (`promise`). O bus `Music` tem reverb e abertura estéreo, então as faixas são mono. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor.
-- **Música do menu:** coloque o arquivo em `menu/music/menu_theme.mp3` (ou mude `music_path` no Menu). Ela toca em loop. Sem o arquivo, toca `fallback_music`. A pasta `menu/music/` fica fora do Git porque a música é de terceiros.
+- **Música do menu:** `music/menu.wav` (original), em `music` no Inspetor do Menu. O jogo só distribui música original: nada de terceiros no projeto. A pasta `menu/music/` continua fora do Git; apague o que houver nela antes de exportar, senão o arquivo vai junto.
 - **Para fechar o jogo, use `App.quit()`**, nunca `get_tree().quit()`. O App espera o áudio ser liberado antes de sair. O X da janela já passa por ele.
+
+## Menu e configurações
+
+- **Tela de título** (`menu/menu.tscn`): o fundo é o plano aberto da colina (`Scene`), o `Shade` escurece a esquerda para o texto ler bem e o `Dim` escurece tudo nas subpáginas. As páginas ficam em `Content/Pages` (`Main`, `Chapters`, `Settings`, `Confirm`); só uma aparece por vez.
+- **Opções de menu:** `Button` com `theme_type_variation = MenuItem` (texto sem caixa, dourado em foco, espaço à esquerda para a estrela-cursor).
+- **Capítulos (dev):** saem de `Story.steps` sozinhos, mais os `dev_steps` (sala de teste, finais). O botão fica escondido; o código secreto (`SecretCode`: cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A) libera. `Menu.dev_unlocked` é estático, então vale até o jogo fechar.
+- **Fim do pré-alpha:** o último passo da campanha é `cutscenes/credits` (agradecimento e créditos). Passos novos entram antes dele.
+- **Configurações** (autoload `Settings`): `set_language`, `set_volume(bus, 0..1)`, `set_auto_advance`, `set_fullscreen`. Cada uma aplica, salva em `user://settings.cfg` e emite `changed`. O volume de cada bus no `default_bus_layout.tres` é o 100%.
+- **Painel** (`ui/settings_panel.tscn`): usado no menu e na pausa. Cada linha é um `OptionRow` (esquerda e direita trocam o valor, o sinal `stepped` diz para que lado). Esc ou Voltar emitem `closed`.
+- **Texto automático:** `DialogueBox` espera `AUTO_ADVANCE_BASE` + `AUTO_ADVANCE_PER_LETTER` por letra depois de a fala aparecer inteira.
+
+## Discord
+
+- **Presence** (autoload) monta o status e entrega ao `DiscordRichPresence` (addon em `addons/discord_rich_presence/`, MIT). Percebe sozinho cada cena que entra como cena principal (menu, fase ou cutscene) e atualiza também quando o idioma muda.
+- **Sem citar classes de cena no autoload:** ele reconhece as cenas pelo caminho do menu, por `level_scene` e por `say`. Referenciar `Menu`, `Main` ou `Cutscene` num autoload prende scripts na memória ao fechar o jogo.
+- **App do Discord:** o ID fica em `Presence.APP_ID` (não é segredo).
+- **Imagens:** cada capítulo usa a imagem com o nome do arquivo da cena (`level_01`, `sophie_memory`...); o menu e cenas fora da campanha usam `logo`. `godot --headless -s res://tools/discord/make_images.gd` gera todas em `tools/discord/images/` (recortes da arte do jogo, 1056 px). Envie em Rich Presence → Art Assets: o nome do arquivo vira a chave. Capítulo novo = rode a ferramenta (com o recorte em `CROPS`) e envie a imagem nova.
+- **Nunca mande texto vazio:** o Discord recusa o status inteiro. Um teste confere todos os passos.
+- Sem Discord aberto, na web, no celular e nos testes (headless), o addon não faz nada.
+
+## Traduções
+
+- **O jogo é escrito em português**, e cada texto em português é a chave da tradução. O inglês fica em `locale/en.po`. Em português nada é traduzido (o `fallback` do projeto é `pt_BR`).
+- **O que é traduzido:** falas e escolhas (`say`, `show_caption`, `choose`), qualquer `tr("...")`, constantes com nome terminado em `_TEXT` ou `_TEXTS`, e nas cenas as propriedades `text`, `title`, `description`, `controls`, `display_name`, `intro_message` e `end_message`. Labels e botões das cenas traduzem sozinhos; texto montado em código passa por `tr()` antes de formatar (`tr(CONTINUE_TEXT) % titulo`).
+- **Texto novo:** escreva em português, rode `godot --headless -s res://tools/i18n/update_po.gd` e preencha os `msgstr` vazios do `en.po`. O teste `test_translations.gd` aponta texto sem tradução, tradução que sobrou e inglês que não cabe (falas, lembranças, palavras da Sophie, páginas do menu).
+- **Idioma novo:** adicione o código em `Settings.LANGUAGES` e `LANGUAGE_NAMES`, crie `locale/<código>.po` (copie o `en.po` e troque o `Language`) e inclua em `internationalization/locale/translations` no `project.godot`.
 
 ## Testes
 
@@ -191,7 +220,7 @@ Painel **GUT** no editor → **Run All**, ou:
 godot --headless -s res://addons/gut/gut_cmdln.gd
 ```
 
-Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam estrelas ou escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga.
+Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam estrelas ou escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga. As configurações dos testes vão para um arquivo próprio (`tests/support/pre_run.gd`), sempre em português e no padrão.
 
 ## Convenções
 

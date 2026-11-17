@@ -40,3 +40,16 @@ func test_checkpoint_button_returns_the_player() -> void:
 	await wait_physics_frames(1)
 	assert_false(get_tree().paused)
 	assert_almost_eq(player.global_position.x, start.x, 1.0)
+
+
+func test_settings_open_from_the_pause_and_escape_goes_back_to_it() -> void:
+	_pause.open()
+	(_pause.get_node("%SettingsButton") as Button).pressed.emit()
+	var settings := _pause.get_node("Panel/Settings") as SettingsPanel
+	assert_true(settings.visible)
+	assert_false((_pause.get_node("Panel/Content") as Control).visible)
+	TestHelpers.tap(&"quit")
+	await wait_process_frames(1)
+	assert_false(settings.visible)
+	assert_true(_pause.is_open(), "Esc nas configurações volta para a pausa, não sai dela")
+	assert_true(get_tree().paused)

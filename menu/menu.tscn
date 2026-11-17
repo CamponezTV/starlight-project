@@ -3,25 +3,25 @@
 [ext_resource type="Script" path="res://menu/menu.gd" id="1_menu"]
 [ext_resource type="Script" path="res://story/story_step.gd" id="2_story_step"]
 [ext_resource type="PackedScene" path="res://levels/test_room.tscn" id="3_room_01"]
-[ext_resource type="AudioStream" path="res://music/promise.wav" id="8_fallback_music"]
-[ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
-[ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
-[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="4_sky"]
-[ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="11_ridges"]
-[ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="12_vignette"]
-[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="13_light"]
-[ext_resource type="Material" path="res://shared/additive.tres" id="14_additive"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hill_wide.png" id="4_hill"]
 [ext_resource type="Texture2D" path="res://companion/star.png" id="5_star"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="6_ui_move"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_select.wav" id="7_ui_select"]
-
-[sub_resource type="Gradient" id="Gradient_mote"]
-offsets = PackedFloat32Array(0, 0.2, 0.75, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.8, 1, 1, 1, 0.55, 1, 1, 1, 0)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_star"]
-atlas = ExtResource("5_star")
-region = Rect2(0, 0, 16, 16)
+[ext_resource type="AudioStream" path="res://music/menu.wav" id="8_music"]
+[ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
+[ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/clouds_drift.png" id="11_clouds"]
+[ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="12_vignette"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="13_light"]
+[ext_resource type="Material" path="res://shared/additive.tres" id="14_additive"]
+[ext_resource type="PackedScene" path="res://cutscenes/twinkles.tscn" id="15_twinkles"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="16_fireflies"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/fg_grass.png" id="17_grass"]
+[ext_resource type="Texture2D" path="res://menu/art/logo.png" id="18_logo"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="19_star_scene"]
+[ext_resource type="PackedScene" path="res://ui/settings_panel.tscn" id="20_settings"]
+[ext_resource type="Script" path="res://menu/secret_code.gd" id="21_secret"]
+[ext_resource type="Script" path="res://ui/fading_label.gd" id="22_fading"]
 
 [sub_resource type="Resource" id="Resource_test_room"]
 script = ExtResource("2_story_step")
@@ -40,6 +40,19 @@ title = "Final 2"
 kind = 0
 scene = ExtResource("10_morning")
 
+[sub_resource type="Gradient" id="Gradient_shade"]
+offsets = PackedFloat32Array(0, 0.42, 0.72)
+colors = PackedColorArray(0.03, 0.02, 0.09, 0.82, 0.03, 0.02, 0.09, 0.55, 0.03, 0.02, 0.09, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shade"]
+gradient = SubResource("Gradient_shade")
+width = 320
+height = 4
+
+[sub_resource type="Gradient" id="Gradient_trail"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 0.95, 0.75, 0.9, 1, 0.95, 0.75, 0)
+
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -49,7 +62,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 dev_steps = Array[ExtResource("2_story_step")]([SubResource("Resource_test_room"), SubResource("Resource_reunion"), SubResource("Resource_morning")])
-fallback_music = ExtResource("8_fallback_music")
+music = ExtResource("8_music")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -61,128 +74,233 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.054902, 0.0431373, 0.109804, 1)
 
-[node name="Sky" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_sky")
-stretch_mode = 1
+[node name="Scene" type="Node2D" parent="."]
 
-[node name="Ridges" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-texture = ExtResource("11_ridges")
-stretch_mode = 1
+[node name="Art" type="Sprite2D" parent="Scene"]
+texture = ExtResource("4_hill")
+centered = false
 
-[node name="Shade" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.03, 0.02, 0.09, 0.45)
+[node name="Twinkles" parent="Scene" instance=ExtResource("15_twinkles")]
+position = Vector2(176, 50)
 
-[node name="StarGlow" type="Sprite2D" parent="."]
-modulate = Color(1, 0.86, 0.45, 0.5)
-material = ExtResource("14_additive")
-position = Vector2(160, 14)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("13_light")
+[node name="Clouds" type="Sprite2D" parent="Scene"]
+modulate = Color(1, 1, 1, 0.45)
+position = Vector2(-40, 24)
+texture = ExtResource("11_clouds")
+centered = false
 
-[node name="Motes" type="CPUParticles2D" parent="."]
-position = Vector2(160, 90)
-amount = 36
-lifetime = 9.0
-preprocess = 9.0
-emission_shape = 3
-emission_rect_extents = Vector2(176, 100)
-direction = Vector2(-1, -0.4)
-spread = 40.0
+[node name="Fireflies" parent="Scene" instance=ExtResource("16_fireflies")]
+position = Vector2(200, 140)
+
+[node name="Fg" type="Sprite2D" parent="Scene"]
+position = Vector2(-30, 136)
+texture = ExtResource("17_grass")
+centered = false
+
+[node name="ShootingStar" parent="." instance=ExtResource("19_star_scene")]
+visible = false
+scale = Vector2(0.6, 0.6)
+
+[node name="Trail" type="CPUParticles2D" parent="ShootingStar"]
+amount = 16
+lifetime = 0.5
+local_coords = false
 gravity = Vector2(0, 0)
-initial_velocity_min = 2.0
-initial_velocity_max = 6.0
-color = Color(1, 0.92, 0.66, 0.7)
-color_ramp = SubResource("Gradient_mote")
+color_ramp = SubResource("Gradient_trail")
+
+[node name="Timer" type="Timer" parent="ShootingStar"]
+one_shot = true
+
+[node name="Shade" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_shade")
+expand_mode = 1
+
+[node name="Dim" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.02, 0.09, 0.5)
 
 [node name="Vignette" parent="." instance=ExtResource("12_vignette")]
 layer = 0
 
-[node name="Content" type="VBoxContainer" parent="."]
+[node name="Content" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -88.0
-offset_right = 150.0
-offset_bottom = 88.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
-theme_override_constants/separation = 3
+mouse_filter = 2
 
-[node name="Star" type="TextureRect" parent="Content"]
+[node name="LogoGlow" type="Sprite2D" parent="Content"]
+modulate = Color(1, 0.86, 0.45, 0.22)
+material = ExtResource("14_additive")
+position = Vector2(84, 30)
+scale = Vector2(1.6, 0.45)
+texture = ExtResource("13_light")
+
+[node name="Logo" type="TextureRect" parent="Content"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 154.0
+offset_bottom = 44.0
+mouse_filter = 2
+texture = ExtResource("18_logo")
+stretch_mode = 2
+
+[node name="Sparkle" parent="Content/Logo" instance=ExtResource("19_star_scene")]
+position = Vector2(102, 4)
+scale = Vector2(0.6, 0.6)
+
+[node name="Tagline" type="Label" parent="Content"]
+modulate = Color(0.8, 0.77, 0.95, 0.85)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 45.0
+offset_right = 239.0
+offset_bottom = 57.0
+text = "uma história sobre não ter pressa"
+
+[node name="Pages" type="Control" parent="Content"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 62.0
+offset_right = 226.0
+offset_bottom = 160.0
+mouse_filter = 2
+
+[node name="Main" type="VBoxContainer" parent="Content/Pages"]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 60.0
+theme_override_constants/separation = 1
+
+[node name="ContinueButton" type="Button" parent="Content/Pages/Main"]
+unique_name_in_owner = true
 layout_mode = 2
-texture = SubResource("AtlasTexture_star")
-stretch_mode = 3
+theme_type_variation = &"MenuItem"
+text = "Continuar"
+alignment = 0
 
-[node name="Title" type="Label" parent="Content"]
+[node name="NewGameButton" type="Button" parent="Content/Pages/Main"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.92, 0.6, 1)
-theme_override_font_sizes/font_size = 16
-text = "STARLIGHT"
-horizontal_alignment = 1
+theme_type_variation = &"MenuItem"
+text = "Novo jogo"
+alignment = 0
 
-[node name="MainActions" type="HBoxContainer" parent="Content"]
-layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 2
-
-[node name="ContinueButton" type="Button" parent="Content/MainActions"]
+[node name="ChaptersButton" type="Button" parent="Content/Pages/Main"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-text = "Continuar"
-text_overrun_behavior = 3
+theme_type_variation = &"MenuItem"
+text = "Capítulos"
+alignment = 0
 
-[node name="NewGameButton" type="Button" parent="Content/MainActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-text = "Novo jogo"
-
-[node name="ChapterList" type="GridContainer" parent="Content"]
+[node name="SettingsButton" type="Button" parent="Content/Pages/Main"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
-columns = 4
+theme_type_variation = &"MenuItem"
+text = "Configurações"
+alignment = 0
 
-[node name="QuitButton" type="Button" parent="Content"]
+[node name="QuitButton" type="Button" parent="Content/Pages/Main"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+theme_type_variation = &"MenuItem"
 text = "Sair"
+alignment = 0
 
-[node name="Version" type="Label" parent="."]
+[node name="Chapters" type="VBoxContainer" parent="Content/Pages"]
+visible = false
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 96.0
+theme_override_constants/separation = 1
+
+[node name="ChapterList" type="GridContainer" parent="Content/Pages/Chapters"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 1
+columns = 3
+
+[node name="ChaptersBack" type="Button" parent="Content/Pages/Chapters"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"MenuItem"
+text = "Voltar"
+alignment = 0
+
+[node name="Settings" parent="Content/Pages" instance=ExtResource("20_settings")]
+visible = false
+layout_mode = 0
+offset_right = 204.0
+offset_bottom = 84.0
+
+[node name="Confirm" type="VBoxContainer" parent="Content/Pages"]
+visible = false
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 60.0
+theme_override_constants/separation = 1
+
+[node name="Indent" type="MarginContainer" parent="Content/Pages/Confirm"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+
+[node name="Question" type="Label" parent="Content/Pages/Confirm/Indent"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.82, 0.98, 1)
+text = "Começar do zero? O progresso salvo será apagado."
+autowrap_mode = 3
+
+[node name="ConfirmNewGame" type="Button" parent="Content/Pages/Confirm"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"MenuItem"
+text = "Começar de novo"
+alignment = 0
+
+[node name="CancelNewGame" type="Button" parent="Content/Pages/Confirm"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_type_variation = &"MenuItem"
+text = "Cancelar"
+alignment = 0
+
+[node name="Hint" type="Label" parent="Content"]
+modulate = Color(1, 1, 1, 0.55)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -13.0
+offset_right = 226.0
+offset_bottom = -2.0
+grow_vertical = 0
+text = "Setas: escolher   Espaço: confirmar   Esc: voltar"
+
+[node name="Version" type="Label" parent="Content"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.5)
 layout_mode = 1
@@ -191,14 +309,41 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -84.0
+offset_left = -104.0
 offset_top = -13.0
 offset_right = -4.0
 offset_bottom = -2.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "v0.0.0-dev"
 horizontal_alignment = 2
+
+[node name="DevMessage" type="Label" parent="Content"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 150.0
+offset_bottom = 162.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.55, 0.95, 1, 1)
+horizontal_alignment = 1
+script = ExtResource("22_fading")
+
+[node name="SecretCode" type="Node" parent="."]
+script = ExtResource("21_secret")
+
+[node name="Cursor" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0.92, 0.6, 1)
+texture = ExtResource("5_star")
+hframes = 4
+
+[node name="Glow" type="Sprite2D" parent="Cursor"]
+show_behind_parent = true
+modulate = Color(1, 0.86, 0.45, 0.45)
+material = ExtResource("14_additive")
+scale = Vector2(0.18, 0.18)
+texture = ExtResource("13_light")
 
 [node name="MoveSound" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true

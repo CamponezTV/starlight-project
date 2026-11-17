@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://cutscenes/credits/credits.gd" id="1_credits"]
+[ext_resource type="AudioStream" path="res://music/menu.wav" id="2_music"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/hill_wide.png" id="3_hill"]
+[ext_resource type="PackedScene" path="res://cutscenes/twinkles.tscn" id="4_twinkles"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="5_fireflies"]
+[ext_resource type="Texture2D" path="res://menu/art/logo.png" id="6_logo"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="7_frame"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="8_box"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="9_caption"]
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_credits")
+music = ExtResource("2_music")
+
+[node name="Shots" type="Node2D" parent="."]
+
+[node name="Sky" type="Node2D" parent="Shots"]
+
+[node name="Art" type="Sprite2D" parent="Shots/Sky"]
+position = Vector2(-16, 0)
+texture = ExtResource("3_hill")
+centered = false
+
+[node name="Twinkles" parent="Shots/Sky" instance=ExtResource("4_twinkles")]
+position = Vector2(160, 50)
+
+[node name="Fireflies" parent="Shots/Sky" instance=ExtResource("5_fireflies")]
+position = Vector2(184, 140)
+
+[node name="Shade" type="ColorRect" parent="Shots/Sky"]
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2
+color = Color(0.03, 0.02, 0.09, 0.45)
+
+[node name="Card" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 120.0
+mouse_filter = 2
+
+[node name="Thanks" type="VBoxContainer" parent="Card"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 6
+
+[node name="End" type="Label" parent="Card/Thanks"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+text = "Fim do pré-alpha"
+horizontal_alignment = 1
+
+[node name="ThankYou" type="Label" parent="Card/Thanks"]
+layout_mode = 2
+text = "Obrigado por jogar"
+horizontal_alignment = 1
+
+[node name="Credits" type="VBoxContainer" parent="Card"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Logo" type="TextureRect" parent="Card/Credits"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_logo")
+stretch_mode = 3
+
+[node name="CreatedBy" type="Label" parent="Card/Credits"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.77, 0.95, 1)
+text = "Criado por"
+horizontal_alignment = 1
+
+[node name="Author" type="Label" parent="Card/Credits"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Arthur Camponez"
+horizontal_alignment = 1
+
+[node name="Frame" parent="." instance=ExtResource("7_frame")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("8_box")]
+
+[node name="Caption" parent="." instance=ExtResource("9_caption")]

@@ -15,6 +15,7 @@ const STATIC_CUTSCENES := [
 	"res://cutscenes/finale/reunion.tscn",
 	"res://cutscenes/finale/morning.tscn",
 	"res://cutscenes/diana/diana.tscn",
+	"res://cutscenes/credits/credits.tscn",
 ]
 const MOUNTAIN := "res://cutscenes/mountain/mountain.tscn"
 const PRESS_EVERY := 8 ## quadros

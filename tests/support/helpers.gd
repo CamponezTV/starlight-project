@@ -4,6 +4,7 @@ class_name TestHelpers
 const TILE := 8
 const ACTIONS: Array[StringName] = [&"move_left", &"move_right", &"move_up", &"move_down", &"jump", &"dash"]
 const TEST_SAVE := "user://test_progress.cfg"
+const TEST_SETTINGS := "user://test_settings.cfg"
 
 static var _real_save_path := ""
 
@@ -48,3 +49,11 @@ static func restore_save() -> void:
 	if not _real_save_path.is_empty():
 		Story.save_path = _real_save_path
 		_real_save_path = ""
+
+
+## Configurações num arquivo só dos testes, no padrão (português, volume cheio, texto
+## manual). Os ganchos do GUT já chamam isto; testes que mexem em Settings chamam de novo
+## para valer também quando rodam pelo painel do editor.
+static func use_test_settings() -> void:
+	Settings.save_path = TEST_SETTINGS
+	Settings.reset()

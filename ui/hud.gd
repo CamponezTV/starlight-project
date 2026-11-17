@@ -4,9 +4,9 @@ extends CanvasLayer
 
 const HINT_DURATION := 10.0
 const DEFAULT_MESSAGE_DURATION := 2.5
-const CONTROLS_BASE := "Setas: mover   Espaço: pular"
-const CONTROLS_DASH := "   X: dash"
-const CONTROLS_MENU := "   R: checkpoint   Esc: pausa"
+const CONTROLS_TEXT := "Setas: mover   Espaço: pular"
+const CONTROLS_DASH_TEXT := "   X: dash"
+const CONTROLS_MENU_TEXT := "   R: checkpoint   Esc: pausa"
 const PIP_SIZE := Vector2(14, 4)
 const PIP_FULL := Color(1, 0.35, 0.42)
 const PIP_EMPTY := Color(0.24, 0.14, 0.26)
@@ -21,7 +21,7 @@ const PIP_EMPTY := Color(0.24, 0.14, 0.26)
 
 ## Mostra por um tempo os controles que o Jupiter tem agora (o dash só depois do broche).
 func show_controls(has_dash: bool) -> void:
-	_hint.show_text(CONTROLS_BASE + (CONTROLS_DASH if has_dash else "") + CONTROLS_MENU, HINT_DURATION)
+	_hint.show_text(tr(CONTROLS_TEXT) + (tr(CONTROLS_DASH_TEXT) if has_dash else "") + tr(CONTROLS_MENU_TEXT), HINT_DURATION)
 
 
 ## Estrelas perdidas guardadas / que a fase tem.

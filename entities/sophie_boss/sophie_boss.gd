@@ -66,16 +66,16 @@ const SHOCKWAVE_SPEED := 120.0
 
 ## O que ela dizia. As palavras arremessadas têm o tamanho do texto: frases mais compridas
 ## que estas deixam os ataques mais difíceis de desviar.
-const INTRO_LINE := "Olha pra mim quando eu falo, bastardo."
-const TAUNTS := ["LIXO!", "Vem cá.", "Vou ter que te corrigir.", "Você nem era pra ter nascido.", "Ninguém vai acreditar em você.", "Conta pro seu pai. Conta pra ver."]
-const KILL_LINES := ["Engole o choro.", "Levanta.", "Fica quieto.", "De novo."] ## Quando o Jupiter cai.
+const INTRO_TEXT := "Olha pra mim quando eu falo, bastardo."
+const TAUNT_TEXTS := ["LIXO!", "Vem cá.", "Vou ter que te corrigir.", "Você nem era pra ter nascido.", "Ninguém vai acreditar em você.", "Conta pro seu pai. Conta pra ver."]
+const KILL_TEXTS := ["Engole o choro.", "Levanta.", "Fica quieto.", "De novo."] ## Quando o Jupiter cai.
 ## O que o Jupiter nunca disse, um por golpe acertado.
-const RETORTS := ["Eu não sou lixo!", "Você me batia!", "Eu devia ter contado pra alguém!", "Eu não tenho mais medo de você!"]
-const AIMED_WORDS := ["LIXO", "BASTARDO", "INÚTIL", "CALA A BOCA", "ERRO", "FICA QUIETO", "SEU ERRO"]
-const RAIN_WORDS := ["LIXO", "CALA", "CHEGA", "NADA", "ERRO", "SOME"]
-const SWEEP_WORDS := ["NÃO CONTA PRO SEU PAI", "VOU TER QUE TE CORRIGIR", "VOCÊ NEM ERA PRA NASCER"]
-const RING_WORD := "LIXO"
-const SHOCKWAVE_WORD := "CALA"
+const RETORT_TEXTS := ["Eu não sou lixo!", "Você me batia!", "Eu devia ter contado pra alguém!", "Eu não tenho mais medo de você!"]
+const AIMED_TEXTS := ["LIXO", "BASTARDO", "INÚTIL", "CALA A BOCA", "ERRO", "FICA QUIETO", "SEU ERRO"]
+const RAIN_TEXTS := ["LIXO", "CALA", "CHEGA", "NADA", "ERRO", "SOME"]
+const SWEEP_TEXTS := ["NÃO CONTA PRO SEU PAI", "VOU TER QUE TE CORRIGIR", "VOCÊ NEM ERA PRA NASCER"]
+const RING_TEXT := "LIXO"
+const SHOCKWAVE_TEXT := "CALA"
 
 ## Valores por fase (vida 4, 3, 2, 1).
 const VOLLEY_COUNT := [3, 4, 5, 6]
@@ -205,7 +205,7 @@ func _set_state(state: State) -> void:
 	_state_time = 0.0
 	match state:
 		State.WAITING:
-			_taunt.show_text(INTRO_LINE, INTRO_TIME)
+			_taunt.show_text(INTRO_TEXT, INTRO_TIME)
 			_reveal()
 		State.ATTACKING:
 			_schedule.clear()
@@ -220,7 +220,7 @@ func _handle_player_death(player: Player) -> bool:
 			_was_player_dead = true
 			_clear_attacks()
 			_flash_blow()
-			_taunt.show_text(KILL_LINES.pick_random(), RESPAWN_GRACE)
+			_taunt.show_text(KILL_TEXTS.pick_random(), RESPAWN_GRACE)
 		return true
 	if _was_player_dead:
 		_was_player_dead = false
@@ -247,7 +247,7 @@ func _take_hit() -> void:
 	_flash()
 	_burst()
 	shook.emit(SLAM_SHAKE)
-	_retort.show_text(RETORTS[MAX_HEALTH - health - 1], STUN_TIME + 0.8)
+	_retort.show_text(RETORT_TEXTS[MAX_HEALTH - health - 1], STUN_TIME + 0.8)
 	hit.emit(health)
 	health_changed.emit(health)
 	if health <= 0:
@@ -393,7 +393,7 @@ func _double_ring(start: float) -> float:
 func _throw_at_player(speed: float) -> void:
 	var from := global_position + MOUTH_OFFSET
 	var direction := from.direction_to(_player().global_position + PLAYER_CENTER)
-	_spawn_word(AIMED_WORDS.pick_random(), from, direction * speed)
+	_spawn_word(AIMED_TEXTS.pick_random(), from, direction * speed)
 
 
 func _rain_wave() -> void:
@@ -403,14 +403,14 @@ func _rain_wave() -> void:
 	var x := area.position.x + WALL_MARGIN
 	while x < area.end.x - WALL_MARGIN:
 		if absf(x - gap_center) > gap / 2.0:
-			_spawn_word(RAIN_WORDS.pick_random(), Vector2(x, area.position.y + 4.0), Vector2(0, RAIN_SPEED[_phase()]))
+			_spawn_word(RAIN_TEXTS.pick_random(), Vector2(x, area.position.y + 4.0), Vector2(0, RAIN_SPEED[_phase()]))
 		x += RAIN_COLUMN_SPACING
 
 
 func _throw_sweep(from_left: bool) -> void:
 	var area := _arena()
 	var direction := 1.0 if from_left else -1.0
-	var word := _spawn_word(SWEEP_WORDS.pick_random(), Vector2.ZERO, Vector2(SWEEP_SPEED[_phase()] * direction, 0))
+	var word := _spawn_word(SWEEP_TEXTS.pick_random(), Vector2.ZERO, Vector2(SWEEP_SPEED[_phase()] * direction, 0))
 	var half_width := word.hitbox_size().x / 2.0
 	var x := area.position.x - half_width if from_left else area.end.x + half_width
 	word.global_position = Vector2(x, _floor_y() - 5.0)
@@ -425,7 +425,7 @@ func _throw_ring(turn: float) -> void:
 		if i == gap or i == (gap + 1) % count:
 			continue
 		var direction := Vector2.from_angle(TAU * (i + turn) / count)
-		_spawn_word(RING_WORD, global_position + MOUTH_OFFSET, direction * RING_SPEED[_phase()])
+		_spawn_word(RING_TEXT, global_position + MOUTH_OFFSET, direction * RING_SPEED[_phase()])
 
 
 func _spawn_word(text: String, at: Vector2, velocity: Vector2) -> WordProjectile:
@@ -442,7 +442,7 @@ func _spawn_word(text: String, at: Vector2, velocity: Vector2) -> WordProjectile
 
 func _shout() -> void:
 	_shout_sound.play()
-	_taunt.show_text(TAUNTS.pick_random(), TELEGRAPH_TIME + 1.0)
+	_taunt.show_text(TAUNT_TEXTS.pick_random(), TELEGRAPH_TIME + 1.0)
 
 
 # --- A mão ------------------------------------------------------------------------------------
@@ -483,7 +483,7 @@ func _on_hand_landed() -> void:
 	_flash_blow()
 	var impact := Vector2(_hand.global_position.x, _floor_y() - 5.0)
 	for direction: float in [-1.0, 1.0]:
-		_spawn_word(SHOCKWAVE_WORD, impact + Vector2(direction * 14.0, 0), Vector2(direction * SHOCKWAVE_SPEED, 0))
+		_spawn_word(SHOCKWAVE_TEXT, impact + Vector2(direction * 14.0, 0), Vector2(direction * SHOCKWAVE_SPEED, 0))
 
 
 # --- Orbe de voz ---------------------------------------------------------------------------

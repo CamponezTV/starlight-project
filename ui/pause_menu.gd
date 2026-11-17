@@ -1,6 +1,6 @@
 class_name PauseMenu
 extends CanvasLayer
-## Pausa (Esc): continuar, voltar ao checkpoint ou ir ao menu principal.
+## Pausa (Esc): continuar, voltar ao checkpoint, configurações ou ir ao menu principal.
 ## Pausa a árvore inteira; esta camada continua rodando (process_mode = Always).
 
 signal checkpoint_requested
@@ -11,7 +11,10 @@ var locked := false
 @onready var _panel: Control = $Panel
 @onready var _continue_button: Button = %ContinueButton
 @onready var _checkpoint_button: Button = %CheckpointButton
+@onready var _settings_button: Button = %SettingsButton
 @onready var _menu_button: Button = %MenuButton
+@onready var _content: Control = $Panel/Content
+@onready var _settings: SettingsPanel = $Panel/Settings
 @onready var _move_sound: AudioStreamPlayer = $MoveSound
 
 
@@ -20,7 +23,9 @@ func _ready() -> void:
 	_continue_button.pressed.connect(close)
 	_checkpoint_button.pressed.connect(_on_checkpoint_pressed)
 	_menu_button.pressed.connect(_on_menu_pressed)
-	for button: Button in [_continue_button, _checkpoint_button, _menu_button]:
+	_settings_button.pressed.connect(_open_settings)
+	_settings.closed.connect(_close_settings)
+	for button: Button in [_continue_button, _checkpoint_button, _settings_button, _menu_button]:
 		button.focus_entered.connect(_move_sound.play)
 
 
@@ -40,6 +45,8 @@ func is_open() -> bool:
 func open() -> void:
 	get_tree().paused = true
 	_panel.show()
+	_content.show()
+	_settings.hide()
 	_continue_button.grab_focus.call_deferred()
 
 
@@ -56,3 +63,13 @@ func _on_checkpoint_pressed() -> void:
 func _on_menu_pressed() -> void:
 	close()
 	Story.back_to_menu()
+
+
+func _open_settings() -> void:
+	_content.hide()
+	_settings.open()
+
+
+func _close_settings() -> void:
+	_content.show()
+	_settings_button.grab_focus()

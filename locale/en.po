@@ -1,0 +1,1556 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+#: autoload/presence.gd
+msgid "No menu"
+msgstr "In the menu"
+
+#: autoload/presence.gd
+msgid "Capítulo %d: %s"
+msgstr "Chapter %d: %s"
+
+#: autoload/presence.gd
+msgid "Jogando"
+msgstr "Playing"
+
+#: autoload/presence.gd
+msgid "Numa lembrança"
+msgstr "In a memory"
+
+#: autoload/presence.gd
+msgid "Modo dev"
+msgstr "Dev mode"
+
+#: autoload/story.tscn
+msgid "Estrelas"
+msgstr "Stars"
+
+#: autoload/story.tscn
+msgid "Fios"
+msgstr "Threads"
+
+#: autoload/story.tscn
+msgid "Hospital"
+msgstr "Hospital"
+
+#: autoload/story.tscn
+msgid "O adeus"
+msgstr "Farewell"
+
+#: autoload/story.tscn
+msgid "Montanha"
+msgstr "Mountain"
+
+#: autoload/story.tscn
+msgid "A Queda"
+msgstr "The Fall"
+
+#: autoload/story.tscn, dialogue/speakers/sophie.tres
+msgid "Sophie"
+msgstr "Sophie"
+
+#: autoload/story.tscn
+msgid "Ecos"
+msgstr "Echoes"
+
+#: autoload/story.tscn, ui/hud.tscn
+msgid "Chefe"
+msgstr "Boss"
+
+#: autoload/story.tscn
+msgid "A voz"
+msgstr "The Voice"
+
+#: autoload/story.tscn
+msgid "A aranha"
+msgstr "The Spider"
+
+#: autoload/story.tscn
+msgid "Créditos"
+msgstr "Credits"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Eu falei."
+msgstr "I said it."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Que ela me batia. Que eu não era lixo. E ela se desfez."
+msgstr "That she hit me. That I wasn't trash. And she fell apart."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Por que eu não tô feliz?"
+msgstr "Why am I not happy?"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Porque era só uma sombra.)"
+msgstr "(Because it was only a shadow.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(A de verdade nunca ouviu. Nem seu pai. Nem a escola. Ninguém.)"
+msgstr "(The real one never heard. Not your dad. Not the school. No one.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "O vovô ouviu. Uma vez."
+msgstr "Grandpa heard. Once."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(E quando ele não acreditou, você decidiu que ninguém ia.)"
+msgstr "(And when he didn't believe you, you decided no one would.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Cinco anos de manga comprida no calor. Nunca mais tentou.)"
+msgstr "(Five years of long sleeves in the heat. You never tried again.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Eu podia ter contado pra uma professora. Pra qualquer um."
+msgstr "I could have told a teacher. Anyone."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Eu tinha medo dela. Mas tinha mais medo de falar e ninguém fazer nada."
+msgstr "I was scared of her. But I was more scared of telling and nobody doing anything."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Aqui embaixo você teve coragem.)"
+msgstr "(Down here you found the courage.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Pena que foi só aqui embaixo.)"
+msgstr "(Too bad it was only down here.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "...Cala a boca."
+msgstr "...Shut up."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Olha só. Você respondeu.)"
+msgstr "(Look at that. You answered.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "...Jupiter..."
+msgstr "...Jupiter..."
+
+#: cutscenes/after_sophie/after_sophie.gd, cutscenes/stargazing/stargazing.gd
+msgid "Vovô?"
+msgstr "Grandpa?"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "...por aqui..."
+msgstr "...this way..."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "A sua voz tá diferente."
+msgstr "Your voice sounds different."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "(Você não perguntou como ele sabe o caminho.)"
+msgstr "(You didn't ask how he knows the way.)"
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Eu tô indo."
+msgstr "I'm coming."
+
+#: cutscenes/after_sophie/after_sophie.gd
+msgid "Fim do Capítulo 1"
+msgstr "End of Chapter 1"
+
+#: cutscenes/credits/credits.tscn
+msgid "Fim do pré-alpha"
+msgstr "End of the pre-alpha"
+
+#: cutscenes/credits/credits.tscn
+msgid "Obrigado por jogar"
+msgstr "Thank you for playing"
+
+#: cutscenes/credits/credits.tscn
+msgid "Criado por"
+msgstr "Created by"
+
+#: cutscenes/credits/credits.tscn
+msgid "Arthur Camponez"
+msgstr "Arthur Camponez"
+
+#: cutscenes/diana/diana.gd
+msgid "(Cheiro de cigarro. Aqui embaixo.)"
+msgstr "(Cigarette smoke. Down here.)"
+
+#: cutscenes/diana/diana.gd
+msgid "...Diana?"
+msgstr "...Diana?"
+
+#: cutscenes/diana/diana.gd
+msgid "Eu te perdoo."
+msgstr "I forgive you."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu não consigo."
+msgstr "I can't."
+
+#: cutscenes/diana/diana.gd
+msgid "Olha só. O menino do telescópio."
+msgstr "Well, look at that. The telescope kid."
+
+#: cutscenes/diana/diana.gd
+msgid "Você cresceu. Ficou com cara de quem não dorme."
+msgstr "You grew up. You look like someone who doesn't sleep."
+
+#: cutscenes/diana/diana.gd
+msgid "O que você tá fazendo aqui?"
+msgstr "What are you doing here?"
+
+#: cutscenes/diana/diana.gd
+msgid "Fumando escondida. É o que eu faço de melhor."
+msgstr "Smoking where no one can see. It's what I do best."
+
+#: cutscenes/diana/diana.gd
+msgid "Acendi um no quintal. Quando olhei em volta, era pedra."
+msgstr "I lit one in the backyard. When I looked around, it was all rock."
+
+#: cutscenes/diana/diana.gd
+msgid "Senta. Ou fica aí em pé me odiando. Tanto faz."
+msgstr "Sit down. Or stand there and hate me. Whatever."
+
+#: cutscenes/diana/diana.gd
+msgid "Sentar do lado dela."
+msgstr "Sit next to her."
+
+#: cutscenes/diana/diana.gd
+msgid "Ficar em pé."
+msgstr "Stay standing."
+
+#: cutscenes/diana/diana.gd
+msgid "(A madeira range. Ela chega pro lado sem olhar pra você.)"
+msgstr "(The wood creaks. She scoots over without looking at you.)"
+
+#: cutscenes/diana/diana.gd
+msgid "Em pé, então. Justo."
+msgstr "Standing, then. Fair."
+
+#: cutscenes/diana/diana.gd
+msgid "Dois anos, Diana."
+msgstr "Two years, Diana."
+
+#: cutscenes/diana/diana.gd
+msgid "Você atravessava a rua quando me via."
+msgstr "You crossed the street when you saw me."
+
+#: cutscenes/diana/diana.gd, cutscenes/funeral/funeral.gd
+msgid "Eu sei."
+msgstr "I know."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu te mandei parabéns. Nos dois aniversários."
+msgstr "I wished you happy birthday. Both years."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu li. Os dois. No celular de uma amiga."
+msgstr "I read them. Both. On a friend's phone."
+
+#: cutscenes/diana/diana.gd
+msgid "Meu pai achou as nossas conversas. Leu em voz alta, na mesa do jantar."
+msgstr "My dad found our messages. He read them out loud at the dinner table."
+
+#: cutscenes/diana/diana.gd
+msgid "Não tinha nada ali. Era você falando de estrela e eu mandando música."
+msgstr "There was nothing there. Just you talking about stars and me sending songs."
+
+#: cutscenes/diana/diana.gd
+msgid "Ele disse que menina de quinze anos não tem amigo. Tem problema."
+msgstr "He said a fifteen-year-old girl doesn't have friends. She has problems."
+
+#: cutscenes/diana/diana.gd
+msgid "Minha mãe ficou parada na porta do quarto até eu te bloquear."
+msgstr "My mom stood in my bedroom door until I blocked you."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu tinha doze anos."
+msgstr "I was twelve."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu falei isso. Ele respondeu que menino cresce."
+msgstr "I told him that. He said boys grow up."
+
+#: cutscenes/diana/diana.gd
+msgid "Você podia ter me avisado."
+msgstr "You could have warned me."
+
+#: cutscenes/diana/diana.gd
+msgid "Você tinha quinze anos."
+msgstr "You were fifteen."
+
+#: cutscenes/diana/diana.gd
+msgid "Você tinha quinze anos. Não dava pra você ganhar deles."
+msgstr "You were fifteen. You couldn't have won against them."
+
+#: cutscenes/diana/diana.gd
+msgid "Não me entrega a desculpa pronta, Jupiter."
+msgstr "Don't hand me the excuse, Jupiter."
+
+#: cutscenes/diana/diana.gd
+msgid "Dava pra jogar um bilhete no seu muro. Eu não joguei."
+msgstr "I could have thrown a note over your wall. I didn't."
+
+#: cutscenes/diana/diana.gd
+msgid "Um bilhete. Um olhar na rua. Qualquer coisa."
+msgstr "A note. A look on the street. Anything."
+
+#: cutscenes/diana/diana.gd
+msgid "Podia. Pensei nisso todo dia."
+msgstr "I could have. I thought about it every day."
+
+#: cutscenes/diana/diana.gd
+msgid "E todo dia eu fui covarde. Não vou enfeitar."
+msgstr "And every day I was a coward. I won't dress it up."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu achei que era eu. Que eu tinha feito alguma coisa."
+msgstr "I thought it was me. That I'd done something."
+
+#: cutscenes/diana/diana.gd
+msgid "Minha mãe também foi embora sem falar nada."
+msgstr "My mom left without saying anything too."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu achei que era um jeito meu. De fazer as pessoas cansarem."
+msgstr "I thought it was something about me. Something that wears people out."
+
+#: cutscenes/diana/diana.gd
+msgid "Não era você. Nunca foi você."
+msgstr "It wasn't you. It was never you."
+
+#: cutscenes/diana/diana.gd
+msgid "Você era a única pessoa que não queria nada de mim."
+msgstr "You were the only person who didn't want anything from me."
+
+#: cutscenes/diana/diana.gd
+msgid "Hoje eu tenho dezessete e fumo num barraco pra ter uma coisa que eles não escolheram."
+msgstr "Now I'm seventeen and I smoke in a shack to have one thing they didn't choose."
+
+#: cutscenes/diana/diana.gd
+msgid "Não vim pedir nada. Só não queria que você carregasse isso achando que era seu."
+msgstr "I didn't come to ask for anything. I just didn't want you carrying this like it was yours."
+
+#: cutscenes/diana/diana.gd
+msgid "(Ela não pede desculpa. Ela espera.)"
+msgstr "(She doesn't apologize. She waits.)"
+
+#: cutscenes/diana/diana.gd
+msgid "Não porque passou. Não passou."
+msgstr "Not because it's over. It isn't."
+
+#: cutscenes/diana/diana.gd
+msgid "É que eu tô cansado de perder gente que ainda tá viva."
+msgstr "It's that I'm tired of losing people who are still alive."
+
+#: cutscenes/diana/diana.gd
+msgid "...Idiota. Você ainda fala desse jeito."
+msgstr "...Idiot. You still talk like that."
+
+#: cutscenes/diana/diana.gd
+msgid "Toma. O isqueiro. Lá pra frente é escuro, e eu tô tentando parar."
+msgstr "Here. The lighter. It's dark up ahead, and I'm trying to quit."
+
+#: cutscenes/diana/diana.gd
+msgid "(Pesa pouco. Esquenta a mão.)"
+msgstr "(It's light. It warms your hand.)"
+
+#: cutscenes/diana/diana.gd
+msgid "Quando você sair daqui, me chama no muro. Eu apareço."
+msgstr "When you get out of here, call me over the wall. I'll show up."
+
+#: cutscenes/diana/diana.gd
+msgid "Eles que se virem."
+msgstr "They can deal with it."
+
+#: cutscenes/diana/diana.gd
+msgid "Você perdoou a Diana."
+msgstr "You forgave Diana."
+
+#: cutscenes/diana/diana.gd
+msgid "Eu entendi. Juro que entendi."
+msgstr "I get it. I swear I get it."
+
+#: cutscenes/diana/diana.gd
+msgid "Mas eu fiquei dois anos do outro lado da rua."
+msgstr "But I spent two years on the other side of the street."
+
+#: cutscenes/diana/diana.gd
+msgid "Tá certo."
+msgstr "That's fair."
+
+#: cutscenes/diana/diana.gd
+msgid "Não precisa conseguir. Eu só precisava que você soubesse."
+msgstr "You don't have to. I just needed you to know."
+
+#: cutscenes/diana/diana.gd
+msgid "Vai. A sua estrela tá impaciente."
+msgstr "Go. Your star is getting impatient."
+
+#: cutscenes/diana/diana.gd
+msgid "(Você vai. A brasa fica acesa atrás de você por um tempo.)"
+msgstr "(You go. The ember glows behind you for a while.)"
+
+#: cutscenes/diana/diana.gd
+msgid "(Depois, não.)"
+msgstr "(Then it doesn't.)"
+
+#: cutscenes/diana/diana.gd
+msgid "Você não perdoou a Diana."
+msgstr "You didn't forgive Diana."
+
+#: cutscenes/finale/morning.gd
+msgid "Achei. Tá aqui embaixo."
+msgstr "Found him. He's down here."
+
+#: cutscenes/finale/morning.gd
+msgid "Quantos anos?"
+msgstr "How old?"
+
+#: cutscenes/finale/morning.gd
+msgid "Uns catorze. Tá de terno."
+msgstr "Fourteen, maybe. He's wearing a suit."
+
+#: cutscenes/finale/morning.gd
+msgid "Tem um folheto no bolso. De um velório."
+msgstr "There's a pamphlet in his pocket. From a funeral."
+
+#: cutscenes/finale/morning.gd
+msgid "...De ontem."
+msgstr "...Yesterday's."
+
+#: cutscenes/finale/morning.gd
+msgid "Ele tá com o rosto pra cima. Parece que tava olhando alguma coisa."
+msgstr "He's facing up. Like he was looking at something."
+
+#: cutscenes/finale/morning.gd
+msgid "Senhora, não pode passar da fita."
+msgstr "Ma'am, you can't cross the tape."
+
+#: cutscenes/finale/morning.gd
+msgid "A senhora é a mãe?"
+msgstr "Are you the mother?"
+
+#: cutscenes/finale/morning.gd
+msgid "Não."
+msgstr "No."
+
+#: cutscenes/finale/morning.gd
+msgid "Eu que criei. Sozinha. Dei tudo pra esse menino."
+msgstr "I raised him. Alone. I gave that boy everything."
+
+#: cutscenes/finale/morning.gd
+msgid "Pergunta pra qualquer vizinho."
+msgstr "Ask any of the neighbors."
+
+#: cutscenes/finale/morning.gd
+msgid "(Ela chorou na frente de todo mundo.)"
+msgstr "(She cried in front of everyone.)"
+
+#: cutscenes/finale/morning.gd
+msgid "(Ninguém perguntou das marcas antigas.)"
+msgstr "(No one asked about the old bruises.)"
+
+#: cutscenes/finale/morning.gd
+msgid "Fim"
+msgstr "The End"
+
+#: cutscenes/finale/reunion.gd, cutscenes/mountain/mountain.gd
+msgid "Vovô."
+msgstr "Grandpa."
+
+#: cutscenes/finale/reunion.gd
+msgid "Meu neto. Eu estava esperando por você."
+msgstr "My boy. I've been waiting for you."
+
+#: cutscenes/finale/reunion.gd
+msgid "Agora a gente pode continuar a nossa jornada. Você pode deixar a vida lá embaixo."
+msgstr "Now we can go on with our journey. You can leave that life down there."
+
+#: cutscenes/finale/reunion.gd
+msgid "Espera. Como assim, deixar?"
+msgstr "Wait. What do you mean, leave?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Eu ainda queria ser astronauta. Queria ter uma família."
+msgstr "I still wanted to be an astronaut. I wanted a family."
+
+#: cutscenes/finale/reunion.gd
+msgid "Queria ver se um dia a Sophie ia pedir desculpa."
+msgstr "I wanted to see if Sophie would ever say sorry."
+
+#: cutscenes/finale/reunion.gd
+msgid "Não se apegue à vida passageira, meu neto. Comigo você vive pra sempre."
+msgstr "Don't cling to a life that passes, my boy. With me you live forever."
+
+#: cutscenes/finale/reunion.gd
+msgid "Não era isso que você queria? Buscar as estrelas comigo?"
+msgstr "Isn't this what you wanted? To go after the stars with me?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Você me fez prometer que eu ia demorar."
+msgstr "You made me promise I'd take my time."
+
+#: cutscenes/finale/reunion.gd
+msgid "Eu fiz?"
+msgstr "Did I?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Você não lembra."
+msgstr "You don't remember."
+
+#: cutscenes/finale/reunion.gd
+msgid "No hospital você também não lembrava. Mas lá você pedia desculpa."
+msgstr "At the hospital you didn't remember either. But there you said sorry."
+
+#: cutscenes/finale/reunion.gd
+msgid "Eu lembro de você. Não basta?"
+msgstr "I remember you. Isn't that enough?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Vovô. Eu caí de muito alto?"
+msgstr "Grandpa. Did I fall from very high up?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Não doeu. Devia ter doído, né?"
+msgstr "It didn't hurt. It should have hurt, right?"
+
+#: cutscenes/finale/reunion.gd
+msgid "Vem."
+msgstr "Come."
+
+#: cutscenes/finale/reunion.gd
+msgid "(Você sabe.)"
+msgstr "(You know.)"
+
+#: cutscenes/finale/reunion.gd
+msgid "(Você soube desde a queda.)"
+msgstr "(You've known since the fall.)"
+
+#: cutscenes/finale/reunion.gd
+msgid "...Tá bom."
+msgstr "...Okay."
+
+#: cutscenes/finale/reunion.gd
+msgid "(Você vai mesmo assim.)"
+msgstr "(You go anyway.)"
+
+#: cutscenes/funeral/funeral.gd
+msgid "Três semanas depois"
+msgstr "Three weeks later"
+
+#: cutscenes/funeral/funeral.gd
+msgid "\"Ele descansou.\""
+msgstr "\"He's at peace.\""
+
+#: cutscenes/funeral/funeral.gd
+msgid "\"Ele está num lugar melhor.\""
+msgstr "\"He's in a better place.\""
+
+#: cutscenes/funeral/funeral.gd
+msgid "\"Era a hora dele.\""
+msgstr "\"It was his time.\""
+
+#: cutscenes/funeral/funeral.gd
+msgid "(Todo mundo falou dele como se ele tivesse viajado.)"
+msgstr "(Everyone talked about him like he'd gone on a trip.)"
+
+#: cutscenes/funeral/funeral.gd
+msgid "Seu pai ligou. Não conseguiu voo."
+msgstr "Your dad called. He couldn't get a flight."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Ele mandou flores. E o dinheiro do mês."
+msgstr "He sent flowers. And this month's money."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Eu vi. Vieram com o nome do vovô escrito errado."
+msgstr "I saw. They came with Grandpa's name spelled wrong."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Arruma essa cara. Tem gente olhando."
+msgstr "Fix your face. People are watching."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Hoje eu sou a madrasta que ficou. Não me faz passar vergonha."
+msgstr "Today I'm the stepmother who stayed. Don't embarrass me."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Agora não tem mais ninguém pra quem você possa ir chorar. Lembra disso."
+msgstr "Now there's no one left you can go crying to. Remember that."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Não fica aí até escurecer. Eu não vou voltar pra te buscar."
+msgstr "Don't stay out here until dark. I'm not coming back for you."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Eu não chorei, vovô."
+msgstr "I didn't cry, Grandpa."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Fiquei o velório inteiro esperando a vontade vir. Não veio."
+msgstr "I waited the whole wake for it to come. It didn't."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Eu já tinha te perdido antes, no quarto 214. Acho que gastei tudo lá."
+msgstr "I'd already lost you before, in room 214. I think I used it all up there."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Tem alguma coisa quebrada em mim?"
+msgstr "Is something broken in me?"
+
+#: cutscenes/funeral/funeral.gd
+msgid "Você disse que ia virar uma estrela."
+msgstr "You said you'd become a star."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Eu tenho catorze anos. Eu sei que não é assim que funciona."
+msgstr "I'm fourteen. I know that's not how it works."
+
+#: cutscenes/funeral/funeral.gd
+msgid "Eu sei o que tem dentro daquela caixa."
+msgstr "I know what's inside that box."
+
+#: cutscenes/funeral/funeral.gd
+msgid "(A chuva parou.)"
+msgstr "(The rain stopped.)"
+
+#: cutscenes/funeral/funeral.gd
+msgid "(Você olhou pra cima mesmo assim.)"
+msgstr "(You looked up anyway.)"
+
+#: cutscenes/funeral/funeral.gd
+msgid "...Uma delas não tá piscando."
+msgstr "...One of them isn't twinkling."
+
+#: cutscenes/funeral/funeral.gd
+msgid "A montanha. De lá dá pra ver melhor."
+msgstr "The mountain. You can see better from up there."
+
+#: cutscenes/funeral/funeral.gd
+msgid "(Você prometeu que não ia ter pressa.)"
+msgstr "(You promised you wouldn't rush.)"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Seis anos depois"
+msgstr "Six years later"
+
+#: cutscenes/hospital/hospital.gd
+msgid "(Quarto 214. Você já sabe o caminho de olhos fechados.)"
+msgstr "(Room 214. You know the way with your eyes closed.)"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Oi, vovô. Trouxe o livro das constelações."
+msgstr "Hi, Grandpa. I brought the constellation book."
+
+#: cutscenes/hospital/hospital.gd
+msgid "...Você é o rapaz do soro?"
+msgstr "...Are you the IV boy?"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Sou eu. O Jupiter."
+msgstr "It's me. Jupiter."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Jupiter. Bonito nome. Meu neto tem esse nome."
+msgstr "Jupiter. Nice name. My grandson has that name."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Ele tem oito anos. Quer ser astronauta. Você ia gostar dele."
+msgstr "He's eight. Wants to be an astronaut. You'd like him."
+
+#: cutscenes/hospital/hospital.gd
+msgid "...Ia, sim."
+msgstr "...I would."
+
+#: cutscenes/hospital/hospital.gd
+msgid "(Faz quatro meses que ele não sabe quem você é.)"
+msgstr "(He hasn't known who you are for four months.)"
+
+#: cutscenes/hospital/hospital.gd
+msgid "(Você vem todo dia mesmo assim.)"
+msgstr "(You come every day anyway.)"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Eu prometi levar ele pra ver Saturno. Você avisa que eu não esqueci?"
+msgstr "I promised I'd take him to see Saturn. Will you tell him I didn't forget?"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Aviso."
+msgstr "I'll tell him."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Tá escuro lá fora. Cadê as estrelas?"
+msgstr "It's dark outside. Where are the stars?"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Tá nublado. Elas tão atrás."
+msgstr "It's cloudy. They're behind it."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Jupiter."
+msgstr "Jupiter."
+
+#: cutscenes/hospital/hospital.gd
+msgid "...Vovô?"
+msgstr "...Grandpa?"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Você cresceu."
+msgstr "You grew up."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Eu não queria que você me visse assim."
+msgstr "I didn't want you to see me like this."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Eu não ligo. Eu não ligo, vovô."
+msgstr "I don't care. I don't care, Grandpa."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Lembra do que você me prometeu?"
+msgstr "Remember what you promised me?"
+
+#: cutscenes/hospital/hospital.gd
+msgid "Que eu não ia ter pressa."
+msgstr "That I wouldn't rush."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Bom menino."
+msgstr "Good boy."
+
+#: cutscenes/hospital/hospital.gd
+msgid "Sou."
+msgstr "I am."
+
+#: cutscenes/hospital/hospital.gd
+msgid "(Foi a última vez que ele disse o seu nome.)"
+msgstr "(It was the last time he said your name.)"
+
+#: cutscenes/hospital/hospital.gd
+msgid "(Ele morreu numa terça, às 3h12. Ninguém te acordou.)"
+msgstr "(He died on a Tuesday, at 3:12 a.m. No one woke you.)"
+
+#: cutscenes/mountain/mountain.gd
+msgid "Uma hora depois do enterro"
+msgstr "One hour after the burial"
+
+#: cutscenes/mountain/mountain.gd
+msgid "(Você caiu por muito tempo.)"
+msgstr "(You fell for a long time.)"
+
+#: cutscenes/mountain/mountain.gd
+msgid "(Não doeu.)"
+msgstr "(It didn't hurt.)"
+
+#: cutscenes/mountain/mountain.gd
+msgid "(Isso devia ter te assustado.)"
+msgstr "(That should have scared you.)"
+
+#: cutscenes/mountain/mountain.gd
+msgid "Eu não sei se você tá aí em cima me olhando."
+msgstr "I don't know if you're up there watching me."
+
+#: cutscenes/mountain/mountain.gd
+msgid "Eu ia trazer o telescópio. Ela vendeu."
+msgstr "I was going to bring the telescope. She sold it."
+
+#: cutscenes/mountain/mountain.gd
+msgid "Aqui embaixo ninguém fala a nossa língua. Ninguém olha pra cima."
+msgstr "Down here no one speaks our language. No one looks up."
+
+#: cutscenes/mountain/mountain.gd
+msgid "Eu tô cansado de caber atrás do dedo de todo mundo."
+msgstr "I'm tired of fitting behind everyone's thumb."
+
+#: cutscenes/mountain/mountain.gd
+msgid "Eu sei que eu prometi demorar."
+msgstr "I know I promised to take my time."
+
+#: cutscenes/mountain/mountain.gd
+msgid "Mas um dia eu vou te buscar. E a gente volta pros nossos planos. Todas as estrelas do espaço."
+msgstr "But one day I'll come get you. And we'll go back to our plans. Every star in space."
+
+#: cutscenes/mountain/mountain.gd
+msgid "...vovô?"
+msgstr "...Grandpa?"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "Setas: andar\nEspaço: pular"
+msgstr "Arrows: walk\nSpace: jump"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(Ninguém viu você sair. Ainda tinha gente comendo na sala.)"
+msgstr "(No one saw you leave. People were still eating in the living room.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(Ele subia esse trecho devagar e dizia que era o joelho. Era pra você conseguir acompanhar.)"
+msgstr "(He climbed this part slowly and blamed his knee. It was so you could keep up.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(O banco. Ele parava aqui pra \"ver a vista\". Era pra respirar.)"
+msgstr "(The bench. He'd stop here to \"enjoy the view.\" It was to catch his breath.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(Você tinha medo da ponte. Ele atravessava primeiro e voltava pra te buscar.)"
+msgstr "(You were scared of the bridge. He'd cross first and come back for you.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(J + V. Você riscou com a chave de casa. Ele fingiu que ficou bravo.)"
+msgstr "(J + V. You carved it with your house key. He pretended to be mad.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(Daqui pra cima ele já não vinha. Fazia dois anos. Você nunca subiu sozinho.)"
+msgstr "(He stopped coming past this point. Two years ago. You never climbed alone.)"
+
+#: cutscenes/mountain/mountain.tscn
+msgid "(O banquinho dele ainda está aqui. Ninguém teve coragem de vir buscar.)"
+msgstr "(His little stool is still here. Nobody had the heart to come get it.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Dois anos antes"
+msgstr "Two years earlier"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Saturno tá com os anéis abertos hoje. O vovô ia querer ver."
+msgstr "Saturn's rings are wide open tonight. Grandpa would want to see."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Meia-noite e dez."
+msgstr "Ten past midnight."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Desculpa. Eu já ia dormir."
+msgstr "Sorry. I was about to go to bed."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Seu pai ligou hoje. Perguntou se você tava dando trabalho."
+msgstr "Your father called today. Asked if you were giving me trouble."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Eu disse que não. Eu sempre digo que não."
+msgstr "I said no. I always say no."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Enquanto você for um anjo no telefone, o dinheiro dele continua chegando."
+msgstr "As long as you're an angel on the phone, his money keeps coming."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "É que hoje dá pra ver Saturno, e o vovô disse que..."
+msgstr "It's just that you can see Saturn tonight, and Grandpa said..."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "O seu avô acha que todo mundo é bom. Por isso ele nunca viu nada."
+msgstr "Your grandfather thinks everyone is good. That's why he never sees anything."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Sua mãe te largou. Seu pai paga pra não ter que te ver."
+msgstr "Your mother dumped you. Your father pays so he never has to see you."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "E quem ficou com o bastardo fui eu."
+msgstr "And the one stuck with the bastard is me."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Você nem era pra ter nascido. Todo mundo sabe. Só você que não."
+msgstr "You were never supposed to be born. Everyone knows it. Except you."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Isso aqui fica comigo."
+msgstr "This stays with me."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Não! É do vovô!"
+msgstr "No! It's Grandpa's!"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Você levantou a voz pra mim?"
+msgstr "Did you just raise your voice at me?"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Não, eu..."
+msgstr "No, I..."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Vem cá. Vou ter que te corrigir."
+msgstr "Come here. I'll have to correct you."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Você aprendeu cedo a não fazer barulho.)"
+msgstr "(You learned early not to make noise.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Barulho deixava pior.)"
+msgstr "(Noise made it worse.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "LIXO."
+msgstr "TRASH."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Não conta isso pro seu pai. Senão vai ver."
+msgstr "Don't tell your father about this. Or you'll see."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Ela nunca batia onde o uniforme não cobria.)"
+msgstr "(She never hit where the uniform didn't cover.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Você tinha uma resposta.)"
+msgstr "(You had an answer.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Você sempre tem. Ela sobe até a garganta e fica lá.)"
+msgstr "(You always do. It rises to your throat and stays there.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Na noite seguinte"
+msgstr "The next night"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Que marca é essa no seu braço, filho?"
+msgstr "What's that mark on your arm, son?"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "...Foi a Sophie."
+msgstr "...It was Sophie."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Foi a única vez que você disse.)"
+msgstr "(It was the only time you said it.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "A Sophie? Não, não... Ela se mata por você, Jupiter."
+msgstr "Sophie? No, no... She'd do anything for you, Jupiter."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "Você deve ter caído e tá confuso. Criança se confunde."
+msgstr "You must have fallen and gotten confused. Kids get confused."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Ele achava que todo mundo era bom. Era a melhor coisa dele.)"
+msgstr "(He thought everyone was good. It was the best thing about him.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Você não mostrou as outras marcas. Não insistiu.)"
+msgstr "(You didn't show him the other marks. You didn't insist.)"
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "...É. Acho que eu caí."
+msgstr "...Yeah. I guess I fell."
+
+#: cutscenes/sophie_memory/sophie_memory.gd
+msgid "(Nunca mais tentou. Com ninguém.)"
+msgstr "(You never tried again. With anyone.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Cinco anos antes"
+msgstr "Five years earlier"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Repete."
+msgstr "Say it again."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Repete o que você disse."
+msgstr "Say again what you just said."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "...Você não é minha mãe."
+msgstr "...You're not my mother."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Não. Graças a Deus."
+msgstr "No. Thank God."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Sua mãe olhou pra você e foi embora. Eu fiquei com o lixo dela."
+msgstr "Your mother took one look at you and left. I got stuck with her trash."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Vou ter que te corrigir. Você fica aí até aprender a calar a boca."
+msgstr "I'll have to correct you. You stay in there until you learn to shut your mouth."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Um. Dois. Três."
+msgstr "One. Two. Three."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "O vovô disse pra contar estrelas quando eu tiver medo."
+msgstr "Grandpa said to count stars when I'm scared."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Não tem estrela aqui."
+msgstr "There aren't any stars in here."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "(Ela não fez nada.)"
+msgstr "(It didn't do anything.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "(Só ficou te olhando. A noite inteira.)"
+msgstr "(It just watched you. All night.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "(Você também.)"
+msgstr "(You watched it too.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "De manhã"
+msgstr "In the morning"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Jupiter. Meu Deus."
+msgstr "Jupiter. My God."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Há quanto tempo você tá aqui?"
+msgstr "How long have you been in here?"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Fala comigo, filho."
+msgstr "Talk to me, son."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "(Naquela noite você descobriu que ficar quieto funciona.)"
+msgstr "(That night you learned that staying quiet works.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "(Ninguém tranca quem não responde.)"
+msgstr "(No one locks up the kid who doesn't talk back.)"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Ah. Foi ela que te fez companhia?"
+msgstr "Oh. Was she the one keeping you company?"
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Sabe o que elas fazem? Ligam um ponto no outro com fio. Igual a gente faz com as constelações."
+msgstr "You know what they do? They tie one point to the next with thread. Like we do with constellations."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Ela tava só desenhando o céu dela."
+msgstr "She was just drawing her own sky."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "...Eu não gosto do céu dela."
+msgstr "...I don't like her sky."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Tudo bem. Não precisa."
+msgstr "That's okay. You don't have to."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Vamos pra casa. Eu converso com a Sophie."
+msgstr "Let's go home. I'll talk to Sophie."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Ele conversou."
+msgstr "He talked to her."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Ela chorou. Disse que a porta emperrou."
+msgstr "She cried. She said the door got stuck."
+
+#: cutscenes/spider_memory/spider_memory.gd
+msgid "Ele acreditou."
+msgstr "He believed her."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Fala, meu querido."
+msgstr "Go on, my dear."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "O que são as estrelas?"
+msgstr "What are the stars?"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Fogueiras. Tão longe que a luz leva milhares de anos pra chegar aqui."
+msgstr "Bonfires. So far away their light takes thousands of years to get here."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Algumas das que você está vendo já se apagaram. A notícia é que ainda não chegou."
+msgstr "Some of the ones you're seeing already went out. The news just hasn't arrived yet."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Então a gente tá olhando pra coisas que já morreram?"
+msgstr "So we're looking at things that already died?"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "A gente tá lendo a carta que elas deixaram."
+msgstr "We're reading the letter they left."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Você já chegou perto de uma?"
+msgstr "Have you ever gotten close to one?"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Uma vez. Subi até onde o céu fica preto no meio do dia."
+msgstr "Once. I went up to where the sky turns black in the middle of the day."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Lá de cima, a Terra cabia atrás do meu polegar. Todo mundo que eu amava, atrás de um dedo."
+msgstr "From up there, the Earth fit behind my thumb. Everyone I loved, behind one finger."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Depois que eu desci, nunca mais consegui caber aqui embaixo."
+msgstr "After I came down, I never fit down here again."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Um dia eu vou ser astronauta. Vou lá e busco todas pra você."
+msgstr "One day I'll be an astronaut. I'll go up there and bring them all back for you."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Todas? São milhares. Você ia passar uma eternidade lá em cima."
+msgstr "All of them? There are thousands. You'd spend an eternity up there."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Então a gente vai junto."
+msgstr "Then we'll go together."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Jupiter. Se um dia eu não estiver mais aqui..."
+msgstr "Jupiter. If one day I'm not here anymore..."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Onde você vai estar?"
+msgstr "Where will you be?"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "...Lá. Numa daquelas."
+msgstr "...Up there. In one of those."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Qual?"
+msgstr "Which one?"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "A que não piscar. Estrela pisca. Avô, não."
+msgstr "The one that doesn't twinkle. Stars twinkle. Grandpas don't."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Então eu te busco."
+msgstr "Then I'll come get you."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Promete uma coisa pra mim."
+msgstr "Promise me something."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Promete que não vai ter pressa."
+msgstr "Promise you won't rush."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Promete que vai demorar muito, muito tempo."
+msgstr "Promise you'll take a long, long time."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "Prometo."
+msgstr "I promise."
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "(Você tinha oito anos.)"
+msgstr "(You were eight.)"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "(Você não sabia o que estava prometendo.)"
+msgstr "(You didn't know what you were promising.)"
+
+#: cutscenes/stargazing/stargazing.gd
+msgid "(Ele sabia.)"
+msgstr "(He did.)"
+
+#: dialogue/speakers/diana.tres
+msgid "Diana"
+msgstr "Diana"
+
+#: dialogue/speakers/grandpa.tres
+msgid "Vovô"
+msgstr "Grandpa"
+
+#: dialogue/speakers/jupiter.tres, dialogue/speakers/jupiter_child.tres
+msgid "Jupiter"
+msgstr "Jupiter"
+
+#: dialogue/speakers/rescuer.tres
+msgid "Socorrista"
+msgstr "Paramedic"
+
+#: entities/dash_unlock/dash_unlock.tscn, ui/skill_showcase.tscn
+msgid "DASH"
+msgstr "DASH"
+
+#: entities/dash_unlock/dash_unlock.tscn, ui/skill_showcase.tscn
+msgid "O broche do vovô acende."
+msgstr "Grandpa's pin lights up."
+
+#: entities/dash_unlock/dash_unlock.tscn, ui/skill_showcase.tscn
+msgid "X + uma direção"
+msgstr "X + a direction"
+
+#: entities/diana_hut/diana_hut.tscn
+msgid "Cima: conversar"
+msgstr "Up: talk"
+
+#: entities/hint_sign/hint_sign.tscn
+msgid "Dica"
+msgstr "Hint"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Olha pra mim quando eu falo, bastardo."
+msgstr "Look at me when I'm talking to you, bastard."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "LIXO!"
+msgstr "TRASH!"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Vem cá."
+msgstr "Come here."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Vou ter que te corrigir."
+msgstr "I'll have to correct you."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Você nem era pra ter nascido."
+msgstr "You were never supposed to be born."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Ninguém vai acreditar em você."
+msgstr "No one's going to believe you."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Conta pro seu pai. Conta pra ver."
+msgstr "Tell your father. Go on, tell him."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Engole o choro."
+msgstr "Stop crying."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Levanta."
+msgstr "Get up."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Fica quieto."
+msgstr "Be quiet."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "De novo."
+msgstr "Again."
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Eu não sou lixo!"
+msgstr "I'm not trash!"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Você me batia!"
+msgstr "You hit me!"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Eu devia ter contado pra alguém!"
+msgstr "I should have told someone!"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "Eu não tenho mais medo de você!"
+msgstr "I'm not afraid of you anymore!"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "LIXO"
+msgstr "TRASH"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "BASTARDO"
+msgstr "BASTARD"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "INÚTIL"
+msgstr "USELESS"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "CALA A BOCA"
+msgstr "SHUT UP"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "ERRO"
+msgstr "FLAW"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "FICA QUIETO"
+msgstr "STAY QUIET"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "SEU ERRO"
+msgstr "A MISTAKE"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "CALA"
+msgstr "QUIET"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "CHEGA"
+msgstr "STOP"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "NADA"
+msgstr "ZERO"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "SOME"
+msgstr "LEAVE"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "NÃO CONTA PRO SEU PAI"
+msgstr "DON'T TELL YOUR FATHER"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "VOU TER QUE TE CORRIGIR"
+msgstr "I'LL HAVE TO CORRECT YOU"
+
+#: entities/sophie_boss/sophie_boss.gd
+msgid "VOCÊ NEM ERA PRA NASCER"
+msgstr "YOU WERE NEVER WANTED"
+
+#: levels/boss_sophie.tscn
+msgid "Eu falei. Pela primeira vez, eu falei."
+msgstr "I said it. For the first time, I said it."
+
+#: levels/level_01.tscn
+msgid "...onde eu estou?"
+msgstr "...where am I?"
+
+#: levels/level_01.tscn
+msgid "A luz me puxa para longe... para uma lembrança."
+msgstr "The light pulls me away... into a memory."
+
+#: levels/level_01.tscn
+msgid "Setas ou A/D: andar"
+msgstr "Arrows or A/D: walk"
+
+#: levels/level_01.tscn
+msgid "Espaço: pular"
+msgstr "Space: jump"
+
+#: levels/level_01.tscn
+msgid "Segure Espaço para pular mais alto"
+msgstr "Hold Space to jump higher"
+
+#: levels/level_01.tscn
+msgid "Espinhos: de volta ao começo da sala"
+msgstr "Spikes: back to the start of the room"
+
+#: levels/level_01.tscn
+msgid "Estrela perdida: leve até um chão firme"
+msgstr "Lost star: carry it to solid ground"
+
+#: levels/level_01.tscn
+msgid "Pule na parede para subir. Segure contra ela para deslizar"
+msgstr "Jump off walls to climb. Hold against one to slide"
+
+#: levels/level_01.tscn
+msgid "Pule e dê dash para cima"
+msgstr "Jump, then dash upward"
+
+#: levels/level_01.tscn
+msgid "X: dash. Setas escolhem a direção"
+msgstr "X: dash. Arrows pick the direction"
+
+#: levels/level_01.tscn
+msgid "Cristais recarregam o dash no ar"
+msgstr "Crystals refill your dash in midair"
+
+#: levels/level_01.tscn
+msgid "Siga a luz..."
+msgstr "Follow the light..."
+
+#: levels/level_01.tscn, levels/level_03.tscn
+msgid "Brotos lançam você para o alto"
+msgstr "Sprouts launch you upward"
+
+#: levels/level_02.tscn
+msgid "...que vozes são essas?"
+msgstr "...whose voices are these?"
+
+#: levels/level_02.tscn
+msgid "Eu conheço essa voz..."
+msgstr "I know that voice..."
+
+#: levels/level_02.tscn
+msgid "Rochas frágeis desmoronam. Não pare!"
+msgstr "Fragile rocks crumble. Keep moving!"
+
+#: levels/level_02.tscn
+msgid "Uma voz... Pegue e dê dash na barreira"
+msgstr "A voice... Grab it and dash into the barrier"
+
+#: levels/level_02.tscn
+msgid "A voz fica com você até ser usada"
+msgstr "The voice stays with you until you use it"
+
+#: levels/level_02.tscn
+msgid "A voz espera no alto do poço"
+msgstr "The voice waits at the top of the shaft"
+
+#: levels/level_03.tscn
+msgid "...tem alguma coisa nas paredes."
+msgstr "...there's something in the walls."
+
+#: levels/level_03.tscn
+msgid "Os fios levam todos para o mesmo lugar."
+msgstr "The threads all lead to the same place."
+
+#: levels/level_03.tscn
+msgid "Sussurros: pule por cima, ou use a voz"
+msgstr "Whispers: jump over them, or use the voice"
+
+#: levels/test_room.tscn
+msgid "Sala de teste."
+msgstr "Test room."
+
+#: levels/test_room.tscn
+msgid "Fim da sala de teste."
+msgstr "End of the test room."
+
+#: main/main.gd
+msgid "Uma estrela adormecida desperta..."
+msgstr "A sleeping star awakens..."
+
+#: menu/menu.gd
+msgid "pré-alpha v%s"
+msgstr "pre-alpha v%s"
+
+#: menu/menu.gd
+msgid "Continuar: %s"
+msgstr "Continue: %s"
+
+#: menu/menu.gd
+msgid "%d. %s"
+msgstr "%d. %s"
+
+#: menu/menu.gd
+msgid "Modo dev: capítulos liberados"
+msgstr "Dev mode: chapters unlocked"
+
+#: menu/menu.tscn
+msgid "Teste"
+msgstr "Test"
+
+#: menu/menu.tscn
+msgid "Final 1"
+msgstr "Ending 1"
+
+#: menu/menu.tscn
+msgid "Final 2"
+msgstr "Ending 2"
+
+#: menu/menu.tscn
+msgid "uma história sobre não ter pressa"
+msgstr "a story about taking your time"
+
+#: menu/menu.tscn, ui/pause_menu.tscn
+msgid "Continuar"
+msgstr "Continue"
+
+#: menu/menu.tscn
+msgid "Novo jogo"
+msgstr "New game"
+
+#: menu/menu.tscn
+msgid "Capítulos"
+msgstr "Chapters"
+
+#: menu/menu.tscn, ui/pause_menu.tscn
+msgid "Configurações"
+msgstr "Settings"
+
+#: menu/menu.tscn
+msgid "Sair"
+msgstr "Quit"
+
+#: menu/menu.tscn, ui/settings_panel.tscn
+msgid "Voltar"
+msgstr "Back"
+
+#: menu/menu.tscn
+msgid "Começar do zero? O progresso salvo será apagado."
+msgstr "Start over? Your saved progress will be erased."
+
+#: menu/menu.tscn
+msgid "Começar de novo"
+msgstr "Start over"
+
+#: menu/menu.tscn
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: menu/menu.tscn
+msgid "Setas: escolher   Espaço: confirmar   Esc: voltar"
+msgstr "Arrows: choose   Space: confirm   Esc: back"
+
+#: ui/hud.gd
+msgid "Setas: mover   Espaço: pular"
+msgstr "Arrows: move   Space: jump"
+
+#: ui/hud.gd
+msgid "   X: dash"
+msgstr "   X: dash"
+
+#: ui/hud.gd
+msgid "   R: checkpoint   Esc: pausa"
+msgstr "   R: checkpoint   Esc: pause"
+
+#: ui/level_complete.gd
+msgid "Quedas  %d        Tempo  %s"
+msgstr "Falls  %d        Time  %s"
+
+#: ui/level_complete.tscn, ui/skill_showcase.tscn
+msgid "Espaço: continuar"
+msgstr "Space: continue"
+
+#: ui/pause_menu.tscn
+msgid "Pausa"
+msgstr "Paused"
+
+#: ui/pause_menu.tscn
+msgid "Voltar ao checkpoint"
+msgstr "Back to checkpoint"
+
+#: ui/pause_menu.tscn
+msgid "Menu principal"
+msgstr "Main menu"
+
+#: ui/settings_panel.gd
+msgid "Ligado"
+msgstr "On"
+
+#: ui/settings_panel.gd
+msgid "Desligado"
+msgstr "Off"
+
+#: ui/settings_panel.tscn
+msgid "Idioma"
+msgstr "Language"
+
+#: ui/settings_panel.tscn
+msgid "Volume geral"
+msgstr "Master volume"
+
+#: ui/settings_panel.tscn
+msgid "Música"
+msgstr "Music"
+
+#: ui/settings_panel.tscn
+msgid "Efeitos sonoros"
+msgstr "Sound effects"
+
+#: ui/settings_panel.tscn
+msgid "Texto automático"
+msgstr "Auto-advance text"
+
+#: ui/settings_panel.tscn
+msgid "Tela cheia"
+msgstr "Fullscreen"
+
+#: ui/skill_showcase.tscn
+msgid "Nova habilidade"
+msgstr "New ability"

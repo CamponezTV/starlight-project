@@ -14,7 +14,7 @@ const STAR_SHAKE := 1.5
 const PLAYER_CENTER := Vector2(0, -6) ## Do pé ao centro do Jupiter.
 const FALL_DEATH_MARGIN := 16.0 ## Pixels abaixo de uma sala sem saída por baixo em que a queda mata.
 
-const MESSAGE_CHECKPOINT := "Uma estrela adormecida desperta..."
+const CHECKPOINT_TEXT := "Uma estrela adormecida desperta..."
 const INTRO_DURATION := 3.5
 const CHECKPOINT_DURATION := 2.0
 const ENCOUNTER_LAYER := 50 ## Acima do HUD e da pausa, abaixo da cortina de transição.
@@ -178,7 +178,7 @@ func _respawn() -> void:
 
 func _on_checkpoint_reached(respawn_point: Vector2) -> void:
 	_checkpoint = respawn_point
-	_hud.show_message(MESSAGE_CHECKPOINT, CHECKPOINT_DURATION)
+	_hud.show_message(CHECKPOINT_TEXT, CHECKPOINT_DURATION)
 
 
 func _on_star_collected() -> void:

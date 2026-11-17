@@ -3,6 +3,8 @@ extends CanvasLayer
 ## Caixa de diálogo com texto letra por letra e um "blip" no tom de quem fala.
 ## Pular (ou Enter) mostra a fala inteira; com a fala completa, passa para a próxima.
 ## Uso: `await dialogue_box.say(speaker, "Olá")`. Sem speaker, é narração (sem nome).
+## A fala chega em português e é traduzida aqui, antes de aparecer letra por letra.
+## Com Settings.auto_advance, a fala completa passa sozinha depois de um tempo de leitura.
 
 signal line_finished
 signal typing_finished ## A fala inteira já está na tela.
@@ -15,6 +17,8 @@ const NARRATION_COLOR := Color(0.75, 0.72, 0.9)
 const FADE_TIME := 0.15
 const ADVANCE_ACTIONS: Array[StringName] = [&"jump", &"ui_accept"]
 const SCREEN_MARGIN := 6.0
+const AUTO_ADVANCE_BASE := 1.4 ## Segundos de leitura de qualquer fala...
+const AUTO_ADVANCE_PER_LETTER := 0.045 ## ...mais isto por letra.
 
 ## No alto da tela, para não cobrir personagens que estão embaixo.
 @export var at_top := false
@@ -26,6 +30,7 @@ var _pause_left := 0.0
 var _progress := 0.0
 var _voice_pitch := 1.0
 var _fade_tween: Tween
+var _auto_left := 0.0
 
 @onready var _panel: Control = $Panel
 @onready var _name: Label = %Name
@@ -35,6 +40,8 @@ var _fade_tween: Tween
 
 
 func _ready() -> void:
+	# A fala já chega traduzida (say); o Label não traduz de novo.
+	_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	if at_top:
 		var height := _panel.size.y
 		_panel.anchor_top = 0.0
@@ -69,7 +76,7 @@ func _show_line(speaker: Speaker, text: String) -> void:
 	_name.modulate = speaker.name_color if speaker != null else Color.WHITE
 	_text.modulate = Color.WHITE if speaker != null else NARRATION_COLOR
 	_voice_pitch = speaker.voice_pitch if speaker != null else 0.0
-	_text.text = text
+	_text.text = tr(text)
 	_text.visible_characters = 0
 	_progress = 0.0
 	_pause_left = 0.0
@@ -90,6 +97,11 @@ func _fade_panel(alpha: float) -> void:
 
 
 func _process(delta: float) -> void:
+	if _is_waiting:
+		_auto_left -= delta
+		if _auto_left <= 0.0:
+			_advance()
+		return
 	if not _is_typing:
 		return
 	if _pause_left > 0.0:
@@ -120,7 +132,8 @@ func _finish_typing() -> void:
 	_is_typing = false
 	_is_waiting = true
 	_next_marker.show()
-	set_process(false)
+	_auto_left = AUTO_ADVANCE_BASE + _text.text.length() * AUTO_ADVANCE_PER_LETTER
+	set_process(Settings.auto_advance)
 	typing_finished.emit()
 
 
@@ -131,9 +144,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _is_typing:
 		_finish_typing()
 	elif _is_waiting:
-		_is_waiting = false
-		_next_marker.hide()
-		line_finished.emit()
+		_advance()
+
+
+func _advance() -> void:
+	_is_waiting = false
+	_next_marker.hide()
+	set_process(false)
+	line_finished.emit()
 
 
 func _is_advance(event: InputEvent) -> bool:

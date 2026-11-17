@@ -129,15 +129,15 @@ func test_a_fallen_jupiter_gets_a_red_flash_and_a_line_from_her() -> void:
 	player.die()
 	await wait_physics_frames(2)
 	assert_gt(blow.color.a, 0.0, "o golpe dá um clarão vermelho")
-	assert_true(SophieBoss.KILL_LINES.has(taunt.text), "ela fala por cima de quem caiu")
+	assert_true(SophieBoss.KILL_TEXTS.has(taunt.text), "ela fala por cima de quem caiu")
 
 
 func test_her_words_stay_short_enough_to_dodge() -> void:
-	for word: String in SophieBoss.RAIN_WORDS + [SophieBoss.RING_WORD, SophieBoss.SHOCKWAVE_WORD]:
+	for word: String in SophieBoss.RAIN_TEXTS + [SophieBoss.RING_TEXT, SophieBoss.SHOCKWAVE_TEXT]:
 		assert_lte(word.length(), MAX_RAIN_LETTERS, "\"%s\" é larga demais para a chuva e o anel" % word)
-	for phrase: String in SophieBoss.SWEEP_WORDS:
+	for phrase: String in SophieBoss.SWEEP_TEXTS:
 		assert_lte(phrase.length(), MAX_SWEEP_LETTERS, "\"%s\" é comprida demais para pular" % phrase)
 
 
 func test_every_hit_has_something_jupiter_never_said() -> void:
-	assert_eq(SophieBoss.RETORTS.size(), SophieBoss.MAX_HEALTH)
+	assert_eq(SophieBoss.RETORT_TEXTS.size(), SophieBoss.MAX_HEALTH)

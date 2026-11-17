@@ -4,6 +4,8 @@ Plataforma 2D em pixel art sobre Jupiter, seu avô e as estrelas. Feito em Godot
 
 **Como jogar:** abra o `project.godot` no [Godot 4.7](https://godotengine.org) (versão padrão) e aperte **F5**.
 
+**Idiomas:** português (original) e inglês. Troque em Configurações, no menu ou na pausa.
+
 | Ação | Teclado | Controle |
 |---|---|---|
 | Mover | Setas / WASD | Analógico / D-pad |
@@ -12,6 +14,7 @@ Plataforma 2D em pixel art sobre Jupiter, seu avô e as estrelas. Feito em Godot
 | Avançar diálogo | Espaço / Enter | A |
 | Conversar / Escolher resposta | Cima / Cima e Baixo | Analógico / D-pad |
 | Voltar ao checkpoint | R | Back |
+| Trocar valor nas configurações | Esquerda e Direita | Analógico / D-pad |
 | Pausa / Pular cutscene | Esc | — |
 
 Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -19,6 +22,34 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 ---
 
 ## Patch Notes
+
+### v0.14.0 — Pré-alpha: tela de título e configurações · 17/11/2026
+
+**Novidades**
+- **Tela de título nova:** a colina do prólogo, com o Jupiter criança e o avô no telescópio, passando devagar ao fundo; nuvens, vaga-lumes, estrelas piscando e estrelas cadentes de vez em quando. Logo novo em pixel art e a frase "uma história sobre não ter pressa".
+- **Menu de pré-alpha:** Continuar, Novo jogo, Configurações e Sair. Uma estrela acompanha a opção escolhida, o mouse também funciona e Esc volta (na página principal, só aponta para "Sair").
+- **Novo jogo pergunta antes** de apagar um progresso salvo.
+- **Configurações** no menu e na pausa:
+  - **Idioma:** português ou inglês. Muda na hora, inclusive no meio de uma fase.
+  - **Volume:** geral, música e efeitos, em 10 passos (zero emudece).
+  - **Texto automático:** as falas passam sozinhas depois de um tempo de leitura (cresce com o tamanho da fala). Apertar continua adiantando.
+  - **Tela cheia.**
+  - Tudo fica salvo, separado do progresso: um jogo novo não mexe nas configurações.
+- **Inglês completo:** todas as falas, legendas, escolhas, dicas, lembranças, falas e palavras da Sophie, o HUD e os menus (378 textos).
+- **Status no Discord:** com o Discord aberto no computador, o perfil mostra "Jogando Starlight", o capítulo atual (fase ou lembrança), há quanto tempo e uma imagem daquele capítulo, no idioma escolhido. Funciona em qualquer jeito de entrar numa fase (campanha, capítulos dev ou direto pelo editor). Usa o addon Discord Rich Presence (MIT), em `addons/discord_rich_presence/`.
+- **Tema do menu novo:** "A Promessa" em lo-fi, lenta, com piano elétrico, caixinha de música, bateria abafada e chiado de vinil.
+
+**Mudanças**
+- **O menu não toca mais música de terceiros.** A faixa local em `menu/music/` deixou de ser usada; o pré-alpha só leva música original.
+- Versão no canto: "pré-alpha".
+- **Capítulos só para desenvolvimento:** a lista de capítulos (com a sala de teste e os dois finais) saiu do menu. Ela aparece com o código cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A, e fica liberada até o jogo fechar.
+- **Nova ordem:** a fase "Fios" vem antes da chefe Sophie. Um save feito depois de "Ecos" pode continuar um passo deslocado.
+- **Fim do pré-alpha:** depois da memória da aranha, no lugar de "Capítulo 2: em breve", vêm os créditos: "Fim do pré-alpha", "Obrigado por jogar" e "Criado por Arthur Camponez", sobre o céu da colina.
+- A pausa usa o mesmo estilo de opções do menu.
+
+**Técnico**
+- 160 testes automáticos. Os novos cobrem as configurações (idioma, volume, salvar e carregar, texto automático), o catálogo de traduções (todo texto tem inglês, nenhum sobra), o inglês cabendo nas caixas (falas, lembranças, palavras da Sophie, todas as páginas do menu), o fluxo do menu e da pausa, o código secreto, a ordem da campanha e o status do Discord.
+- Um teste antigo que às vezes falhava por sorte (a piscada dos bustos) agora olha todo quadro.
 
 ### v0.13.0 — A Sophie de verdade · 17/11/2026
 

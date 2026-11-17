@@ -28,10 +28,12 @@ func test_level_steps_run_inside_the_game() -> void:
 		node.free()
 
 
-func test_campaign_opens_with_the_prologue_and_the_boss_comes_after_the_fall() -> void:
+func test_campaign_order_for_the_pre_alpha() -> void:
 	assert_eq(Story.steps[0].kind, StoryStep.Kind.CUTSCENE, "começa com o prólogo")
 	var titles := Story.steps.map(func(step: StoryStep) -> String: return step.title)
 	assert_lt(titles.find("A Queda"), titles.find("Chefe"))
+	assert_lt(titles.find("Fios"), titles.find("Chefe"), "todas as fases vêm antes da chefe")
+	assert_eq(titles.back(), "Créditos", "o pré-alpha termina nos créditos")
 
 
 func test_outside_the_campaign_has_no_index() -> void:

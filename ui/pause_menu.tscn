@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/pause_menu.gd" id="1_pause"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="2_move"]
+[ext_resource type="PackedScene" path="res://ui/settings_panel.tscn" id="3_settings"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -23,10 +24,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -70.0
-offset_top = -40.0
-offset_right = 70.0
-offset_bottom = 40.0
+offset_left = -60.0
+offset_top = -42.0
+offset_right = 60.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -41,17 +42,41 @@ horizontal_alignment = 1
 [node name="ContinueButton" type="Button" parent="Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"MenuItem"
 text = "Continuar"
 
 [node name="CheckpointButton" type="Button" parent="Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"MenuItem"
 text = "Voltar ao checkpoint"
+
+[node name="SettingsButton" type="Button" parent="Panel/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MenuItem"
+text = "Configurações"
 
 [node name="MenuButton" type="Button" parent="Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"MenuItem"
 text = "Menu principal"
+
+[node name="Settings" parent="Panel" instance=ExtResource("3_settings")]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = -40.0
+offset_right = 102.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MoveSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_move")

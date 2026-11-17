@@ -92,8 +92,7 @@ func _run() -> void:
 	await Transition.fade_out(2.5)
 	await show_caption("Ele conversou.", 2.5)
 	await show_caption("Ela chorou. Disse que a porta emperrou.", 3.0)
-	await show_caption("Ele acreditou.", 3.0)
-	await show_caption("Capítulo 2: em breve", 3.5)
+	await show_caption("Ele acreditou.", 3.5)
 
 
 ## A aranha desce pelo fio e a sombra dela cresce na parede.

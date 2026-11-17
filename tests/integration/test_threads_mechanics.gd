@@ -69,7 +69,7 @@ func test_boss_hand_slams_and_sends_shockwaves() -> void:
 	boss._set_hand_mode(SophieBoss.HandMode.DROPPING)
 	await wait_seconds(0.8)
 	assert_signal_emitted(boss, "shook")
-	var shockwaves := boss.words().filter(func(word: WordProjectile) -> bool: return word.text == SophieBoss.SHOCKWAVE_WORD)
+	var shockwaves := boss.words().filter(func(word: WordProjectile) -> bool: return word.text == SophieBoss.SHOCKWAVE_TEXT)
 	assert_eq(shockwaves.size(), 2, "uma onda de choque para cada lado")
 
 

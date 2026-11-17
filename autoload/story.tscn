@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://cutscenes/hospital/hospital.tscn" id="12_hospital"]
 [ext_resource type="PackedScene" path="res://levels/level_03.tscn" id="13_level_03"]
 [ext_resource type="PackedScene" path="res://cutscenes/spider_memory/spider_memory.tscn" id="11_spider_memory"]
+[ext_resource type="PackedScene" path="res://cutscenes/credits/credits.tscn" id="14_credits"]
 
 [sub_resource type="Resource" id="Resource_stargazing"]
 script = ExtResource("2_step")
@@ -80,6 +81,12 @@ title = "A aranha"
 kind = 0
 scene = ExtResource("11_spider_memory")
 
+[sub_resource type="Resource" id="Resource_credits"]
+script = ExtResource("2_step")
+title = "Créditos"
+kind = 0
+scene = ExtResource("14_credits")
+
 [node name="Story" type="Node"]
 script = ExtResource("1_story")
-steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_hospital"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory"), SubResource("Resource_level_03")])
+steps = Array[ExtResource("2_step")]([SubResource("Resource_stargazing"), SubResource("Resource_hospital"), SubResource("Resource_funeral"), SubResource("Resource_mountain"), SubResource("Resource_level_01"), SubResource("Resource_sophie_memory"), SubResource("Resource_level_02"), SubResource("Resource_level_03"), SubResource("Resource_boss_sophie"), SubResource("Resource_after_sophie"), SubResource("Resource_spider_memory"), SubResource("Resource_credits")])

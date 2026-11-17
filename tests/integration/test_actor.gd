@@ -39,9 +39,11 @@ func test_talking_alternates_the_mouth() -> void:
 
 
 func test_blinks_on_its_own() -> void:
+	# Olha todo quadro: a piscada é curta e uma amostra a cada 0,1 s podia perdê-la.
 	var frames := {}
-	for i in 60:
-		await wait_seconds(0.1)
+	var start := Time.get_ticks_msec()
+	while Time.get_ticks_msec() - start < 6000:
+		await wait_process_frames(1)
 		frames[_actor.frame % Actor.VARIANTS] = true
 	assert_true(frames.has(Actor.VARIANT_BLINK), "deveria piscar em 6 s")
 
