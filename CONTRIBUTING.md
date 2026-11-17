@@ -107,6 +107,14 @@ func _run() -> void:
 - **Dash:** `Player.dash_unlocked`. Uma fase com `starts_with_dash` desligado começa sem ele; o `DashUnlock` (o broche) ensina e a fase avisa com o sinal `skill_unlocked`.
 - **Enfeites** (`TerrainDecor`): não nascem nas células em volta dos filhos de `Entities`, `Hints` e `Platforms`.
 
+## A montanha (prólogo jogável)
+
+- A cena é `cutscenes/mountain/mountain.tscn`: terreno em `mountain_terrain.tscn`, objetos em `Props` (atrás do Jupiter) e `FrontProps` (na frente), arte em `cutscenes/mountain/art/`.
+- **Lembranças** (`MemorySpot`): filhos de `Memories`. Na primeira passagem do Jupiter, o `text` aparece em `Thoughts/Label`. Cada texto precisa caber em duas linhas (há um teste).
+- **Habilidades:** `Player.dash_unlocked` e `Player.wall_moves_unlocked` são desligados no `_ready` da cena.
+- **Objetos:** cada um fica com o pé inteiro em chão plano, sem encostar em outro. Atrás do Jupiter só entra o que faz sentido ele passar na frente (árvore, casa, poste, banco); na frente, só coisa baixa. Um teste falha se algum flutuar ou ficar enterrado.
+- **Camadas:** `Town`, `Ridge` e `Mist` são `Parallax2D`. Com `scroll_scale.y` menor que 1, a camada desce na tela conforme a câmera sobe.
+
 ## Conversas e escolhas
 
 - **Escolhas** (`ChoiceBox`, `dialogue/choice_box.tscn`): coloque na cutscene ao lado da `DialogueBox` (mesmo `at_top`). No roteiro: `var picked := await choose(["Sim.", "Não."])`. A última fala fica na tela enquanto o jogador decide.

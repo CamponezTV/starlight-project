@@ -1,6 +1,7 @@
 extends Cutscene
 ## Cut Scene 2 (jogável): logo após o enterro, Jupiter sobe a montanha onde olhava as
-## estrelas com o avô. No topo, a cena corta para os planos de cinema (SummitShot): ele
+## estrelas com o avô. É uma cena que se joga: ele só anda e pula (sem dash, sem parede),
+## e a trilha vai lembrando o avô (MemorySpot) enquanto a vila fica para baixo. No topo, a cena corta para os planos de cinema (SummitShot): ele
 ## fala com o céu, e a estrela que não pisca começa a andar. De volta ao jogo, ele a segue
 ## olhando para cima e cai num buraco. A estrela vai atrás. Não doeu, e devia.
 
@@ -10,8 +11,9 @@ const STAR_LEAD := Vector2(56, -44) ## Onde a estrela fica, em relação ao Jupi
 const STAR_SHARPNESS := 1.6
 const STAR_FIRST_MOVE := Vector2(32, 12)
 const CUT_TIME := 0.8 ## Fade de cada corte entre o jogo e os planos do topo.
+const THOUGHT_DURATION := 6.0
 
-@export var bounds := Rect2(0, 0, 880, 184) ## Limites da câmera.
+@export var bounds := Rect2(0, 0, 3024, 496) ## Limites da câmera.
 
 var _star_is_leading := false
 
@@ -31,11 +33,17 @@ var _star_is_leading := false
 @onready var _shot_jupiter: Actor = $SummitShot/Shots/Close/Jupiter
 @onready var _shot_star: Node2D = $SummitShot/Shots/Wide/Star
 @onready var _shot_star_end: Marker2D = $SummitShot/Shots/Wide/StarEnd
+@onready var _memories: Node2D = $Memories
+@onready var _thought: FadingLabel = $Thoughts/Label
 
 
 func _ready() -> void:
 	super()
 	_player.controllable = false
+	_player.dash_unlocked = false
+	_player.wall_moves_unlocked = false
+	for spot: MemorySpot in _memories.get_children():
+		spot.recalled.connect(_thought.show_text.bind(THOUGHT_DURATION))
 	_summit_shot.hide()
 	cast = {JUPITER: _shot_jupiter}
 	_camera.target = _player
@@ -53,8 +61,9 @@ func _physics_process(delta: float) -> void:
 
 func _run() -> void:
 	Transition.fade_out(0.0)
-	Transition.fade_in(2.0)
-	await wait(1.0)
+	await show_caption("Uma hora depois do enterro", 3.0)
+	Transition.fade_in(2.5)
+	await wait(1.5)
 	_player.controllable = true
 	await wait_for_player(_summit)
 	_player.controllable = false

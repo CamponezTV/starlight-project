@@ -67,6 +67,8 @@ var facing := 1
 var can_dash := true
 ## O dash é uma habilidade: fases do começo do jogo travam até o Jupiter achar o broche.
 var dash_unlocked := true
+## Deslizar e pular na parede. Desligado no prólogo, antes de o Jupiter aprender qualquer coisa.
+var wall_moves_unlocked := true
 ## Desligado em cutscenes: os controles são ignorados (a gravidade continua).
 var controllable := true
 ## Sem controle, o Jupiter anda sozinho nesta direção (-1, 0 ou 1).
@@ -297,7 +299,7 @@ func _max_fall_speed(input: Vector2i) -> float:
 
 ## -1 = parede à esquerda, 1 = à direita, 0 = nenhuma (ou no chão).
 func _touching_wall(on_floor: bool) -> int:
-	if on_floor:
+	if on_floor or not wall_moves_unlocked:
 		return 0
 	if test_move(global_transform, Vector2(wall_check_distance, 0)):
 		return 1

@@ -1,130 +1,733 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://cutscenes/mountain/mountain.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://music/summit.wav" id="2_music"]
-[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="3_sky"]
-[ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="4_far"]
-[ext_resource type="PackedScene" path="res://cutscenes/mountain/mountain_terrain.tscn" id="5_terrain"]
-[ext_resource type="Texture2D" path="res://companion/star.png" id="6_star"]
-[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="7_light"]
-[ext_resource type="PackedScene" path="res://player/player.tscn" id="8_player"]
-[ext_resource type="Script" path="res://camera/follow_camera.gd" id="9_camera"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="10_star_sound"]
-[ext_resource type="AudioStream" path="res://cutscenes/mountain/fall.wav" id="11_fall_sound"]
-[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="12_dialogue"]
-[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="13_caption"]
-[ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="14_hint"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/summit_wide.png" id="15_summit"]
-[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="16_jupiter"]
-[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="17_star"]
-[ext_resource type="Texture2D" path="res://cutscenes/art/summit_back.png" id="18_summit_back"]
-[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="19_frame"]
+[ext_resource type="Script" path="res://cutscenes/mountain/memory_spot.gd" id="r1"]
+[ext_resource type="Script" path="res://cutscenes/mountain/mountain.gd" id="r2"]
+[ext_resource type="AudioStream" path="res://music/summit.wav" id="r3"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="r4"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/mountain_far.png" id="r5"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/town.png" id="r6"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/ridge.png" id="r7"]
+[ext_resource type="PackedScene" path="res://cutscenes/mountain/mountain_terrain.tscn" id="r8"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/bridge_back.png" id="r9"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_tall_b.png" id="r10"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/house.png" id="r11"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/woodpile.png" id="r12"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/lamp.png" id="r13"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/fence.png" id="r14"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/gate.png" id="r15"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/sign.png" id="r16"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_tall.png" id="r17"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_b.png" id="r18"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/fern.png" id="r19"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_wide.png" id="r20"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/mushrooms.png" id="r21"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/stump.png" id="r22"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine.png" id="r23"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/log.png" id="r24"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/bush_berry.png" id="r25"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rock_c.png" id="r26"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rope_posts.png" id="r27"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/bench.png" id="r28"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/cairn.png" id="r29"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/sapling.png" id="r30"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_snow_b.png" id="r31"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rock_a.png" id="r32"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/cairn_b.png" id="r33"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rock_snow_a.png" id="r34"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/pine_snow.png" id="r35"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/flags.png" id="r36"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/carved_rock.png" id="r37"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/dead_tree.png" id="r38"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rock_b.png" id="r39"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/dead_tree_b.png" id="r40"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/rock_snow_b.png" id="r41"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/summit_tree.png" id="r42"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/stool.png" id="r43"]
+[ext_resource type="PackedScene" path="res://cutscenes/fireflies.tscn" id="r44"]
+[ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="r45"]
+[ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="r46"]
+[ext_resource type="Texture2D" path="res://companion/star.png" id="r47"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="r48"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/bridge_front.png" id="r49"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/flowers_a.png" id="r50"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/flowers_b.png" id="r51"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/snow_b.png" id="r52"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/snow.png" id="r53"]
+[ext_resource type="Texture2D" path="res://cutscenes/mountain/art/mist.png" id="r54"]
+[ext_resource type="Script" path="res://camera/follow_camera.gd" id="r55"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/star_moves.wav" id="r56"]
+[ext_resource type="AudioStream" path="res://cutscenes/mountain/fall.wav" id="r57"]
+[ext_resource type="PackedScene" path="res://cutscenes/frame.tscn" id="r58"]
+[ext_resource type="Script" path="res://ui/fading_label.gd" id="r59"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/summit_wide.png" id="r60"]
+[ext_resource type="PackedScene" path="res://cutscenes/star.tscn" id="r61"]
+[ext_resource type="Texture2D" path="res://cutscenes/art/summit_back.png" id="r62"]
+[ext_resource type="PackedScene" path="res://characters/busts/jupiter.tscn" id="r63"]
+[ext_resource type="PackedScene" path="res://dialogue/dialogue_box.tscn" id="r64"]
+[ext_resource type="PackedScene" path="res://ui/caption.tscn" id="r65"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_summit"]
-size = Vector2(16, 184)
+[sub_resource type="RectangleShape2D" id="shape_summit"]
+size = Vector2(16, 240)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
-size = Vector2(8, 184)
+[sub_resource type="RectangleShape2D" id="shape_edge"]
+size = Vector2(8, 240)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hole"]
+[sub_resource type="RectangleShape2D" id="shape_hole"]
 size = Vector2(24, 24)
 
+[sub_resource type="RectangleShape2D" id="shape_memory"]
+size = Vector2(16, 200)
+
+[sub_resource type="RectangleShape2D" id="shape_bridge"]
+size = Vector2(64, 8)
+
+[sub_resource type="Gradient" id="gradient_wind"]
+offsets = PackedFloat32Array(0, 0.3, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.8, 0.84, 1, 0.5, 1, 1, 1, 0)
+
 [node name="Mountain" type="Node2D"]
-script = ExtResource("1_script")
-music = ExtResource("2_music")
+script = ExtResource("r2")
+music = ExtResource("r3")
 
 [node name="Sky" type="Parallax2D" parent="."]
-scroll_scale = Vector2(0.05, 0.05)
+scroll_scale = Vector2(0.05, 0)
 repeat_size = Vector2(320, 0)
 
 [node name="Sprite" type="Sprite2D" parent="Sky"]
-texture = ExtResource("3_sky")
+position = Vector2(0, 0)
+texture = ExtResource("r4")
 centered = false
 
 [node name="FarMountains" type="Parallax2D" parent="."]
-scroll_scale = Vector2(0.2, 0.2)
+scroll_scale = Vector2(0.2, 0.08)
 repeat_size = Vector2(320, 0)
 
 [node name="Sprite" type="Sprite2D" parent="FarMountains"]
-position = Vector2(0, 46)
-texture = ExtResource("4_far")
+position = Vector2(0, 72)
+texture = ExtResource("r5")
 centered = false
 
-[node name="Terrain" parent="." instance=ExtResource("5_terrain")]
+[node name="Town" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.3, 0.15)
+repeat_size = Vector2(480, 0)
+
+[node name="Sprite" type="Sprite2D" parent="Town"]
+position = Vector2(0, 100)
+texture = ExtResource("r6")
+centered = false
+
+[node name="Ridge" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.5, 0.3)
+repeat_size = Vector2(480, 0)
+
+[node name="Sprite" type="Sprite2D" parent="Ridge"]
+position = Vector2(0, 114)
+texture = ExtResource("r7")
+centered = false
+
+[node name="Terrain" parent="." instance=ExtResource("r8")]
+
+[node name="Bridge" type="StaticBody2D" parent="."]
+position = Vector2(1320, 304)
+
+[node name="Collision" type="CollisionShape2D" parent="Bridge"]
+position = Vector2(0, 4)
+shape = SubResource("shape_bridge")
+
+[node name="Back" type="Sprite2D" parent="Bridge"]
+position = Vector2(-36, -18)
+texture = ExtResource("r9")
+centered = false
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="PineTallB1" type="Sprite2D" parent="Props"]
+position = Vector2(12, 424)
+modulate = Color(0.5, 0.5, 0.78, 1)
+texture = ExtResource("r10")
+centered = false
+offset = Vector2(-20, -100)
+
+[node name="House1" type="Sprite2D" parent="Props"]
+position = Vector2(60, 424)
+texture = ExtResource("r11")
+centered = false
+offset = Vector2(-36, -60)
+
+[node name="Woodpile1" type="Sprite2D" parent="Props"]
+position = Vector2(108, 424)
+texture = ExtResource("r12")
+centered = false
+offset = Vector2(-11, -12)
+
+[node name="Lamp1" type="Sprite2D" parent="Props"]
+position = Vector2(140, 424)
+texture = ExtResource("r13")
+centered = false
+offset = Vector2(-28, -60)
+
+[node name="Fence1" type="Sprite2D" parent="Props"]
+position = Vector2(188, 424)
+texture = ExtResource("r14")
+centered = false
+offset = Vector2(-24, -14)
+
+[node name="Gate1" type="Sprite2D" parent="Props"]
+position = Vector2(244, 424)
+texture = ExtResource("r15")
+centered = false
+offset = Vector2(-26, -50)
+
+[node name="Sign1" type="Sprite2D" parent="Props"]
+position = Vector2(292, 416)
+texture = ExtResource("r16")
+centered = false
+offset = Vector2(-13, -26)
+
+[node name="PineTall1" type="Sprite2D" parent="Props"]
+position = Vector2(356, 400)
+texture = ExtResource("r17")
+centered = false
+offset = Vector2(-24, -92)
+
+[node name="PineB1" type="Sprite2D" parent="Props"]
+position = Vector2(380, 400)
+modulate = Color(0.5, 0.5, 0.78, 1)
+texture = ExtResource("r18")
+centered = false
+offset = Vector2(-15, -50)
+
+[node name="Fern1" type="Sprite2D" parent="Props"]
+position = Vector2(404, 400)
+texture = ExtResource("r19")
+centered = false
+offset = Vector2(-7, -8)
+
+[node name="PineWide1" type="Sprite2D" parent="Props"]
+position = Vector2(436, 400)
+texture = ExtResource("r20")
+centered = false
+offset = Vector2(-28, -74)
+
+[node name="Mushrooms1" type="Sprite2D" parent="Props"]
+position = Vector2(468, 400)
+texture = ExtResource("r21")
+centered = false
+offset = Vector2(-5, -6)
+
+[node name="Stump1" type="Sprite2D" parent="Props"]
+position = Vector2(532, 392)
+texture = ExtResource("r22")
+centered = false
+offset = Vector2(-6.5, -8)
+
+[node name="PineTallB2" type="Sprite2D" parent="Props"]
+position = Vector2(588, 376)
+texture = ExtResource("r10")
+centered = false
+offset = Vector2(-20, -100)
+
+[node name="Pine1" type="Sprite2D" parent="Props"]
+position = Vector2(644, 368)
+modulate = Color(0.5, 0.5, 0.78, 1)
+texture = ExtResource("r23")
+centered = false
+offset = Vector2(-17, -62)
+
+[node name="Log1" type="Sprite2D" parent="Props"]
+position = Vector2(700, 368)
+texture = ExtResource("r24")
+centered = false
+offset = Vector2(-14, -8)
+
+[node name="BushBerry1" type="Sprite2D" parent="Props"]
+position = Vector2(748, 368)
+texture = ExtResource("r25")
+centered = false
+offset = Vector2(-9, -11)
+
+[node name="PineWide2" type="Sprite2D" parent="Props"]
+position = Vector2(804, 368)
+texture = ExtResource("r20")
+centered = false
+offset = Vector2(-28, -74)
+flip_h = true
+
+[node name="RockC1" type="Sprite2D" parent="Props"]
+position = Vector2(860, 352)
+texture = ExtResource("r26")
+centered = false
+offset = Vector2(-9, -8)
+
+[node name="PineB2" type="Sprite2D" parent="Props"]
+position = Vector2(916, 344)
+modulate = Color(0.5, 0.5, 0.78, 1)
+texture = ExtResource("r18")
+centered = false
+offset = Vector2(-15, -50)
+
+[node name="RopePosts1" type="Sprite2D" parent="Props"]
+position = Vector2(956, 344)
+texture = ExtResource("r27")
+centered = false
+offset = Vector2(-23, -12)
+
+[node name="Bench1" type="Sprite2D" parent="Props"]
+position = Vector2(1004, 344)
+texture = ExtResource("r28")
+centered = false
+offset = Vector2(-17, -18)
+
+[node name="Lamp2" type="Sprite2D" parent="Props"]
+position = Vector2(1036, 344)
+texture = ExtResource("r13")
+centered = false
+offset = Vector2(-28, -60)
+
+[node name="Cairn1" type="Sprite2D" parent="Props"]
+position = Vector2(1116, 328)
+texture = ExtResource("r29")
+centered = false
+offset = Vector2(-8, -20)
+
+[node name="Sapling1" type="Sprite2D" parent="Props"]
+position = Vector2(1172, 312)
+texture = ExtResource("r30")
+centered = false
+offset = Vector2(-5, -16)
+
+[node name="PineSnowB1" type="Sprite2D" parent="Props"]
+position = Vector2(1228, 304)
+modulate = Color(0.5, 0.5, 0.78, 1)
+texture = ExtResource("r31")
+centered = false
+offset = Vector2(-13, -44)
+
+[node name="RockA1" type="Sprite2D" parent="Props"]
+position = Vector2(1252, 304)
+texture = ExtResource("r32")
+centered = false
+offset = Vector2(-6.5, -7)
+
+[node name="CairnB1" type="Sprite2D" parent="Props"]
+position = Vector2(1388, 304)
+texture = ExtResource("r33")
+centered = false
+offset = Vector2(-6, -11)
+
+[node name="RockSnowA1" type="Sprite2D" parent="Props"]
+position = Vector2(1508, 272)
+texture = ExtResource("r34")
+centered = false
+offset = Vector2(-6.5, -7)
+
+[node name="PineSnow1" type="Sprite2D" parent="Props"]
+position = Vector2(1556, 264)
+texture = ExtResource("r35")
+centered = false
+offset = Vector2(-17, -62)
+
+[node name="Flags1" type="Sprite2D" parent="Props"]
+position = Vector2(1620, 264)
+texture = ExtResource("r36")
+centered = false
+offset = Vector2(-48, -34)
+
+[node name="CarvedRock1" type="Sprite2D" parent="Props"]
+position = Vector2(1604, 264)
+texture = ExtResource("r37")
+centered = false
+offset = Vector2(-13.5, -16)
+
+[node name="Sign2" type="Sprite2D" parent="Props"]
+position = Vector2(1692, 264)
+texture = ExtResource("r16")
+centered = false
+offset = Vector2(-13, -26)
+
+[node name="CairnB2" type="Sprite2D" parent="Props"]
+position = Vector2(1748, 248)
+texture = ExtResource("r33")
+centered = false
+offset = Vector2(-6, -11)
+
+[node name="DeadTree1" type="Sprite2D" parent="Props"]
+position = Vector2(1812, 232)
+texture = ExtResource("r38")
+centered = false
+offset = Vector2(-22, -58)
+
+[node name="RockB1" type="Sprite2D" parent="Props"]
+position = Vector2(1892, 216)
+texture = ExtResource("r39")
+centered = false
+offset = Vector2(-4.5, -5)
+
+[node name="DeadTreeB1" type="Sprite2D" parent="Props"]
+position = Vector2(1996, 192)
+texture = ExtResource("r40")
+centered = false
+offset = Vector2(-15, -40)
+
+[node name="RockSnowB1" type="Sprite2D" parent="Props"]
+position = Vector2(2036, 192)
+texture = ExtResource("r41")
+centered = false
+offset = Vector2(-9, -8)
+
+[node name="DeadTree2" type="Sprite2D" parent="Props"]
+position = Vector2(2076, 192)
+texture = ExtResource("r38")
+centered = false
+offset = Vector2(-22, -58)
+flip_h = true
+
+[node name="Cairn2" type="Sprite2D" parent="Props"]
+position = Vector2(2164, 160)
+texture = ExtResource("r29")
+centered = false
+offset = Vector2(-8, -20)
+
+[node name="RockSnowA2" type="Sprite2D" parent="Props"]
+position = Vector2(2260, 128)
+texture = ExtResource("r34")
+centered = false
+offset = Vector2(-6.5, -7)
+
+[node name="SummitTree1" type="Sprite2D" parent="Props"]
+position = Vector2(2332, 120)
+texture = ExtResource("r42")
+centered = false
+offset = Vector2(-27, -80)
+
+[node name="Stool1" type="Sprite2D" parent="Props"]
+position = Vector2(2372, 120)
+texture = ExtResource("r43")
+centered = false
+offset = Vector2(-6.5, -10)
+
+[node name="RopePosts2" type="Sprite2D" parent="Props"]
+position = Vector2(2516, 120)
+texture = ExtResource("r27")
+centered = false
+offset = Vector2(-23, -12)
+
+[node name="RockSnowB2" type="Sprite2D" parent="Props"]
+position = Vector2(2668, 128)
+texture = ExtResource("r41")
+centered = false
+offset = Vector2(-9, -8)
+
+[node name="DeadTree3" type="Sprite2D" parent="Props"]
+position = Vector2(2740, 128)
+texture = ExtResource("r38")
+centered = false
+offset = Vector2(-22, -58)
+
+[node name="RockB2" type="Sprite2D" parent="Props"]
+position = Vector2(2804, 128)
+texture = ExtResource("r39")
+centered = false
+offset = Vector2(-4.5, -5)
+
+[node name="Fireflies" parent="." instance=ExtResource("r44")]
+position = Vector2(384, 360)
 
 [node name="Hints" type="Node2D" parent="."]
 
-[node name="Controls" parent="Hints" instance=ExtResource("14_hint")]
-position = Vector2(100, 152)
+[node name="Controls" parent="Hints" instance=ExtResource("r45")]
+position = Vector2(184, 424)
 text = "Setas: andar
 Espaço: pular"
 
 [node name="SkyStar" type="Node2D" parent="."]
-position = Vector2(470, 28)
+position = Vector2(2468, 54)
 
 [node name="Light" type="PointLight2D" parent="SkyStar"]
 color = Color(1, 0.9, 0.5, 1)
 energy = 0.9
-texture = ExtResource("7_light")
+texture = ExtResource("r46")
 texture_scale = 1.4
 
 [node name="Sprite" type="Sprite2D" parent="SkyStar"]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_star")
+texture = ExtResource("r47")
 hframes = 4
 
-[node name="Player" parent="." instance=ExtResource("8_player")]
-position = Vector2(52, 152)
+[node name="Player" parent="." instance=ExtResource("r48")]
+position = Vector2(72, 424)
+
+[node name="BridgeFront" type="Sprite2D" parent="."]
+position = Vector2(1284, 286)
+texture = ExtResource("r49")
+centered = false
+
+[node name="FrontProps" type="Node2D" parent="."]
+
+[node name="FlowersA1" type="Sprite2D" parent="FrontProps"]
+position = Vector2(20, 424)
+texture = ExtResource("r50")
+centered = false
+offset = Vector2(-6, -6)
+
+[node name="FlowersB1" type="Sprite2D" parent="FrontProps"]
+position = Vector2(420, 400)
+texture = ExtResource("r51")
+centered = false
+offset = Vector2(-4.5, -5)
+
+[node name="FlowersA2" type="Sprite2D" parent="FrontProps"]
+position = Vector2(724, 368)
+texture = ExtResource("r50")
+centered = false
+offset = Vector2(-6, -6)
+
+[node name="SnowB1" type="Sprite2D" parent="FrontProps"]
+position = Vector2(1580, 264)
+texture = ExtResource("r52")
+centered = false
+offset = Vector2(-6, -3)
+
+[node name="Snow1" type="Sprite2D" parent="FrontProps"]
+position = Vector2(1660, 264)
+texture = ExtResource("r53")
+centered = false
+offset = Vector2(-10, -4)
+
+[node name="SnowB2" type="Sprite2D" parent="FrontProps"]
+position = Vector2(1836, 232)
+texture = ExtResource("r52")
+centered = false
+offset = Vector2(-6, -3)
+
+[node name="Snow2" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2012, 192)
+texture = ExtResource("r53")
+centered = false
+offset = Vector2(-10, -4)
+
+[node name="SnowB3" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2212, 144)
+texture = ExtResource("r52")
+centered = false
+offset = Vector2(-6, -3)
+
+[node name="Snow3" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2316, 120)
+texture = ExtResource("r53")
+centered = false
+offset = Vector2(-10, -4)
+
+[node name="Snow4" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2452, 120)
+texture = ExtResource("r53")
+centered = false
+offset = Vector2(-10, -4)
+
+[node name="SnowB4" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2564, 120)
+texture = ExtResource("r52")
+centered = false
+offset = Vector2(-6, -3)
+
+[node name="Snow5" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2708, 128)
+texture = ExtResource("r53")
+centered = false
+offset = Vector2(-10, -4)
+
+[node name="SnowB5" type="Sprite2D" parent="FrontProps"]
+position = Vector2(2828, 128)
+texture = ExtResource("r52")
+centered = false
+offset = Vector2(-6, -3)
+
+[node name="Mist" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.8, 1)
+repeat_size = Vector2(320, 0)
+autoscroll = Vector2(-7, 0)
+
+[node name="Low" type="Sprite2D" parent="Mist"]
+position = Vector2(0, 278)
+texture = ExtResource("r54")
+centered = false
+
+[node name="High" type="Sprite2D" parent="Mist"]
+position = Vector2(0, 162)
+texture = ExtResource("r54")
+centered = false
+flip_h = true
 
 [node name="Camera" type="Camera2D" parent="."]
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 limit_smoothed = true
-script = ExtResource("9_camera")
+script = ExtResource("r55")
+
+[node name="Wind" type="CPUParticles2D" parent="Camera"]
+position = Vector2(180, -10)
+amount = 14
+lifetime = 4.0
+preprocess = 4.0
+emission_shape = 3
+emission_rect_extents = Vector2(20, 110)
+direction = Vector2(-1, 0.12)
+spread = 6.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 70.0
+initial_velocity_max = 130.0
+color_ramp = SubResource("gradient_wind")
+
+[node name="Memories" type="Node2D" parent="."]
+
+[node name="Memory1" type="Area2D" parent="Memories"]
+position = Vector2(96, 364)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(Ninguém viu você sair. Ainda tinha gente comendo na sala.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory1"]
+shape = SubResource("shape_memory")
+
+[node name="Memory2" type="Area2D" parent="Memories"]
+position = Vector2(368, 340)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(Ele subia esse trecho devagar e dizia que era o joelho. Era pra você conseguir acompanhar.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory2"]
+shape = SubResource("shape_memory")
+
+[node name="Memory3" type="Area2D" parent="Memories"]
+position = Vector2(976, 284)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(O banco. Ele parava aqui pra \"ver a vista\". Era pra respirar.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory3"]
+shape = SubResource("shape_memory")
+
+[node name="Memory4" type="Area2D" parent="Memories"]
+position = Vector2(1264, 244)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(Você tinha medo da ponte. Ele atravessava primeiro e voltava pra te buscar.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory4"]
+shape = SubResource("shape_memory")
+
+[node name="Memory5" type="Area2D" parent="Memories"]
+position = Vector2(1584, 204)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(J + V. Você riscou com a chave de casa. Ele fingiu que ficou bravo.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory5"]
+shape = SubResource("shape_memory")
+
+[node name="Memory6" type="Area2D" parent="Memories"]
+position = Vector2(1920, 140)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(Daqui pra cima ele já não vinha. Fazia dois anos. Você nunca subiu sozinho.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory6"]
+shape = SubResource("shape_memory")
+
+[node name="Memory7" type="Area2D" parent="Memories"]
+position = Vector2(2344, 60)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("r1")
+text = "(O banquinho dele ainda está aqui. Ninguém teve coragem de vir buscar.)"
+
+[node name="Collision" type="CollisionShape2D" parent="Memories/Memory7"]
+shape = SubResource("shape_memory")
 
 [node name="Summit" type="Area2D" parent="."]
-position = Vector2(404, 92)
+position = Vector2(2400, 60)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="Collision" type="CollisionShape2D" parent="Summit"]
-shape = SubResource("RectangleShape2D_summit")
+shape = SubResource("shape_summit")
 
 [node name="HoleEdge" type="Area2D" parent="."]
-position = Vector2(700, 92)
+position = Vector2(2828, 68)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="Collision" type="CollisionShape2D" parent="HoleEdge"]
-shape = SubResource("RectangleShape2D_edge")
+shape = SubResource("shape_edge")
 
 [node name="Hole" type="Area2D" parent="."]
-position = Vector2(748, 168)
+position = Vector2(2876, 200)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="Collision" type="CollisionShape2D" parent="Hole"]
-shape = SubResource("RectangleShape2D_hole")
+shape = SubResource("shape_hole")
 
 [node name="StarStop" type="Marker2D" parent="."]
-position = Vector2(784, 56)
+position = Vector2(2912, 88)
 
 [node name="HoleBottom" type="Marker2D" parent="."]
-position = Vector2(748, 210)
+position = Vector2(2876, 242)
 
 [node name="StarSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_star_sound")
+stream = ExtResource("r56")
 volume_db = -8.0
 bus = &"SFX"
 
 [node name="FallSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_fall_sound")
+stream = ExtResource("r57")
 volume_db = -6.0
 bus = &"SFX"
+
+[node name="Letterbox" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Frame" parent="Letterbox" instance=ExtResource("r58")]
+
+[node name="Thoughts" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="Label" type="Label" parent="Thoughts"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -36.0
+offset_right = -24.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.82, 0.8, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.01, 0.06, 1)
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+script = ExtResource("r59")
+fade_in_time = 0.8
 
 [node name="SummitShot" type="CanvasLayer" parent="."]
 layer = 5
@@ -134,10 +737,10 @@ layer = 5
 [node name="Wide" type="Node2D" parent="SummitShot/Shots"]
 
 [node name="Art" type="Sprite2D" parent="SummitShot/Shots/Wide"]
-texture = ExtResource("15_summit")
+texture = ExtResource("r60")
 centered = false
 
-[node name="Star" parent="SummitShot/Shots/Wide" instance=ExtResource("17_star")]
+[node name="Star" parent="SummitShot/Shots/Wide" instance=ExtResource("r61")]
 position = Vector2(150, 52)
 
 [node name="StarEnd" type="Marker2D" parent="SummitShot/Shots/Wide"]
@@ -147,18 +750,18 @@ position = Vector2(318, 88)
 visible = false
 
 [node name="Art" type="Sprite2D" parent="SummitShot/Shots/Close"]
-texture = ExtResource("18_summit_back")
+texture = ExtResource("r62")
 centered = false
 
-[node name="Jupiter" parent="SummitShot/Shots/Close" instance=ExtResource("16_jupiter")]
+[node name="Jupiter" parent="SummitShot/Shots/Close" instance=ExtResource("r63")]
 position = Vector2(160, 180)
 pose = "look_up"
 tint = Color(0.82, 0.8, 1, 1)
 rim = Color(0.72, 0.8, 1, 0.9)
 
-[node name="Frame" parent="SummitShot" instance=ExtResource("19_frame")]
+[node name="Frame" parent="SummitShot" instance=ExtResource("r58")]
 
-[node name="DialogueBox" parent="." instance=ExtResource("12_dialogue")]
+[node name="DialogueBox" parent="." instance=ExtResource("r64")]
 at_top = true
 
-[node name="Caption" parent="." instance=ExtResource("13_caption")]
+[node name="Caption" parent="." instance=ExtResource("r65")]

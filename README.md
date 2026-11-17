@@ -20,6 +20,22 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.11.0 — A subida da montanha · 16/11/2026
+
+**Novidades**
+- **A montanha ficou mais de três vezes maior e sobe de verdade.** A trilha tem 378 blocos de comprimento (antes 110) e 38 de subida (antes 8).
+- **Patamares largos, degraus variados:** cada trecho tem um assunto (o quintal da casa, o bosque, a clareira do tronco caído, o mirante do banco, a ponte sobre a fenda, a pedra riscada, as árvores secas, o topo), com degraus de 1 ou 2 blocos entre eles. São 23 degraus na subida inteira.
+- **Lembranças na trilha:** em sete pontos, um pensamento sobre o avô aparece na tela enquanto o Jupiter anda (o banco, a ponte, o "J + V" riscado na pedra, o banquinho dele esquecido no topo).
+- **Cenário:** 60 objetos de 38 tipos, em grupos com espaço vazio entre eles: casa com a janela acesa, lenha, lampiões, portal, pinheiros de cinco formatos, arbustos, samambaia, cogumelos, toco, tronco caído, banco, bandeirinhas, árvores secas, totens, pedras com neve e a árvore torta do topo. O Jupiter passa entre os dois corrimãos da ponte de corda.
+- **Profundidade:** a vila acesa fica cada vez mais para baixo, uma serra de mata passa ao fundo, névoa corre nas pedras e vento cruza a tela.
+- **Clima de cena:** abre com "Uma hora depois do enterro" e mantém a moldura das cutscenes durante a subida.
+
+**Mudanças**
+- **Jupiter sem habilidades na montanha:** só anda e pula. O dash e o pulo na parede ficam travados ali.
+
+**Técnico**
+- 111 testes automáticos. Os novos cobrem as habilidades travadas, as lembranças, a altura da subida, a ponte nivelada com as margens e todos os objetos da trilha apoiados no chão.
+
 ### v0.10.1 — Planos abertos redesenhados · 15/11/2026
 
 **Mudanças**
