@@ -1,12 +1,16 @@
 extends PlaythroughTest
-## Chefe 1 (Sophie): palavras são perigosas, encostar nela sem voz mata, um dash com voz
-## tira vida e três acertos terminam a fase.
+## Chefe 1 (Sophie): palavras são perigosas, encostar nela sem voz mata (e a luta recomeça),
+## um dash com voz tira vida e três acertos terminam a fase.
 
 const BOSS_LEVEL := preload("res://levels/boss_sophie.tscn")
 const START_CELL := Vector2i(4, 19)
 const SIDE_OFFSET := Vector2(-26, -32) ## Do pé da Sophie até onde o Jupiter se posiciona para o dash.
 const FIGHT_SPEED := 4.0
 const DASH_ATTEMPTS := 4
+## Palavras mais compridas que estas deixariam a chuva sem brecha e a frase rasteira
+## impossível de pular.
+const MAX_RAIN_LETTERS := 5
+const MAX_SWEEP_LETTERS := 27
 
 var _boss: SophieBoss
 
@@ -26,7 +30,7 @@ func test_throws_words_on_the_hazard_layer_after_the_intro() -> void:
 		assert_eq(word.collision_layer, 4, "palavras ficam na camada de perigos")
 
 
-func test_touching_her_without_voice_costs_a_star() -> void:
+func test_touching_her_without_voice_kills_without_hurting_her() -> void:
 	await _start()
 	player.respawn(_boss.global_position + Vector2(0, -30))
 	await wait_physics_frames(3)
@@ -100,3 +104,40 @@ func _dash_into_boss() -> bool:
 			return true
 		await wait_physics_frames(2)
 	return false
+
+
+# --- O peso da luta ---------------------------------------------------------------------------
+
+
+func test_she_enters_through_her_eyes_before_the_body_shows() -> void:
+	await _start()
+	var body := _boss.get_node("Sprite") as Sprite2D
+	var eyes := _boss.get_node("Sprite/Eyes") as Sprite2D
+	assert_eq(body.self_modulate.a, 0.0, "no começo o corpo ainda está no escuro")
+	assert_true(eyes.is_visible_in_tree(), "só os olhos e o sorriso aparecem")
+	Engine.time_scale = FIGHT_SPEED
+	await wait_seconds(SophieBoss.INTRO_TIME)
+	assert_eq(body.self_modulate.a, 1.0, "quando a luta começa ela já saiu da sombra")
+	assert_eq(eyes.frame, body.frame, "os olhos acompanham o corpo")
+
+
+func test_a_fallen_jupiter_gets_a_red_flash_and_a_line_from_her() -> void:
+	await _start()
+	var blow := _boss.get_node("Dread/Blow") as ColorRect
+	var taunt := _boss.get_node("%Taunt") as Label
+	assert_eq(blow.color.a, 0.0)
+	player.die()
+	await wait_physics_frames(2)
+	assert_gt(blow.color.a, 0.0, "o golpe dá um clarão vermelho")
+	assert_true(SophieBoss.KILL_LINES.has(taunt.text), "ela fala por cima de quem caiu")
+
+
+func test_her_words_stay_short_enough_to_dodge() -> void:
+	for word: String in SophieBoss.RAIN_WORDS + [SophieBoss.RING_WORD, SophieBoss.SHOCKWAVE_WORD]:
+		assert_lte(word.length(), MAX_RAIN_LETTERS, "\"%s\" é larga demais para a chuva e o anel" % word)
+	for phrase: String in SophieBoss.SWEEP_WORDS:
+		assert_lte(phrase.length(), MAX_SWEEP_LETTERS, "\"%s\" é comprida demais para pular" % phrase)
+
+
+func test_every_hit_has_something_jupiter_never_said() -> void:
+	assert_eq(SophieBoss.RETORTS.size(), SophieBoss.MAX_HEALTH)

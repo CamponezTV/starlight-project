@@ -28,6 +28,10 @@ func _ready() -> void:
 	_apply_outcome()
 
 
+func offers_star() -> bool:
+	return true
+
+
 func is_available() -> bool:
 	return _outcome.is_empty()
 

@@ -20,6 +20,58 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.13.0 — A Sophie de verdade · 17/11/2026
+
+> Esta versão trata de violência contra criança. Nada é mostrado: a tela escurece e só se ouve.
+
+**História**
+- **A Sophie mudou.** Ela deixou de ser a madrasta cansada: é narcisista, vive do dinheiro que o pai do Jupiter manda de longe, bate nele ("vou ter que te corrigir") e o proíbe de contar ("não conta isso pro seu pai, senão vai ver").
+- **Memória "Sophie" reescrita:** ela entra sorrindo, humilha (bastardo, "você nem era pra ter nascido") e a agressão acontece com a tela preta. Na noite seguinte o avô vê a marca, o Jupiter conta uma única vez, e o avô, que acha todo mundo bom, diz que ele deve estar confuso. Ele nunca mais tenta.
+- **"A voz" (depois da chefe) reescrita** em volta do arrependimento: ele só teve coragem de falar ali embaixo, para uma sombra, e nunca pediu ajuda a ninguém.
+- **Enterro, galpão e o final da manhã** acompanham: no enterro ela faz o papel da madrasta dedicada e avisa que ele não tem mais a quem recorrer; no galpão, tranca para "corrigir" e depois diz ao avô que a porta emperrou; no final, chora para os vizinhos.
+
+**Chefe**
+- **Sophie redesenhada para dar medo:** uma sombra alta e curvada, de cabelo solto, braços compridos demais, um cinto na mão e um sorriso largo de dentes. Gritando, a mandíbula despenca.
+- **Entrada:** primeiro só os olhos e o sorriso no escuro; depois o corpo sai da sombra.
+- **O que ela arremessa é o que ela dizia:** LIXO, BASTARDO, CALA A BOCA, "NÃO CONTA PRO SEU PAI", "VOU TER QUE TE CORRIGIR". Quando o Jupiter cai, ela fala por cima ("Engole o choro.", "Levanta.").
+- **As respostas do Jupiter** a cada golpe acertado viraram o enfrentamento: "Eu não sou lixo!", "Você me batia!", "Eu devia ter contado pra alguém!", "Eu não tenho mais medo de você!".
+- **Clima:** arena bem mais escura, o escuro fechando em volta da tela no ritmo de um coração (mais rápido a cada fase) e um clarão vermelho a cada golpe, da mão dela no chão ou do Jupiter caindo.
+- **Trilha nova:** lenta e pesada, com pancadas secas fora do tempo, um coração por baixo e uma caixinha de música quebrada. A mão ganhou um som de pancada próprio.
+
+**Mudanças**
+- Duas expressões novas da Sophie nas cutscenes: o sorriso de olhos mortos e a fúria.
+- As falas da chefe ficam legíveis no escuro (camada própria, fora da escuridão da fase).
+
+**Técnico**
+- 129 testes automáticos. Os novos cobrem a entrada pelos olhos, o clarão e a fala quando o Jupiter cai, o tamanho das palavras arremessadas (para os ataques continuarem desviáveis) e uma resposta para cada golpe.
+
+### v0.12.0 — Estrelas perdidas, o broche e o portal · 17/11/2026
+
+**Novidades**
+- **Estrelas perdidas:** as estrelas deixaram de ser vida e viraram o desafio opcional de cada sala. Tocada, a estrela segue o Jupiter, mas só fica guardada quando ele pisa em chão firme. Se ele morrer antes, ela volta para o lugar.
+- **Contador de estrelas** no canto da tela ("2/6"). As guardadas ficam salvas com o progresso, aparecem apagadas na visita seguinte e deixam a luz da estrela-guia mais forte.
+- **Holofote de habilidade:** ao pegar o broche, o jogo para, a tela escurece em volta do Jupiter, raios de luz giram e o nome da habilidade aparece com a explicação e o botão.
+- **Santuário do broche:** sala nova na Fase 1. O broche fica num altar e a saída é uma borda alta que só o dash para cima alcança.
+- **Portal de fim de fase:** um arco de pedra com um véu de luz no lugar do feixe. Ele puxa o Jupiter para dentro, a luz toma a tela, vira céu estrelado e mostra o resumo: estrelas guardadas, quedas e tempo.
+- **Fase 1 maior:** 12 salas (eram 9). Além do Santuário, entram "O Salto" (três cristais sobre um mar de espinhos e um broto até a porta) e o salão do portal. São 6 estrelas perdidas na fase.
+
+**Mudanças**
+- **Sem vidas.** Morrer só leva de volta ao último ponto, quantas vezes for preciso, e a sala recomeça (rochas, orbes, barreiras e o chefe voltam ao início). Antes, três mortes reiniciavam a fase inteira.
+- **Estrela redesenhada:** agora tem cinco pontas, diferente da estrela-guia.
+- **Broche redesenhado:** uma estrela de quatro pontas com alfinete, no lugar da estrela azul.
+- **Dicas da Fase 1** reescritas e afastadas: só uma aparece por vez, acima da cabeça do Jupiter.
+- **A dica de controles** só mostra o dash depois que ele é aprendido.
+- **Fundo da caverna** sem bordas verde-água: essa cor ficou só para o chão em que se pisa.
+
+**Correções**
+- Enfeites espelhados (tufos, cogumelos, cristais) eram desenhados um bloco para o lado: apareciam flutuando fora das bordas ou dentro das paredes.
+- Brotos de parede nasciam na quina das bordas e pareciam grama flutuando.
+- Dicas vizinhas apareciam ao mesmo tempo, uma por cima da outra.
+- Enfeites do chão nasciam embaixo de objetos largos (altar, portal, cabana da Diana).
+
+**Técnico**
+- 125 testes automáticos. Os novos cobrem as estrelas perdidas, a morte sem vidas, o holofote, o portal e o resumo, e robôs jogam as salas novas e pegam duas das estrelas.
+
 ### v0.11.0 — A subida da montanha · 16/11/2026
 
 **Novidades**

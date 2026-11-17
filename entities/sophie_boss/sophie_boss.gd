@@ -1,11 +1,13 @@
 class_name SophieBoss
 extends RoomEntity
-## Chefe 1: a sombra da Sophie, o medo das discussões.
-## Flutua no alto da arena, arremessa palavras e esmaga com a mão. A arma do Jupiter é a
-## voz: com um orbe de voz, um dash nela atordoa e tira um ponto de vida. Encostar nela
-## sem a voz apaga uma estrela. São quatro pontos de vida; a cada um perdido ela fica mais
-## rápida e ganha ataques. A arena é a sala (RoomZone) em `arena`; os orbes aparecem nos
-## Marker2D de OrbSpots.
+## Chefe 1: a sombra da Sophie, a madrasta que batia no Jupiter e o mandava ficar quieto.
+## Flutua no alto da arena, arremessa o que ela dizia e esmaga com a mão. A arma do
+## Jupiter é a voz que ele nunca usou: com um orbe de voz, um dash nela atordoa e tira um
+## ponto de vida. Encostar nela sem a voz mata. São quatro pontos de vida; a cada um
+## perdido ela fica mais rápida e ganha ataques. A luta é para pesar: ela entra pelos
+## olhos, o escuro fecha em volta da tela no ritmo de um coração e cada golpe (a mão no
+## chão, o Jupiter caindo) dá um clarão vermelho. A arena é a sala (RoomZone) em `arena`;
+## os orbes aparecem nos Marker2D de OrbSpots.
 
 signal hit(health_left: int)
 signal health_changed(health: int)
@@ -26,7 +28,7 @@ const HOME_OFFSET := Vector2(0, 86) ## Do topo central da arena até os pés del
 const HOVER_RANGE := Vector2(96, 5)
 const HOVER_SPEED := Vector2(0.55, 1.4)
 const STUN_DROP := 10.0 ## Atordoada, ela cede este tanto para baixo.
-const MOUTH_OFFSET := Vector2(0, -56)
+const MOUTH_OFFSET := Vector2(0, -50)
 const PLAYER_CENTER := Vector2(0, -6)
 const WALL_MARGIN := 12.0
 const RAIN_COLUMN_SPACING := 26.0
@@ -36,7 +38,21 @@ const IDLE_FRAMES := 4
 const FRAME_SHOUT := 4
 const FRAME_STUNNED := 6
 const HIT_FLASH := Color(3, 3, 3)
-const PHASE_LIGHT: Array[Color] = [Color(1, 0.29, 0.35), Color(1, 0.3, 0.5), Color(1, 0.25, 0.25), Color(1, 0.12, 0.12)]
+const PHASE_LIGHT: Array[Color] = [Color(0.8, 0.16, 0.26), Color(0.9, 0.16, 0.3), Color(1, 0.14, 0.2), Color(1, 0.08, 0.1)]
+const LIGHT_ENERGY := 0.9 ## Na primeira fase; cada fase seguinte soma LIGHT_ENERGY_STEP.
+const LIGHT_ENERGY_STEP := 0.25
+const EYES_ONLY_TIME := 0.9 ## No começo, só os olhos e o sorriso aparecem no escuro.
+const REVEAL_TIME := 1.2
+
+## O escuro em volta da tela, pulsando como um coração (valores por fase).
+const HEARTBEAT_PERIOD := [1.1, 0.95, 0.8, 0.65]
+const DREAD_STRENGTH := [0.34, 0.44, 0.54, 0.64]
+const DREAD_PULSE := 0.2
+const SECOND_BEAT_DELAY := 0.25 ## Fração do período entre as duas batidas.
+const SECOND_BEAT_FORCE := 0.7
+const BEAT_SHARPNESS := 90.0
+const BLOW_FLASH := 0.5 ## Opacidade do clarão vermelho de um golpe.
+const BLOW_FADE := 0.35
 
 const HAND_REST := Vector2(34, -34) ## Onde a mão descansa, em relação aos pés dela.
 const HAND_AIM_HEIGHT := 26.0 ## Altura (abaixo do teto) de onde a mão mira.
@@ -48,14 +64,18 @@ const HAND_HEIGHT := 14.0
 const SLAM_SHAKE := 5.0
 const SHOCKWAVE_SPEED := 120.0
 
-const INTRO_LINE := "Jupiter. Já passou da meia-noite."
-const TAUNTS := ["Jupiter!", "Já pra cama!", "Olha o que você fez.", "Você não aprende.", "Ninguém vai te ouvir.", "Você tem os olhos dela."]
-const RETORTS := ["Não é besteira!", "O vovô acreditava em mim!", "Eu não sou ela!", "Eu vou chegar nas estrelas!"]
-const AIMED_WORDS := ["INÚTIL", "PREGUIÇOSO", "CALA A BOCA", "QUE VERGONHA", "CRESCE", "DE NOVO?", "BESTEIRA"]
-const RAIN_WORDS := ["NÃO", "PARA", "CHEGA", "AGORA", "JÁ", "SAI"]
-const SWEEP_WORDS := ["VOCÊ NUNCA ESCUTA", "OLHA PRA MIM QUANDO EU FALO", "SEU AVÔ NÃO VAI VOLTAR"]
-const RING_WORD := "NÃO"
-const SHOCKWAVE_WORD := "CHEGA"
+## O que ela dizia. As palavras arremessadas têm o tamanho do texto: frases mais compridas
+## que estas deixam os ataques mais difíceis de desviar.
+const INTRO_LINE := "Olha pra mim quando eu falo, bastardo."
+const TAUNTS := ["LIXO!", "Vem cá.", "Vou ter que te corrigir.", "Você nem era pra ter nascido.", "Ninguém vai acreditar em você.", "Conta pro seu pai. Conta pra ver."]
+const KILL_LINES := ["Engole o choro.", "Levanta.", "Fica quieto.", "De novo."] ## Quando o Jupiter cai.
+## O que o Jupiter nunca disse, um por golpe acertado.
+const RETORTS := ["Eu não sou lixo!", "Você me batia!", "Eu devia ter contado pra alguém!", "Eu não tenho mais medo de você!"]
+const AIMED_WORDS := ["LIXO", "BASTARDO", "INÚTIL", "CALA A BOCA", "ERRO", "FICA QUIETO", "SEU ERRO"]
+const RAIN_WORDS := ["LIXO", "CALA", "CHEGA", "NADA", "ERRO", "SOME"]
+const SWEEP_WORDS := ["NÃO CONTA PRO SEU PAI", "VOU TER QUE TE CORRIGIR", "VOCÊ NEM ERA PRA NASCER"]
+const RING_WORD := "LIXO"
+const SHOCKWAVE_WORD := "CALA"
 
 ## Valores por fase (vida 4, 3, 2, 1).
 const VOLLEY_COUNT := [3, 4, 5, 6]
@@ -92,10 +112,18 @@ var _was_player_dead := false
 var _flash_tween: Tween
 var _hand_mode := HandMode.IDLE
 var _hand_time := 0.0
+var _beat_time := 0.0
+var _reveal_tween: Tween
+var _blow_tween: Tween
 
 @onready var _sprite: Sprite2D = $Sprite
+@onready var _eyes: Sprite2D = $Sprite/Eyes
+@onready var _dread: ColorRect = $Dread/Pulse
+@onready var _blow: ColorRect = $Dread/Blow
 @onready var _light: PointLight2D = $Light
-@onready var _taunt: FadingLabel = $Taunt
+## As falas ficam numa camada própria (Voices), fora do escuro da fase, e seguem a câmera.
+@onready var _taunt: FadingLabel = %Taunt
+@onready var _taunt_anchor: Node2D = $Voices/TauntAnchor
 @onready var _retort: FadingLabel = %Retort
 @onready var _orb_spots: Node2D = $OrbSpots
 @onready var _hand: AnimatableBody2D = $Hand
@@ -115,7 +143,7 @@ func _ready() -> void:
 	reset()
 
 
-## Volta ao começo da luta (quando as estrelas acabam).
+## Volta ao começo da luta (quando o Jupiter morre).
 func reset() -> void:
 	health = MAX_HEALTH
 	_clear_attacks()
@@ -129,7 +157,6 @@ func reset() -> void:
 	_set_hand_mode(HandMode.IDLE)
 	_hand.global_position = global_position + HAND_REST
 	_hand.modulate = Color.WHITE
-	_update_phase_look()
 	_set_state(State.WAITING)
 	health_changed.emit(health)
 
@@ -153,6 +180,7 @@ func _physics_process(delta: float) -> void:
 	var player := _player()
 	if player == null or _state == State.DEFEATED:
 		return
+	_update_dread(delta)
 	if _handle_player_death(player):
 		return
 	_hover(delta)
@@ -178,6 +206,7 @@ func _set_state(state: State) -> void:
 	match state:
 		State.WAITING:
 			_taunt.show_text(INTRO_LINE, INTRO_TIME)
+			_reveal()
 		State.ATTACKING:
 			_schedule.clear()
 			_clock = 0.0
@@ -190,6 +219,8 @@ func _handle_player_death(player: Player) -> bool:
 		if not _was_player_dead:
 			_was_player_dead = true
 			_clear_attacks()
+			_flash_blow()
+			_taunt.show_text(KILL_LINES.pick_random(), RESPAWN_GRACE)
 		return true
 	if _was_player_dead:
 		_was_player_dead = false
@@ -243,6 +274,7 @@ func _defeat() -> void:
 	tween.tween_property(self, "modulate:a", 0.0, DEFEAT_TIME)
 	tween.parallel().tween_property(_hand, "modulate:a", 0.0, DEFEAT_TIME)
 	tween.parallel().tween_property(_light, "energy", 0.0, DEFEAT_TIME)
+	tween.parallel().tween_method(_set_dread, DREAD_STRENGTH[MAX_HEALTH - 1], 0.0, DEFEAT_TIME)
 	tween.tween_callback(defeated.emit)
 
 
@@ -448,6 +480,7 @@ func _on_hand_landed() -> void:
 	_set_hand_mode(HandMode.RESTING)
 	_slam_sound.play()
 	shook.emit(SLAM_SHAKE)
+	_flash_blow()
 	var impact := Vector2(_hand.global_position.x, _floor_y() - 5.0)
 	for direction: float in [-1.0, 1.0]:
 		_spawn_word(SHOCKWAVE_WORD, impact + Vector2(direction * 14.0, 0), Vector2(direction * SHOCKWAVE_SPEED, 0))
@@ -502,11 +535,56 @@ func _update_sprite() -> void:
 		_sprite.frame = FRAME_SHOUT + int(_state_time * IDLE_FPS * 2.0) % 2
 	else:
 		_sprite.frame = int(_hover_time * IDLE_FPS) % IDLE_FRAMES
+	_eyes.frame = _sprite.frame
+	_taunt_anchor.global_position = global_position
 
 
 func _update_phase_look() -> void:
 	_light.color = PHASE_LIGHT[_phase()]
-	_light.energy = 1.1 + _phase() * 0.25
+	_light.energy = _light_energy()
+
+
+func _light_energy() -> float:
+	return LIGHT_ENERGY + _phase() * LIGHT_ENERGY_STEP
+
+
+## A entrada: primeiro só os olhos e o sorriso no escuro, depois o corpo sai da sombra.
+func _reveal() -> void:
+	if _reveal_tween != null:
+		_reveal_tween.kill()
+	_light.color = PHASE_LIGHT[_phase()]
+	_light.energy = 0.0
+	_sprite.self_modulate.a = 0.0
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_interval(EYES_ONLY_TIME)
+	_reveal_tween.tween_property(_sprite, "self_modulate:a", 1.0, REVEAL_TIME)
+	_reveal_tween.parallel().tween_property(_light, "energy", _light_energy(), REVEAL_TIME)
+
+
+## O escuro fecha em volta da tela e bate duas vezes por período, como um coração.
+func _update_dread(delta: float) -> void:
+	var phase := _phase()
+	_beat_time = fmod(_beat_time + delta / HEARTBEAT_PERIOD[phase], 1.0)
+	var beat := maxf(_beat(_beat_time), _beat(_beat_time - SECOND_BEAT_DELAY) * SECOND_BEAT_FORCE)
+	_set_dread(DREAD_STRENGTH[phase] + DREAD_PULSE * beat)
+
+
+## Uma batida: forte no instante 0 e sumindo logo depois.
+func _beat(since: float) -> float:
+	return exp(-since * since * BEAT_SHARPNESS) if since >= 0.0 else 0.0
+
+
+func _set_dread(strength: float) -> void:
+	(_dread.material as ShaderMaterial).set_shader_parameter(&"strength", strength)
+
+
+## Clarão vermelho de um golpe (a mão dela no chão, o Jupiter caindo).
+func _flash_blow() -> void:
+	if _blow_tween != null:
+		_blow_tween.kill()
+	_blow.color.a = BLOW_FLASH
+	_blow_tween = create_tween()
+	_blow_tween.tween_property(_blow, "color:a", 0.0, BLOW_FADE)
 
 
 func _flash() -> void:

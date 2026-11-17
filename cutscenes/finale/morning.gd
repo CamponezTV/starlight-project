@@ -1,7 +1,8 @@
 extends Cutscene
 ## Final, parte 2 (GDD "Final Cut Scene 2"): a manhã mais bonita do jogo. O resgate
-## encontra Jupiter no fundo do buraco. Sophie chega com o telescópio que ele achava que
-## ela tinha vendido: ia devolver. Nada é mostrado de perto; o peso está nas falas.
+## encontra Jupiter no fundo do buraco. Sophie chega e chora para quem está olhando: diz
+## que criou o menino sozinha. Ninguém pergunta das marcas. Nada é mostrado de perto; o
+## peso está nas falas.
 ## Fica fora da campanha até o resto do jogo existir (menu dev).
 
 const RESCUER := preload("res://dialogue/speakers/rescuer.tres")
@@ -48,10 +49,10 @@ func _run() -> void:
 	await cut_to(_close, 0.4)
 	await say(SOPHIE, "Não.")
 	_sophie.pose = "cry"
-	await say(SOPHIE, "Eu ia devolver.")
-	await say(SOPHIE, "Eu só queria que ele pedisse.")
-	await say(null, "(Ela também tinha uma resposta presa na garganta.)")
-	await say(null, "(Faz anos.)")
+	await say(SOPHIE, "Eu que criei. Sozinha. Dei tudo pra esse menino.")
+	await say(SOPHIE, "Pergunta pra qualquer vizinho.")
+	await say(null, "(Ela chorou na frente de todo mundo.)")
+	await say(null, "(Ninguém perguntou das marcas antigas.)")
 	end_conversation()
 	create_tween().tween_property(_siren, "volume_db", -50.0, SIREN_FADE)
 	await cut_to(_inside, 2.0)

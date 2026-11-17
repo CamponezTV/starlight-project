@@ -14,20 +14,21 @@ characters/  bustos dos personagens das cutscenes (busts/)
 player/      Jupiter: física, animações, rastro do dash, voz
 companion/   estrela-guia
 levels/      fases, salas (RoomZone), tilesets, fundos e enfeites do terreno
-entities/    objetos de fase: estrela, cristal, estrela adormecida, saída, dica,
-             rocha frágil, orbe de voz, barreira de palavras, chefe Sophie
+entities/    objetos de fase: estrela perdida, cristal, estrela adormecida, portal,
+             broche, dica, rocha frágil, orbe de voz, barreira de palavras, chefe Sophie
 effects/     efeitos descartáveis (explosão, poeira, estilhaços) e a vinheta
 music/       trilhas (loops)
 camera/      câmera
-ui/          HUD, pausa, legendas, fonte e Theme
-autoload/    App, Stars (vida), Music, Transition (fade), Story (campanha)
+ui/          HUD, pausa, holofote de habilidade, resumo da fase, legendas, fonte e Theme
+autoload/    App, Stars (estrelas guardadas), Music, Transition (fade), Story (campanha)
 shared/      recursos compartilhados
 tests/       testes (GUT)
 addons/gut/  GUT (MIT)
 ```
 
 - `Level` conecta os objetos de `Entities` e repassa os eventos deles.
-- `main.gd` acompanha em qual sala o Jupiter está (câmera e renascimento) e decide as consequências (perder estrela, checkpoint, recomeço).
+- `main.gd` acompanha em qual sala o Jupiter está (câmera e renascimento) e decide as consequências (morte, checkpoint, holofote de habilidade, fim de fase).
+- Não há vidas. Quando o Jupiter morre, o `Main` chama `Level.reset_entities()` (cada objeto volta ao estado inicial pelo seu `reset()`) e ele renasce no último ponto.
 - O Jupiter não conhece a fase. Morre quando a `Hurtbox` toca a camada `hazards`.
 - `Story` decide o que vem depois. Fases terminam com `Story.advance()` (saída ou chefe derrotado); cutscenes, quando o roteiro acaba.
 
@@ -58,8 +59,9 @@ Level01 (Node2D, levels/level.gd)
 - **Fundo (`Backdrop`):** instância de `levels/backgrounds/cave_backdrop.tscn`. Fica em CanvasLayers próprias, então a escuridão (`ambient_color`) e as luzes da fase não o afetam. `tint` no Inspetor colore o fundo inteiro; cada fase usa o seu.
 - **Enfeites (`Terrain/Decor`):** instância de `levels/decor/terrain_decor.tscn`, sempre filha da TileMapLayer do terreno. Sorteia musgo, cristais, cogumelos, raízes e brotos pela posição de cada bloco, então o resultado é sempre o mesmo. Pinte a rocha e os enfeites aparecem ao rodar o jogo (não aparecem no editor). As chances e o atlas (`texture`) ficam no Inspetor.
 - **Objetos:** arraste as cenas de `entities/` para `Entities`. A origem fica nos pés, então encaixe no topo de um bloco.
-- **Dicas:** arraste `entities/hint_sign/hint_sign.tscn` para `Hints` e escreva o texto no Inspetor. Ela aparece quando o Jupiter entra na área. Mantenha a dica a pelo menos 8 blocos da borda da sala para o texto não ser cortado.
-- **Mensagens:** `intro_message` e `end_message` no nó raiz da fase.
+- **Objetos largos:** aumente `decor_clearance` (blocos para cada lado) para os enfeites do chão não nascerem embaixo deles.
+- **Dicas:** arraste `entities/hint_sign/hint_sign.tscn` para `Hints` e escreva o texto no Inspetor. Ela aparece quando o Jupiter entra na área. Mantenha a dica a pelo menos 8 blocos da borda da sala para o texto não ser cortado, e a pelo menos 15 blocos de outra dica (um teste falha se duas áreas se encostam).
+- **Mensagens:** `intro_message` (ao começar) e `end_message` (no resumo do fim) no nó raiz da fase.
 - **Nova fase:** duplique uma fase existente e limpe o conteúdo. Depois adicione um `LevelInfo` em `levels` no `menu/menu.tscn`.
 - **Novo objeto:** cena com raiz `Area2D` cujo script estende `RoomEntity`, com máscara na camada `player`.
 
@@ -101,10 +103,26 @@ func _run() -> void:
 - **Orbe de voz** (`VoiceOrb`): dá `has_voice` ao Jupiter. Com `respawns`, volta depois do `RespawnTimer`.
 - **Barreira de palavras** (`WordBarrier`): 8×32. Quebra com dash + voz e gasta a voz. Volta no reset da fase.
 - **Chefe Sophie** (`SophieBoss`): aponte `arena` para a `RoomZone` da luta e posicione os `Marker2D` de `OrbSpots` (filhos editáveis). Ritmo e dificuldade ficam nas constantes por fase no topo do script.
+  - **Falas:** `INTRO_LINE`, `TAUNTS`, `KILL_LINES`, `RETORTS` (uma por ponto de vida) e as listas de palavras arremessadas. A colisão de cada palavra tem o tamanho do texto: palavras da chuva e do anel com até 5 letras, frases rasteiras com até 27 (um teste confere).
+  - **Olhos:** `Sprite/Eyes` usa `sophie_eyes.png` (mesmos quadros do corpo) sem sombreamento, para aparecer no escuro.
+  - **Camadas:** `Voices` (falas, fora do escuro da fase, acompanha a câmera) e `Dread` (o escuro pulsando e o clarão vermelho dos golpes).
+
+## Estrelas perdidas
+
+- **`StarPickup`:** arraste para `Entities` e dê um nome fixo ao nó (ex.: `EstrelaPoco`). É pelo nome que ela é salva; um teste recusa nomes automáticos.
+- **Regra:** tocada, segue o Jupiter; fica guardada depois de `SAFE_GROUND_TIME` no chão; volta para o lugar se ele morrer antes. Coloque cada uma num desvio do caminho, com chão firme só depois do desafio.
+- **Progresso:** `Stars.collect(fase, estrela)` e `Stars.has(...)`, no mesmo arquivo da `Story`. A fase é `Level.id()` (o nome do arquivo da cena). `Level.star_total()` e `Level.stars_found()` alimentam o contador do HUD e o resumo.
 
 ## Habilidades
 
-- **Dash:** `Player.dash_unlocked`. Uma fase com `starts_with_dash` desligado começa sem ele; o `DashUnlock` (o broche) ensina e a fase avisa com o sinal `skill_unlocked`.
+- **Dash:** `Player.dash_unlocked`. Uma fase com `starts_with_dash` desligado começa sem ele; o `DashUnlock` (o broche no altar) ensina e a fase avisa com o sinal `skill_unlocked(skill)`.
+- **Holofote** (`SkillShowcase`, `ui/skill_showcase.tscn`): o `Main` pausa o jogo e chama `present(skill, posição na tela)`. O texto vem de um recurso `Skill` (`title`, `description`, `controls`), editado no Inspetor de quem ensina a habilidade.
+
+## Fim de fase
+
+- **Portal** (`RoomExit`): avisa com `reached`. O `Main` tira o controle, chama `absorb(jupiter)` e abre o resumo.
+- **Resumo** (`LevelComplete`, `ui/level_complete.tscn`): recebe um `LevelSummary` (título, frase, estrelas, quedas, tempo) e espera o jogador confirmar antes de `Story.advance()`. Fases de chefe não têm portal: o resumo abre direto.
+- **Shaders de tela** (`ui/spotlight.gdshader`, `ui/iris.gdshader`): o `modulate` do nó não vale neles; use os parâmetros `amount` e `opacity`.
 - **Enfeites** (`TerrainDecor`): não nascem nas células em volta dos filhos de `Entities`, `Hints` e `Platforms`.
 
 ## A montanha (prólogo jogável)
@@ -145,12 +163,17 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 | `ui/fonts/starlight_pixel.ttf` | fonte do jogo: 1 pixel por ponto em tamanho 8 (use 8 ou 16). Importada sem antialiasing e sem hinting |
 | `companion/star.png` | estrela-guia, 4 quadros 16×16 |
 | `entities/checkpoint/star_beacon.png` | estrela adormecida, 2 quadros 16×16 (apagada, acesa) |
-| `entities/*/*.png` | estrela (4 quadros), cristal (2 brilhos + usado), feixe da saída |
-| `ui/hud_star_*.png` | ícones de vida |
+| `entities/star_pickup/star_pickup.png` | estrela perdida, 4 quadros 16×16 |
+| `entities/dash_unlock/*.png` | broche (4 quadros 16×16) e altar (32×20) |
+| `entities/room_exit/*.png` | arco do portal (48×56), máscara do véu (mesmo tamanho) e o feixe de luz acima dele |
+| `entities/dash_crystal/dash_crystal.png` | cristal: 2 brilhos + usado |
+| `ui/hud_star_*.png` | ícone de estrela, cheia e vazia (contador e resumo da fase) |
 | `characters/busts/*.png` | bustos 128×128, 3 quadros por expressão, na ordem de `poses` |
 | `cutscenes/art/*.png` | planos das cutscenes (`*_wide` abertos, `*_back` fundos dos bustos), moldura e detalhes |
 | `levels/tilesets/mountain_tiles.png` | mesmo layout do `cave_tiles.png`, recolorido |
-| `entities/sophie_boss/sophie_shadow.png` | 4 quadros 32×40: parada (2), gritando, atordoada |
+| `entities/sophie_boss/sophie_shadow.png` | 7 quadros 96×112: parada (0-3), gritando (4-5), atordoada (6). O pé (origem do nó) fica 84 px abaixo do topo; o resto é a barra se desfazendo |
+| `entities/sophie_boss/sophie_eyes.png` | olhos, dentes e goela, nos mesmos 7 quadros |
+| `entities/sophie_boss/hand.png` | a mão, 2 quadros 24×28: aberta e punho |
 
 ## Áudio
 
@@ -168,7 +191,7 @@ Painel **GUT** no editor → **Run All**, ou:
 godot --headless -s res://addons/gut/gut_cmdln.gd
 ```
 
-Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado.
+Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam estrelas ou escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga.
 
 ## Convenções
 

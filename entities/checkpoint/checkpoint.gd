@@ -1,6 +1,7 @@
 class_name Checkpoint
 extends RoomEntity
-## Checkpoint: uma estrela adormecida num pedestal. Acende quando Jupiter passa por ela.
+## Checkpoint: uma estrela adormecida num pedestal. Acende quando Jupiter passa por ela
+## e continua acesa (não volta atrás quando ele morre).
 
 signal activated(respawn_point: Vector2)
 
@@ -13,10 +14,6 @@ var _is_lit := false
 @onready var _glow: Sprite2D = $Sprite/Glow
 @onready var _sparkles: CPUParticles2D = $Sprite/Sparkles
 @onready var _light_up_sound: AudioStreamPlayer = $LightUpSound
-
-
-func reset() -> void:
-	_set_lit(false)
 
 
 func _on_player_entered(_player: Player) -> void:

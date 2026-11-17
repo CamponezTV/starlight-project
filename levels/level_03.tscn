@@ -100,10 +100,10 @@ position = Vector2(20, 88)
 [node name="Sprout" parent="Entities" unique_id=1313873411 instance=ExtResource("5_l32du")]
 position = Vector2(116, 336)
 
-[node name="StarPickup" parent="Entities" unique_id=100822788 instance=ExtResource("6_lwtrp")]
+[node name="Estrela1" parent="Entities" unique_id=100822788 instance=ExtResource("6_lwtrp")]
 position = Vector2(116, 272)
 
-[node name="@Area2D@77" parent="Entities" unique_id=857249008 instance=ExtResource("6_lwtrp")]
+[node name="Estrela2" parent="Entities" unique_id=857249008 instance=ExtResource("6_lwtrp")]
 position = Vector2(460, 264)
 
 [node name="Whisper" parent="Entities" unique_id=2033576769 instance=ExtResource("7_2la83")]
@@ -132,7 +132,7 @@ position = Vector2(1076, 208)
 [node name="@Area2D@82" parent="Entities" unique_id=1798565786 instance=ExtResource("5_l32du")]
 position = Vector2(988, 168)
 
-[node name="@Area2D@83" parent="Entities" unique_id=1035721223 instance=ExtResource("6_lwtrp")]
+[node name="Estrela3" parent="Entities" unique_id=1035721223 instance=ExtResource("6_lwtrp")]
 position = Vector2(988, 104)
 
 [node name="@Area2D@84" parent="Entities" unique_id=1897355572 instance=ExtResource("7_2la83")]
@@ -168,7 +168,7 @@ position = Vector2(2068, 128)
 position = Vector2(2036, 144)
 travel = Vector2(0, -32)
 
-[node name="@Area2D@97" parent="Entities" unique_id=1951368689 instance=ExtResource("6_lwtrp")]
+[node name="Estrela4" parent="Entities" unique_id=1951368689 instance=ExtResource("6_lwtrp")]
 position = Vector2(2068, 56)
 
 [node name="@Area2D@98" parent="Entities" unique_id=282120637 instance=ExtResource("10_jx2nq")]

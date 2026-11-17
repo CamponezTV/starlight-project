@@ -9,6 +9,9 @@ const SCENES_WITH_SFX := [
 	"res://entities/dash_crystal/dash_crystal.tscn",
 	"res://entities/checkpoint/checkpoint.tscn",
 	"res://entities/room_exit/room_exit.tscn",
+	"res://entities/dash_unlock/dash_unlock.tscn",
+	"res://ui/skill_showcase.tscn",
+	"res://ui/level_complete.tscn",
 ]
 const MUSIC_BUS := &"Music"
 const SFX_BUS := &"SFX"

@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cuew0wdrw4eui"
-path="res://.godot/imported/light_out.wav-6a89c1b225a35c1a024df9185818c8ec.sample"
+uid="uid://blou17uh7nlxg"
+path="res://.godot/imported/secured.wav-38c33cacdbbd860e684b08b09d5f59c5.sample"
 
 [deps]
 
-source_file="res://main/sounds/light_out.wav"
-dest_files=["res://.godot/imported/light_out.wav-6a89c1b225a35c1a024df9185818c8ec.sample"]
+source_file="res://entities/star_pickup/secured.wav"
+dest_files=["res://.godot/imported/secured.wav-38c33cacdbbd860e684b08b09d5f59c5.sample"]
 
 [params]
 

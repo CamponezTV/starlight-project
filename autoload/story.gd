@@ -4,7 +4,8 @@ extends Node
 ## do jogo (main/main.tscn); cutscenes são cenas próprias. Quem termina chama advance().
 ## Fora da campanha (fase aberta direto no editor ou pelo menu dev), advance() volta ao menu.
 ## O último passo começado fica salvo em `save_path`, para o "Continuar" do menu, junto
-## com o que o jogador escolheu nas conversas (remember/recall). Um jogo novo esquece tudo.
+## com o que o jogador escolheu nas conversas (remember/recall) e as estrelas guardadas
+## (autoload Stars). Um jogo novo esquece tudo.
 
 signal step_started(index: int)
 
@@ -23,6 +24,11 @@ var _index := -1
 var _is_changing := false
 
 
+## Título do passo atual, ou "" fora da campanha.
+func current_title() -> String:
+	return steps[_index].title if _index >= 0 else ""
+
+
 ## Posição na campanha, ou -1 fora dela.
 func current_index() -> int:
 	return _index
@@ -34,6 +40,7 @@ func start(index := 0) -> void:
 	_index = index
 	if index == 0:
 		forget_choices()
+		Stars.forget()
 	save_progress(index)
 	await _change_scene(instantiate_step(steps[index]))
 	step_started.emit(index)
@@ -63,38 +70,38 @@ func back_to_menu() -> void:
 
 ## Passo salvo para continuar a campanha, ou -1 se não há o que continuar.
 func saved_step() -> int:
-	var step: int = _load_save().get_value(SAVE_SECTION, SAVE_KEY, -1)
+	var step: int = load_save().get_value(SAVE_SECTION, SAVE_KEY, -1)
 	return step if step >= 0 and step < steps.size() else -1
 
 
 ## Guarda o passo atual (-1 apaga: campanha terminada).
 func save_progress(index: int) -> void:
-	var config := _load_save()
+	var config := load_save()
 	config.set_value(SAVE_SECTION, SAVE_KEY, index)
 	config.save(save_path)
 
 
 ## Guarda o que o jogador escolheu numa conversa (ex.: "diana" -> "forgiven").
 func remember(key: String, value: String) -> void:
-	var config := _load_save()
+	var config := load_save()
 	config.set_value(CHOICES_SECTION, key, value)
 	config.save(save_path)
 
 
 ## A escolha guardada em `key`, ou "" se o jogador ainda não escolheu.
 func recall(key: String) -> String:
-	return _load_save().get_value(CHOICES_SECTION, key, "")
+	return load_save().get_value(CHOICES_SECTION, key, "")
 
 
 func forget_choices() -> void:
-	var config := _load_save()
+	var config := load_save()
 	if config.has_section(CHOICES_SECTION):
 		config.erase_section(CHOICES_SECTION)
 		config.save(save_path)
 
 
 ## O arquivo de progresso (vazio se ainda não existe).
-func _load_save() -> ConfigFile:
+func load_save() -> ConfigFile:
 	var config := ConfigFile.new()
 	config.load(save_path)
 	return config

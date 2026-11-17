@@ -12,13 +12,24 @@
 [ext_resource type="AudioStream" path="res://entities/sophie_boss/defeat.wav" id="10_defeat"]
 [ext_resource type="Texture2D" path="res://entities/sophie_boss/hand.png" id="11_hand"]
 [ext_resource type="PackedScene" path="res://effects/word_shatter.tscn" id="12_shatter"]
-[ext_resource type="AudioStream" path="res://entities/crumble_block/crack.wav" id="13_slam"]
+[ext_resource type="AudioStream" path="res://entities/sophie_boss/slam.wav" id="13_slam"]
+[ext_resource type="Texture2D" path="res://entities/sophie_boss/sophie_eyes.png" id="14_eyes"]
+[ext_resource type="Shader" path="res://effects/vignette.gdshader" id="15_vignette"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(18, 46)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hand"]
 size = Vector2(14, 22)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_unshaded"]
+light_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dread"]
+shader = ExtResource("15_vignette")
+shader_parameter/color = Color(0.09, 0, 0.03, 1)
+shader_parameter/strength = 0.34
+shader_parameter/start = 0.42
 
 [sub_resource type="Gradient" id="Gradient_wisps"]
 colors = PackedColorArray(0.2, 0.08, 0.3, 0.9, 0.2, 0.08, 0.3, 0)
@@ -37,18 +48,18 @@ position = Vector2(0, -38)
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Light" type="PointLight2D" parent="."]
-position = Vector2(0, -44)
-color = Color(1, 0.29, 0.35, 1)
-energy = 1.1
+position = Vector2(0, -50)
+color = Color(0.8, 0.16, 0.26, 1)
+energy = 0.9
 texture = ExtResource("3_light")
 texture_scale = 1.6
 
 [node name="Wisps" type="CPUParticles2D" parent="."]
-position = Vector2(0, -6)
-amount = 18
+position = Vector2(0, 22)
+amount = 26
 lifetime = 1.2
 emission_shape = 3
-emission_rect_extents = Vector2(18, 2)
+emission_rect_extents = Vector2(24, 3)
 direction = Vector2(0, 1)
 spread = 20.0
 gravity = Vector2(0, 0)
@@ -58,23 +69,34 @@ scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_wisps")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0, -40)
+position = Vector2(0, -28)
 texture = ExtResource("2_texture")
 hframes = 7
 
-[node name="Taunt" type="Label" parent="."]
-offset_left = -90.0
-offset_top = 2.0
-offset_right = 90.0
-offset_bottom = 13.0
+[node name="Eyes" type="Sprite2D" parent="Sprite"]
+material = SubResource("CanvasItemMaterial_unshaded")
+texture = ExtResource("14_eyes")
+hframes = 7
+
+[node name="Voices" type="CanvasLayer" parent="."]
+layer = 1
+follow_viewport_enabled = true
+
+[node name="TauntAnchor" type="Node2D" parent="Voices"]
+
+[node name="Taunt" type="Label" parent="Voices/TauntAnchor"]
+unique_name_in_owner = true
+offset_left = -110.0
+offset_top = 30.0
+offset_right = 110.0
+offset_bottom = 41.0
 theme_override_colors/font_color = Color(1, 0.55, 0.6, 1)
 horizontal_alignment = 1
 script = ExtResource("4_fading")
 
-[node name="Speech" type="Node2D" parent="."]
-top_level = true
+[node name="Speech" type="Node2D" parent="Voices"]
 
-[node name="Retort" type="Label" parent="Speech"]
+[node name="Retort" type="Label" parent="Voices/Speech"]
 unique_name_in_owner = true
 offset_left = -110.0
 offset_top = -6.0
@@ -132,11 +154,31 @@ bus = &"SFX"
 
 [node name="SlamSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_slam")
-volume_db = -3.0
-pitch_scale = 0.7
+volume_db = -2.0
 bus = &"SFX"
 
 [node name="DefeatSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_defeat")
 volume_db = -3.0
 bus = &"SFX"
+
+[node name="Dread" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="Pulse" type="ColorRect" parent="Dread"]
+material = SubResource("ShaderMaterial_dread")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Blow" type="ColorRect" parent="Dread"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.55, 0, 0.06, 0)

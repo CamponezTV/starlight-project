@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" path="res://companion/star_companion.tscn" id="4_companion"]
 [ext_resource type="Script" path="res://camera/follow_camera.gd" id="5_camera"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="6_hud"]
-[ext_resource type="AudioStream" path="res://main/sounds/light_out.wav" id="7_light_out"]
+[ext_resource type="PackedScene" path="res://ui/skill_showcase.tscn" id="7_showcase"]
+[ext_resource type="PackedScene" path="res://ui/level_complete.tscn" id="10_complete"]
 [ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="8_pause"]
 [ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="9_vignette"]
 
@@ -36,7 +37,6 @@ script = ExtResource("5_camera")
 
 [node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
 
-[node name="LightOutSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_light_out")
-volume_db = -2.0
-bus = &"SFX"
+[node name="SkillShowcase" parent="." instance=ExtResource("7_showcase")]
+
+[node name="LevelComplete" parent="." instance=ExtResource("10_complete")]

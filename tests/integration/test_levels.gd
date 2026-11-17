@@ -1,10 +1,19 @@
 extends GutTest
+
 ## Todas as fases (as da campanha e a sala de teste) estão bem montadas: salas, pontos de
 ## renascimento, objetos e um jeito de terminar (saída ou chefe).
 
 const TEST_ROOM := "res://levels/test_room.tscn"
 const PLAYER_CENTER := Vector2(0, -6)
 const SCREEN := Vector2(320, 180)
+
+
+func before_all() -> void:
+	TestHelpers.use_test_save()
+
+
+func after_all() -> void:
+	TestHelpers.restore_save()
 
 
 func test_levels_are_well_formed() -> void:
@@ -55,6 +64,32 @@ func test_decor_only_grows_on_free_cells() -> void:
 		for cell in decor.decorated_cells():
 			assert_eq(terrain.get_cell_source_id(cell), -1, "%s: enfeite dentro da rocha em %s" % [level.name, cell])
 			assert_eq(hazards.get_cell_source_id(cell), -1, "%s: enfeite em cima de espinho em %s" % [level.name, cell])
+
+
+## Duas dicas acesas ao mesmo tempo se escreveriam uma por cima da outra.
+func test_only_one_hint_shows_at_a_time() -> void:
+	for level in _levels():
+		if not level.has_node("Hints"):
+			continue
+		var hints := level.get_node("Hints").get_children()
+		for i in hints.size():
+			for j in range(i + 1, hints.size()):
+				assert_false(_hint_area(hints[i]).intersects(_hint_area(hints[j])),
+					"%s: as dicas \"%s\" e \"%s\" aparecem juntas" % [level.name, hints[i].get("text"), hints[j].get("text")])
+
+
+func test_every_star_has_its_own_name() -> void:
+	for level in _levels():
+		assert_eq(level.stars_found(), 0, "%s: nenhuma estrela guardada num progresso vazio" % level.name)
+		for node in level.get_node("Entities").get_children():
+			if node is StarPickup:
+				assert_false(node.name.begins_with("@"), "%s: a estrela %s precisa de um nome fixo (é como ela é salva)" % [level.name, node.name])
+
+
+func _hint_area(hint: Node) -> Rect2:
+	var shape := hint.get_node("Area/Collision") as CollisionShape2D
+	var size := (shape.shape as RectangleShape2D).size
+	return Rect2(shape.global_position - size / 2.0, size)
 
 
 func _levels() -> Array[Level]:

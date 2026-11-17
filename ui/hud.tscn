@@ -1,25 +1,36 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_hud"]
-[ext_resource type="Script" path="res://ui/star_bar.gd" id="2_star_bar"]
+[ext_resource type="Script" path="res://ui/star_counter.gd" id="2_star_counter"]
 [ext_resource type="Script" path="res://ui/fading_label.gd" id="3_fading_label"]
 [ext_resource type="Texture2D" path="res://ui/hud_star_full.png" id="4_full"]
-[ext_resource type="Texture2D" path="res://ui/hud_star_empty.png" id="5_empty"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 2
 script = ExtResource("1_hud")
 
-[node name="StarBar" type="HBoxContainer" parent="."]
+[node name="Stars" type="HBoxContainer" parent="."]
 offset_left = 4.0
-offset_top = 4.0
-offset_right = 58.0
-offset_bottom = 14.0
+offset_top = 3.0
+offset_right = 44.0
+offset_bottom = 15.0
 mouse_filter = 2
-theme_override_constants/separation = 1
-script = ExtResource("2_star_bar")
-full_texture = ExtResource("4_full")
-empty_texture = ExtResource("5_empty")
+theme_override_constants/separation = 3
+script = ExtResource("2_star_counter")
+
+[node name="Icon" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_full")
+stretch_mode = 3
+pivot_offset = Vector2(5, 5)
+
+[node name="Count" type="Label" parent="Stars"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+text = "0/0"
 
 [node name="BossBar" type="VBoxContainer" parent="."]
 visible = false
@@ -60,7 +71,6 @@ anchor_right = 1.0
 offset_top = 166.0
 offset_bottom = 178.0
 grow_horizontal = 2
-text = "Setas: mover   Espaço: pular   X: dash   R: checkpoint   Esc: pausa"
 horizontal_alignment = 1
 script = ExtResource("3_fading_label")
 max_alpha = 0.7

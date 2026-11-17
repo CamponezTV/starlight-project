@@ -1,0 +1,115 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/level_complete.gd" id="1_complete"]
+[ext_resource type="Shader" path="res://ui/iris.gdshader" id="2_iris"]
+[ext_resource type="Texture2D" path="res://levels/backgrounds/night_sky.png" id="3_sky"]
+[ext_resource type="Texture2D" path="res://ui/hud_star_full.png" id="4_full"]
+[ext_resource type="Texture2D" path="res://ui/hud_star_empty.png" id="5_empty"]
+[ext_resource type="AudioStream" path="res://ui/sounds/level_complete.wav" id="6_reveal"]
+[ext_resource type="AudioStream" path="res://ui/sounds/star_tick.wav" id="7_tick"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iris"]
+shader = ExtResource("2_iris")
+
+[sub_resource type="Gradient" id="Gradient_twinkle"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="LevelComplete" type="CanvasLayer"]
+process_mode = 3
+layer = 45
+script = ExtResource("1_complete")
+full_star = ExtResource("4_full")
+empty_star = ExtResource("5_empty")
+
+[node name="Sky" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_sky")
+stretch_mode = 1
+
+[node name="Twinkles" type="CPUParticles2D" parent="Sky"]
+position = Vector2(160, 90)
+amount = 24
+lifetime = 2.4
+preprocess = 2.4
+emission_shape = 3
+emission_rect_extents = Vector2(160, 90)
+gravity = Vector2(0, 0)
+color = Color(1, 0.95, 0.75, 1)
+color_ramp = SubResource("Gradient_twinkle")
+
+[node name="Iris" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_iris")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Card" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 30.0
+offset_right = -24.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Card"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+text = "A Queda"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="Card"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.78, 0.95, 1)
+text = "A luz me puxa para longe..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Stars" type="HBoxContainer" parent="Card"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Stats" type="Label" parent="Card"]
+layout_mode = 2
+text = "Quedas  0        Tempo  0:00"
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.75, 0.72, 0.9, 1)
+text = "Espaço: continuar"
+horizontal_alignment = 1
+
+[node name="RevealSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_reveal")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="StarSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_tick")
+volume_db = -6.0
+bus = &"SFX"

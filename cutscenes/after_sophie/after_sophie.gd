@@ -1,7 +1,8 @@
 extends Cutscene
-## Depois do chefe 1: Jupiter gritou tudo o que engoliu, mas foi para uma sombra. A de
-## verdade nunca ouviu. Uma voz chama o nome dele, e ele não pergunta como ela sabe o
-## caminho. Fim do capítulo 1.
+## Depois do chefe 1: Jupiter disse tudo o que engoliu, mas foi para uma sombra. A de
+## verdade nunca ouviu, e mais ninguém: ele contou uma vez, o avô não acreditou e ele
+## nunca mais pediu ajuda. É esse o arrependimento da cena. Uma voz chama o nome dele, e
+## ele não pergunta como ela sabe o caminho. Fim do capítulo 1.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
 const DISTANT_VOICE := preload("res://dialogue/speakers/distant_voice.tres")
@@ -29,12 +30,21 @@ func _run() -> void:
 	pan(_wide, PAN_DISTANCE, 20.0)
 	await wait(4.0)
 	await cut_to(_close, 0.5)
-	await say(JUPITER, "Eu gritei com ela.")
-	await say(JUPITER, "Falei tudo. Cinco anos de coisa engolida. E ela se desfez.")
+	await say(JUPITER, "Eu falei.")
+	await say(JUPITER, "Que ela me batia. Que eu não era lixo. E ela se desfez.")
 	_jupiter.pose = "sad"
 	await say(JUPITER, "Por que eu não tô feliz?")
 	await say(null, "(Porque era só uma sombra.)")
-	await say(null, "(A de verdade nunca ouviu uma palavra.)")
+	await say(null, "(A de verdade nunca ouviu. Nem seu pai. Nem a escola. Ninguém.)")
+	_jupiter.pose = "bitter"
+	await say(JUPITER, "O vovô ouviu. Uma vez.")
+	await say(null, "(E quando ele não acreditou, você decidiu que ninguém ia.)")
+	await say(null, "(Cinco anos de manga comprida no calor. Nunca mais tentou.)")
+	_jupiter.pose = "sad"
+	await say(JUPITER, "Eu podia ter contado pra uma professora. Pra qualquer um.")
+	await say(JUPITER, "Eu tinha medo dela. Mas tinha mais medo de falar e ninguém fazer nada.")
+	await say(null, "(Aqui embaixo você teve coragem.)")
+	await say(null, "(Pena que foi só aqui embaixo.)")
 	_jupiter.pose = "bitter"
 	await say(JUPITER, "...Cala a boca.")
 	await say(null, "(Olha só. Você respondeu.)")

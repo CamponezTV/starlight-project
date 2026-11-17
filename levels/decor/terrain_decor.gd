@@ -31,6 +31,7 @@ const HANGING_CRYSTAL_CHANCE := 8
 const SIDE_CRYSTAL_CHANCE := 12
 
 const GLOW_SIZE := Vector2(22, 22)
+const DEFAULT_CLEARANCE := 1 ## Blocos livres para cada lado de dicas e plataformas.
 
 @export var texture: Texture2D ## Atlas de decoração.
 @export var glow_texture: Texture2D ## Mancha de luz suave dos cristais e cogumelos.
@@ -99,7 +100,7 @@ func _decorate(cell: Vector2i, terrain: TileMapLayer, hazards: TileMapLayer) -> 
 			_add(below, HANGING[pick % HANGING.size()], mirrored)
 	for side: Vector2i in [Vector2i.LEFT, Vector2i.RIGHT]:
 		var beside := cell + side
-		if _is_free(beside, terrain, hazards) and _roll(cell, 6 + side.x) < side_chance:
+		if _is_wall(cell, terrain) and _is_free(beside, terrain, hazards) and _roll(cell, 6 + side.x) < side_chance:
 			var flipped := side == Vector2i.LEFT
 			if _roll(cell, 8) < SIDE_CRYSTAL_CHANCE:
 				_add(beside, SIDE_CRYSTAL, flipped, crystal_glow, Vector2(6 if flipped else 2, 3))
@@ -115,7 +116,8 @@ func _block_object_cells() -> void:
 			continue
 		for child in container.get_children():
 			var feet := Vector2i(((child as Node2D).position + Vector2(0, -1)) / CELL)
-			for dx in [-1, 0, 1]:
+			var reach := (child as RoomEntity).decor_clearance if child is RoomEntity else DEFAULT_CLEARANCE
+			for dx in range(-reach, reach + 1):
 				for dy in [-2, -1, 0]:
 					_blocked[feet + Vector2i(dx, dy)] = true
 
@@ -124,6 +126,12 @@ func _is_free(cell: Vector2i, terrain: TileMapLayer, hazards: TileMapLayer) -> b
 	if _blocked.has(cell) or terrain.get_cell_source_id(cell) != -1:
 		return false
 	return hazards == null or hazards.get_cell_source_id(cell) == -1
+
+
+## Parede de verdade: tem rocha em cima. Na quina de uma borda, um broto lateral
+## pareceria grama flutuando para fora do chão.
+func _is_wall(cell: Vector2i, terrain: TileMapLayer) -> bool:
+	return terrain.get_cell_source_id(cell + Vector2i.UP) != -1
 
 
 ## Número de 0 a 99, sempre o mesmo para a mesma célula e o mesmo `salt`.
@@ -146,10 +154,9 @@ func _draw() -> void:
 	for piece in _pieces:
 		var cell: Vector2i = piece["cell"]
 		var atlas: Vector2i = piece["atlas"]
-		var target := Rect2(Vector2(cell * CELL), Vector2(CELL, CELL))
-		if piece["flipped"]:
-			target = Rect2(target.position + Vector2(CELL, 0), Vector2(-CELL, CELL))
-		draw_texture_rect_region(texture, target, Rect2(Vector2(atlas * CELL), Vector2(CELL, CELL)))
+		# Espelhado: a largura negativa vira a imagem e o retângulo continua na mesma célula.
+		var size := Vector2(-CELL if piece["flipped"] else CELL, CELL)
+		draw_texture_rect_region(texture, Rect2(Vector2(cell * CELL), size), Rect2(Vector2(atlas * CELL), Vector2(CELL, CELL)))
 
 
 func _draw_glows() -> void:

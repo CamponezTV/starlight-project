@@ -1,7 +1,8 @@
 extends Cutscene
 ## Memória antes do chefe 2: aos nove anos, Jupiter responde "você não é minha mãe" e é
 ## trancado no galpão. Passa a noite com uma aranha olhando pra ele. É aqui que ele
-## aprende que ficar quieto funciona. De manhã o avô o encontra, e ele não fala.
+## aprende que ficar quieto funciona. De manhã o avô o encontra, e ele não fala. O avô
+## conversa com a Sophie, ela diz que a porta emperrou, e ele acredita.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter_child.tres")
 const SOPHIE := preload("res://dialogue/speakers/sophie.tres")
@@ -40,8 +41,9 @@ func _run() -> void:
 	await say(SOPHIE, "Repete.")
 	await say(SOPHIE, "Repete o que você disse.")
 	await say(JUPITER, "...Você não é minha mãe.")
-	await say(SOPHIE, "Não. Não sou.")
-	await say(SOPHIE, "A sua mãe pôde ir embora. Eu fiquei.")
+	await say(SOPHIE, "Não. Graças a Deus.")
+	await say(SOPHIE, "Sua mãe olhou pra você e foi embora. Eu fiquei com o lixo dela.")
+	await say(SOPHIE, "Vou ter que te corrigir. Você fica aí até aprender a calar a boca.")
 	end_conversation()
 	_door_sound.play()
 	await wait(1.5)
@@ -89,8 +91,8 @@ func _run() -> void:
 	await wait(1.0)
 	await Transition.fade_out(2.5)
 	await show_caption("Ele conversou.", 2.5)
-	await show_caption("Ela chorou. Pediu desculpa.", 3.0)
-	await show_caption("Durou onze dias.", 3.0)
+	await show_caption("Ela chorou. Disse que a porta emperrou.", 3.0)
+	await show_caption("Ele acreditou.", 3.0)
 	await show_caption("Capítulo 2: em breve", 3.5)
 
 

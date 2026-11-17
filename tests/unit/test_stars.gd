@@ -1,40 +1,42 @@
 extends GutTest
-## A vida (autoload Stars).
+## As estrelas perdidas guardadas (autoload Stars), salvas junto do progresso.
+
+const LEVEL := "level_test"
 
 
 func before_each() -> void:
-	Stars.reset()
+	TestHelpers.use_test_save()
 
 
-func after_all() -> void:
-	Stars.reset()
+func after_each() -> void:
+	TestHelpers.restore_save()
 
 
-func test_starts_with_start_count() -> void:
-	assert_eq(Stars.count, Stars.START_COUNT)
+func test_nothing_is_found_at_first() -> void:
+	assert_false(Stars.has(LEVEL, "a"))
 
 
-func test_gain_is_capped_at_max() -> void:
-	for i in Stars.MAX_COUNT + 2:
-		Stars.gain()
-	assert_eq(Stars.count, Stars.MAX_COUNT)
+func test_a_collected_star_stays_found() -> void:
+	assert_true(Stars.collect(LEVEL, "a"), "a primeira vez conta")
+	assert_true(Stars.has(LEVEL, "a"))
+	assert_false(Stars.has(LEVEL, "b"), "as outras continuam perdidas")
+	assert_false(Stars.has("outra_fase", "a"), "cada fase tem as suas")
 
 
-func test_lose_stops_at_zero() -> void:
-	for i in Stars.START_COUNT + 2:
-		Stars.lose()
-	assert_eq(Stars.count, 0)
-	assert_true(Stars.is_empty())
-
-
-func test_ratio_goes_from_zero_to_one() -> void:
-	Stars.count = Stars.MAX_COUNT
-	assert_eq(Stars.ratio(), 1.0)
-	Stars.count = 0
-	assert_eq(Stars.ratio(), 0.0)
-
-
-func test_changing_count_emits_changed() -> void:
+func test_the_same_star_only_counts_once() -> void:
 	watch_signals(Stars)
-	Stars.lose()
-	assert_signal_emitted_with_parameters(Stars, "changed", [Stars.START_COUNT - 1])
+	Stars.collect(LEVEL, "a")
+	assert_false(Stars.collect(LEVEL, "a"), "repetida não conta")
+	assert_signal_emit_count(Stars, "collected", 1)
+
+
+func test_forget_loses_every_star() -> void:
+	Stars.collect(LEVEL, "a")
+	Stars.forget()
+	assert_false(Stars.has(LEVEL, "a"))
+
+
+func test_saving_progress_keeps_the_stars() -> void:
+	Stars.collect(LEVEL, "a")
+	Story.save_progress(1)
+	assert_true(Stars.has(LEVEL, "a"), "salvar o progresso não apaga as estrelas")

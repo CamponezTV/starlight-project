@@ -5,9 +5,10 @@
 [ext_resource type="Texture2D" path="res://entities/star_pickup/star_pickup.png" id="3_l125l"]
 [ext_resource type="AudioStream" path="res://entities/star_pickup/pickup.wav" id="4_rgaqd"]
 [ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
+[ext_resource type="AudioStream" path="res://entities/star_pickup/secured.wav" id="81_secured"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eom0l"]
-size = Vector2(8, 8)
+size = Vector2(10, 10)
 
 [sub_resource type="Animation" id="Animation_gprpl"]
 length = 2.0943951023931953
@@ -93,7 +94,28 @@ color_ramp = SubResource("Gradient_sparkle")
 libraries/ = SubResource("AnimationLibrary_q8fjt")
 autoplay = &"idle"
 
-[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=309451642]
+[node name="Burst" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 18
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 25.0
+initial_velocity_max = 70.0
+damping_min = 60.0
+damping_max = 90.0
+color = Color(1, 0.93, 0.6, 1)
+color_ramp = SubResource("Gradient_sparkle")
+
+[node name="TouchSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_rgaqd")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="SecuredSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("81_secured")
 volume_db = -4.0
 bus = &"SFX"

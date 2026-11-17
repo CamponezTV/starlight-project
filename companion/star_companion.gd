@@ -1,7 +1,7 @@
 class_name StarCompanion
 extends Node2D
 ## A estrela-guia (o avô). Segue Jupiter e é a única luz da caverna.
-## O tamanho e o brilho refletem a vida (autoload Stars).
+## O tamanho e o brilho crescem com as estrelas perdidas guardadas na fase (`star_fraction`).
 
 const FOLLOW_OFFSET := Vector2(-12, -22) ## Para Jupiter olhando para a direita.
 const FOLLOW_SHARPNESS := 5.0
@@ -9,6 +9,7 @@ const BOB_SPEED := 2.5
 const BOB_HEIGHT := 2.0
 const TWINKLE_FPS := 6.0 ## Quadros por segundo da cintilação dos raios.
 
+const BASE_BRIGHTNESS := 0.6 ## Brilho sem nenhuma estrela guardada (1.0 = todas).
 const MIN_ENERGY := 0.35
 const ENERGY_RANGE := 0.9
 const MIN_LIGHT_SCALE := 0.9
@@ -24,6 +25,9 @@ const DEFAULT_FLICKER_TIME := 0.8
 const SPRITE_STAR_RADIUS := 4.5 ## Raio de referência da estrela desenhada no PNG.
 const MIN_RADIUS := 3.0
 const RADIUS_RANGE := 1.5
+
+## Fração das estrelas da fase já guardadas, de 0.0 a 1.0.
+var star_fraction := 0.0
 
 var _target: Player
 var _time := 0.0
@@ -46,7 +50,7 @@ func flicker(duration := DEFAULT_FLICKER_TIME) -> void:
 	_flicker_left = duration
 
 
-## Brilha mais forte por um instante (quando ganha uma estrela).
+## Brilha mais forte por um instante (quando uma estrela é guardada).
 func pulse() -> void:
 	_pulse = 1.0
 
@@ -70,9 +74,9 @@ func _follow_point() -> Vector2:
 
 
 func _update_light(delta: float) -> void:
-	var life := Stars.ratio()
-	var energy := MIN_ENERGY + life * ENERGY_RANGE + _pulse * PULSE_ENERGY
-	var light_scale := MIN_LIGHT_SCALE + life * LIGHT_SCALE_RANGE + _pulse * PULSE_SCALE
+	var brightness := _brightness()
+	var energy := MIN_ENERGY + brightness * ENERGY_RANGE + _pulse * PULSE_ENERGY
+	var light_scale := MIN_LIGHT_SCALE + brightness * LIGHT_SCALE_RANGE + _pulse * PULSE_SCALE
 	if _flicker_left > 0.0:
 		energy *= randf_range(0.2, 1.0)
 	_light.energy = lerpf(_light.energy, energy, 1.0 - exp(-ENERGY_SHARPNESS * delta))
@@ -80,6 +84,10 @@ func _update_light(delta: float) -> void:
 
 
 func _update_sprite() -> void:
-	var radius := MIN_RADIUS + Stars.ratio() * RADIUS_RANGE + _pulse
+	var radius := MIN_RADIUS + _brightness() * RADIUS_RANGE + _pulse
 	_sprite.scale = Vector2.ONE * radius / SPRITE_STAR_RADIUS
 	_sprite.frame = int(_time * TWINKLE_FPS) % _sprite.hframes
+
+
+func _brightness() -> float:
+	return lerpf(BASE_BRIGHTNESS, 1.0, star_fraction)

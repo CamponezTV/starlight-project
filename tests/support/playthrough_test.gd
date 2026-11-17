@@ -2,6 +2,7 @@ class_name PlaythroughTest
 extends GutTest
 ## Base dos testes em que um robô joga uma fase com controles simulados.
 ## Cada teste começa o jogo (main.tscn) numa célula e roda um "passo" por quadro.
+## O progresso (estrelas guardadas) vai para um arquivo só dos testes.
 
 const MAIN_SCENE := preload("res://main/main.tscn")
 const TILE := TestHelpers.TILE
@@ -9,6 +10,14 @@ const TIME_LIMIT := 480 ## quadros (8 s)
 
 var player: Player
 var main: Main
+
+
+func before_all() -> void:
+	TestHelpers.use_test_save()
+
+
+func after_all() -> void:
+	TestHelpers.restore_save()
 
 
 func after_each() -> void:
@@ -48,7 +57,7 @@ func dash_at_apex() -> void:
 	TestHelpers.set_pressed(&"dash", at_apex and player.can_dash)
 
 
-## Em pé no chão, com x >= coluna e pés na linha `row` ou acima.
+## Em pé no chão, com x >= coluna, sobre um piso na linha `row` (a da rocha) ou mais alto.
 func standing_at_least(column: int, row: int) -> bool:
 	var p := player.global_position
 	return player.is_on_floor() and p.x >= column * TILE and p.y <= row * TILE + 0.5

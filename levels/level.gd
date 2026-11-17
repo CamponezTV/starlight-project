@@ -5,14 +5,14 @@ extends Node2D
 ## pontos de renascimento. A fase conecta os objetos sozinha e repassa os eventos deles.
 
 signal checkpoint_reached(respawn_point: Vector2)
-signal star_collected
+signal star_collected ## Uma estrela perdida foi guardada.
 signal exit_reached ## Saída alcançada ou chefe derrotado: a fase acabou.
-signal skill_unlocked(message: String) ## O Jupiter ganhou uma habilidade nesta fase.
+signal skill_unlocked(skill: Skill) ## O Jupiter ganhou uma habilidade nesta fase.
 signal shake_requested(amount: float) ## Algo na fase pede um tremor de câmera.
 signal encounter_requested(encounter: Encounter) ## O Jupiter quer conversar com alguém.
 
 @export var intro_message := "Siga a estrela..." ## Mostrada ao começar a fase (vazia = nada).
-@export var end_message := "Fim da fase. Obrigado por jogar!" ## Mostrada ao chegar na saída.
+@export var end_message := "Fim da fase. Obrigado por jogar!" ## Mostrada no fim da fase.
 @export var starts_with_dash := true ## Desligue nas fases em que o dash ainda vai ser encontrado.
 @export var music: AudioStream ## Trilha da fase (vazia = silêncio).
 @export var ambient_color := Color(0.64, 0.62, 0.8) ## Escuridão fora da luz da estrela.
@@ -26,6 +26,11 @@ signal encounter_requested(encounter: Encounter) ## O Jupiter quer conversar com
 func _ready() -> void:
 	for entity in _room_entities():
 		_connect_entity(entity)
+
+
+## Nome da fase no arquivo de progresso (o nome do arquivo da cena, sem extensão).
+func id() -> String:
+	return scene_file_path.get_file().get_basename()
 
 
 ## Onde o Jupiter começa a fase.
@@ -49,7 +54,7 @@ func bounds() -> Rect2:
 	return Rect2(used.position * tile_size, used.size * tile_size)
 
 
-## Volta todos os objetos (e plataformas móveis) ao estado inicial.
+## Volta os objetos (e plataformas móveis) ao estado inicial. Chamado quando o Jupiter morre.
 func reset_entities() -> void:
 	for entity in _room_entities():
 		entity.reset()
@@ -57,6 +62,25 @@ func reset_entities() -> void:
 	if platforms != null:
 		for platform in platforms.get_children():
 			(platform as MovingPlatform).reset()
+
+
+## Quantas estrelas perdidas a fase tem (as soltas e as que uma conversa pode render).
+func star_total() -> int:
+	return _star_sources().size()
+
+
+## Quantas delas já foram guardadas (nesta visita ou em outra).
+func stars_found() -> int:
+	var level_id := id()
+	return _star_sources().filter(func(source: RoomEntity) -> bool: return Stars.has(level_id, source.name)).size()
+
+
+## A saída da fase, ou null se ela termina de outro jeito (chefe).
+func exit() -> RoomExit:
+	for entity in _room_entities():
+		if entity is RoomExit:
+			return entity
+	return null
 
 
 ## O chefe da fase, ou null se não houver.
@@ -75,9 +99,17 @@ func _room_entities() -> Array[RoomEntity]:
 	return result
 
 
+## Os objetos que valem uma estrela: as soltas e as conversas que podem render uma.
+func _star_sources() -> Array[RoomEntity]:
+	return _room_entities().filter(func(entity: RoomEntity) -> bool:
+		return entity is StarPickup or (entity is Encounter and (entity as Encounter).offers_star()))
+
+
 func _connect_entity(entity: RoomEntity) -> void:
 	if entity is StarPickup:
-		(entity as StarPickup).collected.connect(star_collected.emit)
+		var star := entity as StarPickup
+		star.found_before = Stars.has(id(), star.name)
+		star.secured.connect(func(_star: StarPickup) -> void: _keep_star(star.name))
 	elif entity is Checkpoint:
 		(entity as Checkpoint).activated.connect(checkpoint_reached.emit)
 	elif entity is RoomExit:
@@ -86,7 +118,12 @@ func _connect_entity(entity: RoomEntity) -> void:
 		(entity as DashUnlock).collected.connect(skill_unlocked.emit)
 	elif entity is Encounter:
 		(entity as Encounter).requested.connect(encounter_requested.emit)
-		(entity as Encounter).gifted.connect(star_collected.emit)
+		(entity as Encounter).gifted.connect(_keep_star.bind(entity.name))
 	elif entity is SophieBoss:
 		(entity as SophieBoss).defeated.connect(exit_reached.emit)
 		(entity as SophieBoss).shook.connect(shake_requested.emit)
+
+
+func _keep_star(star_id: String) -> void:
+	Stars.collect(id(), star_id)
+	star_collected.emit()

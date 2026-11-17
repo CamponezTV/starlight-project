@@ -18,6 +18,7 @@ collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("1_hut")
+decor_clearance = 6
 scene = ExtResource("5_talk")
 
 [node name="Collision" type="CollisionShape2D" parent="."]

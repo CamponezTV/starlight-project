@@ -43,10 +43,10 @@ position = Vector2(36, 192)
 
 [node name="Entities" type="Node2D" parent="." unique_id=1693547426]
 
-[node name="StarPickup" parent="Entities" unique_id=100822788 instance=ExtResource("4_6peq8")]
+[node name="Estrela1" parent="Entities" unique_id=100822788 instance=ExtResource("4_6peq8")]
 position = Vector2(492, 40)
 
-[node name="@Area2D@2" parent="Entities" unique_id=1018989380 instance=ExtResource("4_6peq8")]
+[node name="Estrela2" parent="Entities" unique_id=1018989380 instance=ExtResource("4_6peq8")]
 position = Vector2(716, 40)
 
 [node name="DashCrystal" parent="Entities" unique_id=442517678 instance=ExtResource("5_h3tsb")]
@@ -64,7 +64,7 @@ position = Vector2(548, 72)
 [node name="RoomExit" parent="Entities" unique_id=2092454115 instance=ExtResource("7_cnn6p")]
 position = Vector2(772, 80)
 
-[node name="@Area2D@5" parent="Entities" unique_id=1474293161 instance=ExtResource("4_6peq8")]
+[node name="Estrela3" parent="Entities" unique_id=1474293161 instance=ExtResource("4_6peq8")]
 position = Vector2(244, 160)
 
 [node name="@Area2D@6" parent="Entities" unique_id=2020719608 instance=ExtResource("6_vg32c")]

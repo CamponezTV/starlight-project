@@ -23,6 +23,11 @@ func _ready() -> void:
 	_prompt.modulate.a = 0.0
 
 
+## Esta conversa pode render uma estrela? (Ela entra na contagem da fase.)
+func offers_star() -> bool:
+	return false
+
+
 ## Ainda há o que conversar?
 func is_available() -> bool:
 	return true

@@ -6,8 +6,10 @@ const MAIN := preload("res://main/main.tscn")
 const LEVEL_01 := preload("res://levels/level_01.tscn")
 const LEVEL_02 := preload("res://levels/level_02.tscn")
 const LEVEL_03 := preload("res://levels/level_03.tscn")
-const BROOCH_CELL := Vector2i(163, 18)
+const BROOCH_CELL := Vector2i(172, 17)
 const JUMP_HOLD := 14
+const PRESS_EVERY := 8 ## quadros
+const SHOWCASE_LIMIT := 900 ## quadros
 
 
 func test_dash_is_locked_until_the_brooch_is_found() -> void:
@@ -26,6 +28,19 @@ func test_dash_is_locked_until_the_brooch_is_found() -> void:
 	await wait_physics_frames(3)
 	assert_true(jupiter.dash_unlocked, "o broche ensina o dash")
 	assert_signal_emitted(game.level(), "skill_unlocked")
+	var showcase := game.get_node("SkillShowcase") as SkillShowcase
+	assert_true(showcase.is_open(), "a habilidade nova ganha um holofote")
+	assert_true(get_tree().paused, "o jogo para enquanto o holofote está aceso")
+	# O jogo está parado: espera pelos quadros da árvore, apertando o botão até fechar.
+	for frame in SHOWCASE_LIMIT:
+		if not get_tree().paused:
+			break
+		if frame % PRESS_EVERY == 0:
+			TestHelpers.tap(&"jump")
+		await get_tree().process_frame
+	assert_false(get_tree().paused, "confirmar devolve o jogo")
+	assert_false(showcase.is_open())
+	get_tree().paused = false
 
 
 func test_decor_never_grows_on_objects() -> void:
@@ -62,13 +77,21 @@ func test_every_level_has_a_backdrop() -> void:
 
 
 func test_level_01_sprouts_reach_the_high_ledge() -> void:
-	await start_at(LEVEL_01, Vector2i(292, 16))
-	var reached := await run_bot(_runner([], 999.0, func() -> bool: return standing_at_least(306, 9)), TIME_LIMIT)
+	await start_at(LEVEL_01, Vector2i(332, 16))
+	var reached := await run_bot(_runner([], 999.0, func() -> bool: return standing_at_least(346, 9)), TIME_LIMIT)
 	assert_true(reached, "os dois brotos deveriam levar até a borda alta")
 
 
-func test_level_01_exit_is_at_the_end_of_the_crossing() -> void:
-	await start_at(LEVEL_01, Vector2i(363, 8))
+func test_level_01_crossing_leads_on_to_the_leap() -> void:
+	await start_at(LEVEL_01, Vector2i(403, 8))
+	Input.action_press(&"move_right")
+	await wait_physics_frames(90)
+	assert_gt(player.global_position.x, 410.0 * TILE, "a parede do fim da Travessia abriu")
+	assert_false(player.is_dead())
+
+
+func test_level_01_exit_is_the_portal_at_the_end() -> void:
+	await start_at(LEVEL_01, Vector2i(475, 13))
 	watch_signals(main.level())
 	Input.action_press(&"move_right")
 	await wait_physics_frames(40)

@@ -4,6 +4,10 @@ extends Area2D
 ## A cena de cada objeto define colisão, sprite e luz; o script define só o comportamento.
 ## Subclasses sobrescrevem reset(), _on_player_entered() e _on_player_exited().
 
+## Blocos para cada lado da origem em que os enfeites do chão não nascem. Aumente em
+## objetos largos (altar, portal, cabana).
+@export var decor_clearance := 1
+
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

@@ -1,6 +1,8 @@
 extends Cutscene
-## Prólogo, o adeus: três semanas depois do hospital, o enterro do avô, na chuva. O pai não veio. Sophie
-## não sabe o que dizer e vai embora. Jupiter, sozinho, confessa que não chorou. A chuva
+## Prólogo, o adeus: três semanas depois do hospital, o enterro do avô, na chuva. O pai
+## não veio. Sophie faz o papel da madrasta dedicada para quem está olhando, lembra o
+## Jupiter de que agora ele não tem a quem recorrer e vai embora. Sozinho, ele confessa
+## que não chorou. A chuva
 ## para, e ele olha pra cima mesmo sabendo que "virar estrela" não é verdade.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
@@ -38,14 +40,17 @@ func _run() -> void:
 	await cut_to(_close, 0.5)
 	await say(SOPHIE, "Seu pai ligou. Não conseguiu voo.")
 	await say(JUPITER, "Eu sei.")
-	await say(SOPHIE, "Ele mandou flores.")
+	await say(SOPHIE, "Ele mandou flores. E o dinheiro do mês.")
 	await say(JUPITER, "Eu vi. Vieram com o nome do vovô escrito errado.")
 	_sophie.pose = "away"
 	await say(SOPHIE, "...")
-	_sophie.pose = "tired"
-	await say(SOPHIE, "Eu não sei o que dizer pra você, Jupiter. Nunca soube.")
-	await say(JUPITER, "Não precisa dizer nada.")
 	_sophie.pose = "cold"
+	await say(SOPHIE, "Arruma essa cara. Tem gente olhando.")
+	_sophie.pose = "sweet"
+	await say(SOPHIE, "Hoje eu sou a madrasta que ficou. Não me faz passar vergonha.")
+	await say(JUPITER, "...")
+	_sophie.pose = "cold"
+	await say(SOPHIE, "Agora não tem mais ninguém pra quem você possa ir chorar. Lembra disso.")
 	await say(SOPHIE, "Não fica aí até escurecer. Eu não vou voltar pra te buscar.")
 	end_conversation()
 	await cut_to(_alone, 0.8)

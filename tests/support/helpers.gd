@@ -3,6 +3,9 @@ class_name TestHelpers
 
 const TILE := 8
 const ACTIONS: Array[StringName] = [&"move_left", &"move_right", &"move_up", &"move_down", &"jump", &"dash"]
+const TEST_SAVE := "user://test_progress.cfg"
+
+static var _real_save_path := ""
 
 
 ## Pés de quem está na célula (centro da base), como os objetos são posicionados nas salas.
@@ -29,3 +32,19 @@ static func tap(action: StringName) -> void:
 		event.action = action
 		event.pressed = pressed
 		Input.parse_input_event(event)
+
+
+## Troca o arquivo de progresso por um vazio, só dos testes: estrelas guardadas e
+## escolhas não tocam no progresso de quem está jogando. Desfaça com restore_save().
+static func use_test_save() -> void:
+	if _real_save_path.is_empty():
+		_real_save_path = Story.save_path
+	Story.save_path = TEST_SAVE
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_SAVE))
+
+
+static func restore_save() -> void:
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(TEST_SAVE))
+	if not _real_save_path.is_empty():
+		Story.save_path = _real_save_path
+		_real_save_path = ""

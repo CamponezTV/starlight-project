@@ -1,0 +1,105 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/skill_showcase.gd" id="1_showcase"]
+[ext_resource type="Shader" path="res://ui/spotlight.gdshader" id="2_spotlight"]
+[ext_resource type="AudioStream" path="res://ui/sounds/skill.wav" id="3_sound"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_spotlight"]
+shader = ExtResource("2_spotlight")
+
+[node name="SkillShowcase" type="CanvasLayer"]
+process_mode = 3
+layer = 40
+script = ExtResource("1_showcase")
+
+[node name="Spotlight" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_spotlight")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Flash" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0.97, 0.84, 1)
+
+[node name="Text" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 12.0
+offset_bottom = 80.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Kicker" type="Label" parent="Text"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 12.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+text = "Nova habilidade"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Text"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0.25, 0.13, 0.5, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 32
+text = "DASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Text"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 50.0
+offset_bottom = 62.0
+grow_horizontal = 2
+text = "O broche do vovô acende."
+horizontal_alignment = 1
+
+[node name="Controls" type="Label" parent="Text"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 62.0
+offset_bottom = 74.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.55, 0.95, 1, 1)
+text = "X + uma direção"
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -16.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.75, 0.72, 0.9, 1)
+text = "Espaço: continuar"
+horizontal_alignment = 1
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_sound")
+volume_db = -3.0
+bus = &"SFX"

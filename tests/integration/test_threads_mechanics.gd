@@ -31,7 +31,7 @@ func test_sprout_bounces_higher_than_a_jump_and_refills_the_dash() -> void:
 	assert_true(player.can_dash)
 
 
-func test_touching_a_whisper_costs_a_star() -> void:
+func test_touching_a_whisper_kills() -> void:
 	await start_at(LEVEL_03, WHISPER_CELL)
 	await wait_physics_frames(3)
 	assert_true(player.is_dead())
