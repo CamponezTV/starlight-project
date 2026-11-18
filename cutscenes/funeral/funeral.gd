@@ -2,13 +2,19 @@ extends Cutscene
 ## Prólogo, o adeus: três semanas depois do hospital, o enterro do avô, na chuva. O pai
 ## não veio. Sophie faz o papel da madrasta dedicada para quem está olhando, lembra o
 ## Jupiter de que agora ele não tem a quem recorrer e vai embora. Sozinho, ele confessa
-## que não chorou. A chuva
-## para, e ele olha pra cima mesmo sabendo que "virar estrela" não é verdade.
+## que não chorou. A chuva para, e ele olha pra cima mesmo sabendo que "virar estrela" não
+## é verdade.
+## A chuva começa baixinha na tela preta, sobe com a imagem, abaixa nos planos fechados
+## (debaixo do guarda-chuva, com a conversa) e some quando para.
 
 const JUPITER := preload("res://dialogue/speakers/jupiter.tres")
 const SOPHIE := preload("res://dialogue/speakers/sophie.tres")
 
 const RAIN_FADE := 3.0
+const RAIN_VOLUME := -15.0 ## No plano aberto.
+const RAIN_UNDER_TALK := -20.0 ## Nos planos fechados, debaixo das falas.
+const RAIN_SILENT := -50.0
+const RAIN_DUCK_TIME := 0.6
 
 @onready var _wide: Node2D = $Shots/Wide
 @onready var _close: Node2D = $Shots/Close
@@ -35,8 +41,10 @@ func _run() -> void:
 	await say(null, "(Todo mundo falou dele como se ele tivesse viajado.)")
 	end_conversation()
 	Transition.fade_in(3.0)
+	_rain_to(RAIN_VOLUME, RAIN_FADE)
 	pan(_wide, PAN_DISTANCE, 30.0)
 	await wait(5.0)
+	_rain_to(RAIN_UNDER_TALK, RAIN_DUCK_TIME)
 	await cut_to(_close, 0.5)
 	await say(SOPHIE, "Seu pai ligou. Não conseguiu voo.")
 	await say(JUPITER, "Eu sei.")
@@ -66,7 +74,7 @@ func _run() -> void:
 	await say(JUPITER, "Eu tenho catorze anos. Eu sei que não é assim que funciona.")
 	await say(JUPITER, "Eu sei o que tem dentro daquela caixa.")
 	end_conversation()
-	create_tween().tween_property(_rain_sound, "volume_db", -50.0, RAIN_FADE)
+	_rain_to(RAIN_SILENT, RAIN_FADE)
 	await cut_to(_sky, 1.5)
 	cast[JUPITER] = _jupiter_sky
 	await say(null, "(A chuva parou.)")
@@ -77,3 +85,7 @@ func _run() -> void:
 	await say(null, "(Você prometeu que não ia ter pressa.)")
 	end_conversation()
 	await Transition.fade_out(2.5)
+
+
+func _rain_to(volume_db: float, seconds: float) -> void:
+	create_tween().tween_property(_rain_sound, "volume_db", volume_db, seconds)

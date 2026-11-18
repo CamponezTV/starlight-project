@@ -23,6 +23,23 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.14.2 — Chuva, menos cristais e arte corrigida · 18/11/2026
+
+**Mudanças**
+- **Chuva do enterro refeita:** era quase só chiado agudo, contínuo e alto por baixo das falas. Agora é chuva de verdade: um lençol de água que sobe e desce com as rajadas, pingos miúdos, algumas gotas grossas por perto e um ronco distante. Começa baixinha na tela preta, sobe com a imagem, abaixa nos planos fechados (com a conversa) e some quando a chuva para.
+- **Dash refeito:** um sopro macio com corpo e o brilho de estrela, sem o chiado. Mais baixo, porque toca o tempo todo.
+- **Morte e a pancada da mão da Sophie** mais baixas: tocam muitas vezes seguidas.
+- **Fase 1 mais difícil, com menos cristais de dash:** a sala dos cristais tem 2 (eram 4), a Travessia não tem nenhum (só a plataforma) e o Salto tem 1 (eram 3). A estrela do Salto agora fica no alto, acima do broto: o impulso dele e um dash para cima.
+- **Hospital:** o Jupiter visitava o avô de terno, a roupa do enterro. Agora está de moletom verde com capuz e jeans, no busto e no plano aberto.
+
+**Correções**
+- **Camisas dos bustos:** a pele do pescoço aparecia por cima da roupa, como um furo. Agora o pescoço termina na gola, com o decote em curva nas golas redondas.
+- **Hospital:** o Jupiter, de costas, parecia sentado virado para o encosto da cadeira. O encosto agora fica na frente das costas dele, com as ripas descendo até a borda do assento.
+- **Enterro:** o caminho de pedras passava por cima da cova, do monte de terra e da pá, e havia túmulos em cima dele. Agora desce pela direita, livre.
+
+**Técnico**
+- 163 testes automáticos. Dois robôs novos atravessam a Travessia só com a plataforma e pegam a estrela dela; os do Salto e dos cristais foram refeitos para as posições novas.
+
 ### v0.14.1 — Tema do menu, ícone, banner e o cabelo do Jupiter · 17/11/2026
 
 **Novidades**

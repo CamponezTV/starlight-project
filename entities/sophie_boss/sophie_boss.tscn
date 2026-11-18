@@ -154,7 +154,7 @@ bus = &"SFX"
 
 [node name="SlamSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_slam")
-volume_db = -2.0
+volume_db = -4.0
 bus = &"SFX"
 
 [node name="DefeatSound" type="AudioStreamPlayer" parent="."]
