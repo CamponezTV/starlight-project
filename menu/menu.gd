@@ -31,7 +31,7 @@ const SHOOTING_STAR_PATH := Vector2(-110, 46) ## ...e quanto anda.
 
 ## Extras que não fazem parte da campanha (sala de teste, finais), junto dos capítulos.
 @export var dev_steps: Array[StoryStep] = []
-@export var music: AudioStream
+@export var music: AudioStream ## "A Promessa" à noite (music/menu_promise.wav).
 
 ## Liberado pelo código secreto. Estático: continua valendo quando o menu volta a abrir.
 static var dev_unlocked := false

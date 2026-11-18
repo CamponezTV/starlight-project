@@ -130,6 +130,10 @@ func test_escape_on_the_main_page_only_points_to_quit() -> void:
 	assert_true((_menu.get_node("%QuitButton") as Button).has_focus(), "Esc não fecha o jogo de surpresa")
 
 
+func test_plays_the_night_theme() -> void:
+	assert_eq(_menu.music.resource_path, "res://music/menu_promise.wav")
+
+
 func test_star_cursor_follows_the_focus() -> void:
 	await wait_process_frames(1)
 	var cursor := _menu.get_node("Cursor") as Sprite2D

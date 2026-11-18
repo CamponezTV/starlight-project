@@ -1,6 +1,6 @@
 extends Node
 ## Autoload "Presence": o status do jogador no Discord ("Jogando Starlight", o capítulo
-## atual, há quanto tempo e a imagem daquele capítulo). Usa o addon DiscordRichPresence,
+## atual, há quanto tempo e o ícone do jogo). Usa o addon DiscordRichPresence,
 ## que fala com o Discord aberto no computador; sem Discord (ou sem APP_ID), nada
 ## acontece e nada quebra.
 ## Percebe sozinho cada cena que entra como cena principal (menu, fase ou cutscene), seja
@@ -13,10 +13,9 @@ extends Node
 ## Application ID do app "Starlight" no Discord Developer Portal (General Information).
 ## Vazio = desligado. Não é segredo: pode ficar no Git.
 const APP_ID := "1572371769308881056"
-## Imagem do menu e de cenas fora da campanha. As dos capítulos têm o nome do arquivo da
-## cena (ex.: "level_01"). Todas são enviadas em Rich Presence > Art Assets, no Developer
-## Portal; tools/discord/make_images.gd gera os arquivos com esses nomes.
-const DEFAULT_IMAGE := "logo"
+## A imagem do status: o ícone do jogo, enviado em Rich Presence > Art Assets, no Developer
+## Portal, com este nome (tools/discord/make_image.gd gera o arquivo).
+const IMAGE_KEY := "icon"
 const IMAGE_TITLE := "Starlight"
 
 const MENU_TEXT := "No menu"
@@ -59,11 +58,6 @@ func show_scene(scene: Node) -> void:
 	_refresh()
 
 
-## A imagem de uma cena: o nome do arquivo dela (ex.: "level_01").
-static func image_for(scene_path: String) -> String:
-	return scene_path.get_file().get_basename() if not scene_path.is_empty() else DEFAULT_IMAGE
-
-
 ## Só as cenas que viram cena principal (filhas da raiz). Uma conversa dentro de uma fase
 ## (Encounter) toca embaixo do Main e não troca o status.
 func _on_node_added(node: Node) -> void:
@@ -81,14 +75,13 @@ func _refresh() -> void:
 	_activity = {
 		"details": tr(MENU_TEXT),
 		"timestamps": {"start": _started},
-		"assets": {"large_image": DEFAULT_IMAGE, "large_text": IMAGE_TITLE},
+		"assets": {"large_image": IMAGE_KEY, "large_text": IMAGE_TITLE},
 	}
 	if not _scene_path.is_empty():
 		var index := _step_index(_scene_path)
 		if index >= 0:
 			var step := Story.steps[index]
 			_activity["details"] = tr(CHAPTER_TEXT) % [index + 1, tr(step.title)]
-			_activity["assets"]["large_image"] = image_for(_scene_path)
 			_is_level = step.kind == StoryStep.Kind.LEVEL
 		else:
 			_activity["details"] = tr(DEV_TEXT)

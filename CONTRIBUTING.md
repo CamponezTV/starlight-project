@@ -164,6 +164,8 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 | `levels/backgrounds/night_sky.png`, `mountain_far.png` | céu e serras da montanha e do menu (repetem a cada 320 px) |
 | `levels/tilesets/*_decor.png` | enfeites do terreno, células 8×8: linha 0 = tufos, cogumelo e flor; linha 1 = cristais e pedras; linha 2 = pendurados; linha 3 = laterais (desenhados para uma parede à esquerda) |
 | `ui/fonts/starlight_pixel.ttf` | fonte do jogo: 1 pixel por ponto em tamanho 8 (use 8 ou 16). Importada sem antialiasing e sem hinting |
+| `icon.png` | ícone do jogo, 256×256 (desenhado em 128 e ampliado 2×): a estrela-guia no céu noturno, num quadrado arredondado |
+| `promo/banner.png` | banner de apresentação, 920×430 (desenhado em 460×215): logo, a estrela, a colina e o Jupiter. A pasta tem `.gdignore`: o Godot não importa |
 | `companion/star.png` | estrela-guia, 4 quadros 16×16 |
 | `entities/checkpoint/star_beacon.png` | estrela adormecida, 2 quadros 16×16 (apagada, acesa) |
 | `entities/star_pickup/star_pickup.png` | estrela perdida, 4 quadros 16×16 |
@@ -183,7 +185,7 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 - Buses: `Music` (-6 dB) e `SFX`. Todo `AudioStreamPlayer` usa um dos dois.
 - Os efeitos ficam junto de quem os toca (`player/sounds/`, `entities/*/`, `menu/sounds/`, `main/sounds/`, `dialogue/`, `cutscenes/*/`). Foram sintetizados na pentatônica de Ré maior, com timbre de sino e eco longo.
 - **Trilhas** (`music/`): loops sem emenda, todas variações do tema "A Promessa" (`promise`). O bus `Music` tem reverb e abertura estéreo, então as faixas são mono. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor.
-- **Música do menu:** `music/menu.wav` (original), em `music` no Inspetor do Menu. O jogo só distribui música original: nada de terceiros no projeto. A pasta `menu/music/` continua fora do Git; apague o que houver nela antes de exportar, senão o arquivo vai junto.
+- **Música do menu:** `music/menu_promise.wav` ("A Promessa" à noite), em `music` no Inspetor do Menu. O jogo só leva música original. A pasta `menu/music/` continua fora do Git; se houver música de terceiros nela, tire antes de exportar uma build, senão ela vai junto.
 - **Para fechar o jogo, use `App.quit()`**, nunca `get_tree().quit()`. O App espera o áudio ser liberado antes de sair. O X da janela já passa por ele.
 
 ## Menu e configurações
@@ -201,7 +203,7 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 - **Presence** (autoload) monta o status e entrega ao `DiscordRichPresence` (addon em `addons/discord_rich_presence/`, MIT). Percebe sozinho cada cena que entra como cena principal (menu, fase ou cutscene) e atualiza também quando o idioma muda.
 - **Sem citar classes de cena no autoload:** ele reconhece as cenas pelo caminho do menu, por `level_scene` e por `say`. Referenciar `Menu`, `Main` ou `Cutscene` num autoload prende scripts na memória ao fechar o jogo.
 - **App do Discord:** o ID fica em `Presence.APP_ID` (não é segredo).
-- **Imagens:** cada capítulo usa a imagem com o nome do arquivo da cena (`level_01`, `sophie_memory`...); o menu e cenas fora da campanha usam `logo`. `godot --headless -s res://tools/discord/make_images.gd` gera todas em `tools/discord/images/` (recortes da arte do jogo, 1056 px). Envie em Rich Presence → Art Assets: o nome do arquivo vira a chave. Capítulo novo = rode a ferramenta (com o recorte em `CROPS`) e envie a imagem nova.
+- **Imagem:** o status usa só o ícone do jogo (chave `icon`). `godot --headless -s res://tools/discord/make_image.gd` exporta `icon.png` em 1024 px para `tools/discord/images/`. Envie em Rich Presence → Art Assets sem renomear. Mudou o ícone? Rode de novo e troque a imagem no portal.
 - **Nunca mande texto vazio:** o Discord recusa o status inteiro. Um teste confere todos os passos.
 - Sem Discord aberto, na web, no celular e nos testes (headless), o addon não faz nada.
 

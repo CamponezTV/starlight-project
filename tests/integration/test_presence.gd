@@ -13,27 +13,26 @@ func after_each() -> void:
 	_show(MENU_SCENE.instantiate())
 
 
-func test_menu_shows_only_the_menu_and_the_logo() -> void:
+func test_menu_shows_only_the_menu_and_the_icon() -> void:
 	_show(MENU_SCENE.instantiate())
 	var activity := Presence.activity()
 	assert_eq(activity["details"], Presence.MENU_TEXT)
 	assert_false(activity.has("state"))
-	assert_eq(activity["assets"]["large_image"], Presence.DEFAULT_IMAGE)
+	assert_eq(activity["assets"]["large_image"], Presence.IMAGE_KEY)
 
 
-func test_a_level_shows_its_chapter_and_its_image() -> void:
+func test_a_level_shows_its_chapter_and_the_icon() -> void:
 	var step := Story.steps[CHAPTER - 1]
 	_show(Story.instantiate_step(step))
 	var activity := Presence.activity()
 	assert_eq(activity["details"], "Capítulo %d: %s" % [CHAPTER, step.title])
 	assert_eq(activity["state"], Presence.PLAYING_TEXT)
-	assert_eq(activity["assets"]["large_image"], "level_01")
+	assert_eq(activity["assets"]["large_image"], Presence.IMAGE_KEY, "uma imagem só, o ícone")
 
 
 func test_a_cutscene_shows_a_memory() -> void:
 	_show(Story.instantiate_step(Story.steps[MEMORY - 1]))
 	assert_eq(Presence.activity()["state"], Presence.WATCHING_TEXT)
-	assert_eq(Presence.activity()["assets"]["large_image"], "sophie_memory")
 
 
 func test_a_scene_outside_the_campaign_shows_dev_mode() -> void:
@@ -41,7 +40,6 @@ func test_a_scene_outside_the_campaign_shows_dev_mode() -> void:
 	game.level_scene = TEST_ROOM
 	_show(game)
 	assert_eq(Presence.activity()["details"], Presence.DEV_TEXT)
-	assert_eq(Presence.activity()["assets"]["large_image"], Presence.DEFAULT_IMAGE)
 
 
 func test_only_the_main_scene_changes_the_status() -> void:
@@ -66,12 +64,9 @@ func test_no_text_is_ever_empty() -> void:
 			assert_gt((Presence.activity()[key] as String).length(), 1, "texto vazio em %s" % step.title)
 
 
-## Cada capítulo tem a sua imagem pronta para enviar ao Discord.
-func test_every_chapter_image_exists() -> void:
-	for step in Story.steps:
-		var image := Presence.image_for(step.scene.resource_path)
-		assert_true(FileAccess.file_exists("res://tools/discord/images/%s.png" % image), "falta a imagem %s" % image)
-	assert_true(FileAccess.file_exists("res://tools/discord/images/%s.png" % Presence.DEFAULT_IMAGE))
+## O ícone fica pronto para enviar ao Discord.
+func test_the_icon_image_exists() -> void:
+	assert_true(FileAccess.file_exists("res://tools/discord/images/%s.png" % Presence.IMAGE_KEY))
 
 
 func _show(scene: Node) -> void:

@@ -23,6 +23,23 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.14.1 — Tema do menu, ícone, banner e o cabelo do Jupiter · 17/11/2026
+
+**Novidades**
+- **Ícone novo do jogo:** a estrela-guia sozinha, grande e dourada, com volume nas pontas, halo e faíscas, no céu noturno.
+- **Banner de apresentação** (`promo/banner.png`, 920×430): o logo, a estrela sobre a colina e o Jupiter, pequeno, olhando para ela.
+
+**Mudanças**
+- **Discord:** o status mostra só o ícone do jogo (a estrela), em todos os capítulos.
+- **Música do menu nova: "A Promessa" à noite.** Só a melodia do tema do jogo, na caixinha de música e nos sinos, com estrelinhas soltas: começa quase em silêncio, a melodia responde aos poucos, toca inteira e volta ao silêncio. Original, como o resto da trilha.
+- O menu não usa mais arquivo de música local. O tema em lo-fi continua nos créditos.
+
+**Correções**
+- **O cabelo do Jupiter** (criança, adolescente e de pijama) formava um redemoinho em espiral no alto da cabeça. Agora são mechas: a franja por cima, as pontas do topo com luz no meio e sombra entre elas.
+
+**Técnico**
+- 161 testes automáticos. Os novos conferem que o menu toca o tema novo e que o ícone do Discord está pronto para enviar.
+
 ### v0.14.0 — Pré-alpha: tela de título e configurações · 17/11/2026
 
 **Novidades**
