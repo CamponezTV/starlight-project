@@ -7,7 +7,8 @@ extends RoomEntity
 ## perdido ela fica mais rápida e ganha ataques. A luta é para pesar: ela entra pelos
 ## olhos, o escuro fecha em volta da tela no ritmo de um coração e cada golpe (a mão no
 ## chão, o Jupiter caindo) dá um clarão vermelho. A arena é a sala (RoomZone) em `arena`;
-## os orbes aparecem nos Marker2D de OrbSpots.
+## os orbes aparecem nos Marker2D de OrbSpots. A trilha acompanha: cada fase tem a sua
+## (`phase_music`), mais rápida e mais pesada que a anterior, e a troca acontece aos poucos.
 
 signal hit(health_left: int)
 signal health_changed(health: int)
@@ -54,6 +55,11 @@ const BEAT_SHARPNESS := 90.0
 const BLOW_FLASH := 0.5 ## Opacidade do clarão vermelho de um golpe.
 const BLOW_FADE := 0.35
 
+## Troca de trilha (no golpe e quando a luta recomeça): a nova cresce durante o atordoamento
+## inteiro e a antiga some mais rápido, para os dois andamentos não brigarem.
+const MUSIC_FADE_IN := STUN_TIME
+const MUSIC_FADE_OUT := 1.2
+
 const HAND_REST := Vector2(34, -34) ## Onde a mão descansa, em relação aos pés dela.
 const HAND_AIM_HEIGHT := 26.0 ## Altura (abaixo do teto) de onde a mão mira.
 const HAND_AIM_TIME := 0.9
@@ -95,6 +101,8 @@ const REST_TIME := [1.4, 1.15, 0.9, 0.7]
 @export var word_scene: PackedScene
 @export var orb_scene: PackedScene
 @export var shatter_effect: PackedScene
+## Uma trilha por fase, da primeira (vida cheia) à última. A primeira é a mesma `music` da fase.
+@export var phase_music: Array[AudioStream] = []
 
 var health := MAX_HEALTH
 
@@ -158,6 +166,7 @@ func reset() -> void:
 	_hand.global_position = global_position + HAND_REST
 	_hand.modulate = Color.WHITE
 	_set_state(State.WAITING)
+	_play_phase_music()
 	health_changed.emit(health)
 
 
@@ -253,6 +262,7 @@ func _take_hit() -> void:
 	if health <= 0:
 		_defeat()
 	else:
+		_play_phase_music()
 		_set_state(State.STUNNED)
 
 
@@ -327,6 +337,11 @@ func _phase() -> int:
 
 func _rest_time() -> float:
 	return REST_TIME[_phase()]
+
+
+func _play_phase_music() -> void:
+	if not phase_music.is_empty():
+		Music.play(phase_music[mini(_phase(), phase_music.size() - 1)], MUSIC_FADE_IN, MUSIC_FADE_OUT)
 
 
 # --- Ataques: cada um agenda as ações a partir de `start` e devolve quando termina -------

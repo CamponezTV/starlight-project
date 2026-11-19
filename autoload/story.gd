@@ -4,8 +4,7 @@ extends Node
 ## do jogo (main/main.tscn); cutscenes são cenas próprias. Quem termina chama advance().
 ## Fora da campanha (fase aberta direto no editor ou pelo menu dev), advance() volta ao menu.
 ## O último passo começado fica salvo em `save_path`, para o "Continuar" do menu, junto
-## com o que o jogador escolheu nas conversas (remember/recall) e as estrelas guardadas
-## (autoload Stars). Um jogo novo esquece tudo.
+## com o que o jogador escolheu nas conversas (remember/recall). Um jogo novo esquece tudo.
 
 signal step_started(index: int)
 
@@ -40,7 +39,6 @@ func start(index := 0) -> void:
 	_index = index
 	if index == 0:
 		forget_choices()
-		Stars.forget()
 	save_progress(index)
 	await _change_scene(instantiate_step(steps[index]))
 	step_started.emit(index)

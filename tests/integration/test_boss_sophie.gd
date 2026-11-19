@@ -1,6 +1,6 @@
 extends PlaythroughTest
 ## Chefe 1 (Sophie): palavras são perigosas, encostar nela sem voz mata (e a luta recomeça),
-## um dash com voz tira vida e três acertos terminam a fase.
+## um dash com voz tira vida e três acertos terminam a fase. Cada fase da luta tem a sua trilha.
 
 const BOSS_LEVEL := preload("res://levels/boss_sophie.tscn")
 const START_CELL := Vector2i(4, 19)
@@ -36,6 +36,16 @@ func test_touching_her_without_voice_kills_without_hurting_her() -> void:
 	await wait_physics_frames(3)
 	assert_true(player.is_dead())
 	assert_eq(_boss.health, SophieBoss.MAX_HEALTH)
+
+
+## O toque nela mata uma vez só: ao renascer longe, o Jupiter não morre de novo pelo toque
+## antigo (a física só avisa no passo seguinte que ele saiu de perto dela).
+func test_touching_her_kills_only_once() -> void:
+	await _start()
+	player.respawn(_boss.global_position + Vector2(0, -30))
+	await wait_seconds(Main.RESPAWN_DELAY + 1.0)
+	assert_false(player.is_dead())
+	assert_eq(main.deaths(), 1)
 
 
 func test_dash_with_voice_hits_and_stuns_her() -> void:
@@ -79,6 +89,43 @@ func test_reset_restores_the_fight() -> void:
 	assert_eq(_boss.health, SophieBoss.MAX_HEALTH)
 	assert_false(_boss.is_stunned())
 	assert_eq(_boss.words().size(), 0)
+
+
+# --- A trilha ------------------------------------------------------------------------------
+
+
+## Cada golpe traz a trilha da fase seguinte, aos poucos: ela cresce durante o atordoamento
+## enquanto a antiga some. Se a luta recomeça, a trilha também.
+func test_each_hit_brings_the_next_phase_track() -> void:
+	await _start()
+	var tracks := _boss.phase_music
+	assert_eq(tracks.size(), SophieBoss.MAX_HEALTH, "uma trilha por fase")
+	assert_eq(main.level().music, tracks[0], "a fase começa na trilha da primeira fase")
+	assert_eq(Music.current(), tracks[0])
+	Engine.time_scale = FIGHT_SPEED
+	assert_true(await _dash_into_boss(), "o dash não alcançou a Sophie")
+	assert_eq(Music.current(), tracks[1], "o golpe traz a trilha da fase 2")
+	assert_eq(_playing_tracks().size(), 2, "no começo da troca, as duas tocam juntas")
+	await wait_seconds(SophieBoss.STUN_TIME + 0.2)
+	assert_eq(_playing_tracks(), [tracks[1]], "passado o atordoamento, só a nova")
+	_boss.reset()
+	assert_eq(Music.current(), tracks[0], "a luta recomeça na primeira trilha")
+
+
+## Mesmo número de compassos em cada trilha: a mais curta é a mais rápida.
+func test_each_phase_track_is_faster_than_the_last() -> void:
+	await _start()
+	var tracks := _boss.phase_music
+	for phase in range(1, tracks.size()):
+		assert_lt(tracks[phase].get_length(), tracks[phase - 1].get_length(), "fase %d" % (phase + 1))
+
+
+func _playing_tracks() -> Array[AudioStream]:
+	var result: Array[AudioStream] = []
+	for node in Music.find_children("*", "AudioStreamPlayer", false, false):
+		if (node as AudioStreamPlayer).playing:
+			result.append((node as AudioStreamPlayer).stream)
+	return result
 
 
 func _start() -> void:

@@ -212,6 +212,7 @@ func _on_encounter_requested(encounter: Encounter) -> void:
 	Music.play(_level.music)
 	_hold_game(false)
 	encounter.conclude()
+	_refresh_stars() # A decisão pode ter tirado a estrela da conversa do jogo.
 	Transition.fade_in(ENCOUNTER_FADE)
 
 

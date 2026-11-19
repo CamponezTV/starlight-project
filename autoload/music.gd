@@ -1,7 +1,8 @@
 extends Node
 ## Autoload "Music": a trilha do momento, no bus Music, com troca suave entre faixas.
 ## Pedir a faixa que já está tocando não reinicia nada (a música continua entre cenas).
-## Dois players se revezam: um some enquanto o outro cresce.
+## Dois players se revezam: um some enquanto o outro cresce. As curvas são de potência
+## constante (seno e cosseno): no meio da troca, o volume não afunda.
 
 const DEFAULT_FADE := 1.2
 const BUS := &"Music"
@@ -21,14 +22,15 @@ func _ready() -> void:
 		_players.append(player)
 
 
-## Troca para `stream` com crossfade. `null` para a música.
-func play(stream: AudioStream, fade := DEFAULT_FADE) -> void:
+## Troca para `stream` com crossfade: a nova cresce em `fade` segundos e a antiga some em
+## `fade_out` (negativo = o mesmo `fade`). `null` para a música.
+func play(stream: AudioStream, fade := DEFAULT_FADE, fade_out := -1.0) -> void:
 	if stream == null:
 		stop(fade)
 		return
 	if is_playing(stream):
 		return
-	_fade(_active, 0.0, fade)
+	_fade(_active, 0.0, fade if fade_out < 0.0 else fade_out)
 	_active = 1 - _active
 	var player := _players[_active]
 	player.stream = stream
@@ -38,8 +40,10 @@ func play(stream: AudioStream, fade := DEFAULT_FADE) -> void:
 	_is_on = true
 
 
+## Para a música. Os dois players: no meio de uma troca, a faixa antiga ainda está sumindo.
 func stop(fade := DEFAULT_FADE) -> void:
-	_fade(_active, 0.0, fade)
+	for index in _players.size():
+		_fade(index, 0.0, fade)
 	_is_on = false
 
 
@@ -63,7 +67,8 @@ func _fade(index: int, target: float, duration: float) -> void:
 			player.stop()
 		return
 	var tween := create_tween()
-	tween.tween_property(player, "volume_linear", target, duration)
+	var curve := Tween.EASE_OUT if target > player.volume_linear else Tween.EASE_IN
+	tween.tween_property(player, "volume_linear", target, duration).set_trans(Tween.TRANS_SINE).set_ease(curve)
 	if target == 0.0:
 		tween.tween_callback(player.stop)
 	_tweens[index] = tween

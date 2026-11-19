@@ -1,5 +1,5 @@
 extends GutTest
-## Áudio: buses configurados e todo som ligado a um arquivo no bus certo.
+## Áudio: buses configurados, todo som ligado a um arquivo no bus certo e a troca de música.
 
 const SCENES_WITH_SFX := [
 	"res://player/player.tscn",
@@ -16,11 +16,25 @@ const SCENES_WITH_SFX := [
 const MUSIC_BUS := &"Music"
 const SFX_BUS := &"SFX"
 const PLAYER_SCENE := preload("res://player/player.tscn")
+const TRACK_A := preload("res://music/cave.wav")
+const TRACK_B := preload("res://music/summit.wav")
+const MUSIC_DIR := "res://music/"
 
 
 func test_music_and_sfx_buses_exist() -> void:
 	assert_ne(AudioServer.get_bus_index(MUSIC_BUS), -1)
 	assert_ne(AudioServer.get_bus_index(SFX_BUS), -1)
+
+
+## Toda trilha volta ao começo sem parar (Loop Mode = Forward no import).
+func test_every_track_loops() -> void:
+	var tracks := 0
+	for file in ResourceLoader.list_directory(MUSIC_DIR):
+		if file.get_extension() == "wav":
+			tracks += 1
+			var track := load(MUSIC_DIR + file) as AudioStreamWAV
+			assert_eq(track.loop_mode, AudioStreamWAV.LOOP_FORWARD, "%s não faz loop" % file)
+	assert_gt(tracks, 0)
 
 
 func test_every_sound_effect_has_a_stream_on_the_sfx_bus() -> void:
@@ -42,3 +56,24 @@ func test_jumping_plays_the_jump_sound() -> void:
 	world.add_child(player)
 	player._jump(0)
 	assert_true((player.get_node("JumpSound") as AudioStreamPlayer).playing)
+
+
+## No meio da troca, a soma das potências das duas faixas fica perto de 1: o volume não afunda.
+func test_crossfade_keeps_the_loudness() -> void:
+	Music.play(TRACK_A, 0.0)
+	Music.play(TRACK_B, 1.0)
+	await wait_seconds(0.5)
+	var power := 0.0
+	for node in Music.find_children("*", "AudioStreamPlayer", false, false):
+		power += pow((node as AudioStreamPlayer).volume_linear, 2.0)
+	assert_almost_eq(power, 1.0, 0.05)
+	Music.stop(0.0)
+
+
+func test_stopping_mid_crossfade_silences_both_tracks() -> void:
+	Music.play(TRACK_A, 0.0)
+	Music.play(TRACK_B) # A faixa A ainda está sumindo.
+	Music.stop(0.0)
+	assert_null(Music.current())
+	for node in Music.find_children("*", "AudioStreamPlayer", false, false):
+		assert_false((node as AudioStreamPlayer).playing, "%s continuou tocando" % (node as AudioStreamPlayer).stream.resource_path)

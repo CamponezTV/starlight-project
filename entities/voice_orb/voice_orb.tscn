@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="3_light"]
 [ext_resource type="AudioStream" path="res://entities/voice_orb/collect.wav" id="4_collect"]
 [ext_resource type="Material" path="res://shared/additive.tres" id="80_additive"]
+[ext_resource type="PackedScene" path="res://effects/voice_burst.tscn" id="5_burst"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_orb"]
 size = Vector2(10, 10)
@@ -52,6 +53,7 @@ collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("1_orb")
+burst_effect = ExtResource("5_burst")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)

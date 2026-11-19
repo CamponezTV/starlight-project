@@ -17,6 +17,13 @@
 [ext_resource type="PackedScene" path="res://entities/hint_sign/hint_sign.tscn" id="13_hmhyh"]
 [ext_resource type="PackedScene" path="res://entities/moving_platform/moving_platform.tscn" id="15_icmn4"]
 [ext_resource type="PackedScene" path="res://levels/decor/terrain_decor.tscn" id="91_decor"]
+[ext_resource type="Script" path="res://player/skill.gd" id="20_skill"]
+
+[sub_resource type="Resource" id="Resource_voice"]
+script = ExtResource("20_skill")
+title = "VOZ"
+description = "A voz que o Jupiter guardou."
+controls = "Com a voz, X quebra barreiras"
 
 [node name="Level02" type="Node2D" unique_id=108662013]
 script = ExtResource("1_4c076")
@@ -116,18 +123,6 @@ position = Vector2(148, 344)
 [node name="@Area2D@4" parent="Entities" unique_id=289106716 instance=ExtResource("7_icmn4")]
 position = Vector2(156, 344)
 
-[node name="@Area2D@5" parent="Entities" unique_id=1545982304 instance=ExtResource("7_icmn4")]
-position = Vector2(164, 344)
-
-[node name="@Area2D@6" parent="Entities" unique_id=391941640 instance=ExtResource("7_icmn4")]
-position = Vector2(172, 344)
-
-[node name="@Area2D@7" parent="Entities" unique_id=2085011714 instance=ExtResource("7_icmn4")]
-position = Vector2(180, 344)
-
-[node name="@Area2D@8" parent="Entities" unique_id=1708080043 instance=ExtResource("7_icmn4")]
-position = Vector2(188, 344)
-
 [node name="@Area2D@9" parent="Entities" unique_id=1156439143 instance=ExtResource("7_icmn4")]
 position = Vector2(196, 344)
 
@@ -142,54 +137,70 @@ position = Vector2(220, 344)
 
 [node name="@Area2D@13" parent="Entities" unique_id=842538572 instance=ExtResource("7_icmn4")]
 position = Vector2(388, 328)
+crack_time = 0.3
 
 [node name="@Area2D@14" parent="Entities" unique_id=300186806 instance=ExtResource("7_icmn4")]
 position = Vector2(396, 328)
+crack_time = 0.3
 
 [node name="@Area2D@15" parent="Entities" unique_id=121409255 instance=ExtResource("7_icmn4")]
 position = Vector2(404, 328)
+crack_time = 0.3
 
 [node name="@Area2D@16" parent="Entities" unique_id=1513436209 instance=ExtResource("7_icmn4")]
 position = Vector2(436, 312)
+crack_time = 0.3
 
 [node name="@Area2D@17" parent="Entities" unique_id=1162828071 instance=ExtResource("7_icmn4")]
 position = Vector2(444, 312)
+crack_time = 0.3
 
 [node name="@Area2D@18" parent="Entities" unique_id=699178752 instance=ExtResource("7_icmn4")]
 position = Vector2(452, 312)
+crack_time = 0.3
 
 [node name="@Area2D@19" parent="Entities" unique_id=445348820 instance=ExtResource("7_icmn4")]
 position = Vector2(484, 296)
+crack_time = 0.3
 
 [node name="@Area2D@20" parent="Entities" unique_id=1361972531 instance=ExtResource("7_icmn4")]
 position = Vector2(492, 296)
+crack_time = 0.3
 
 [node name="@Area2D@21" parent="Entities" unique_id=1002901531 instance=ExtResource("7_icmn4")]
 position = Vector2(500, 296)
+crack_time = 0.3
 
 [node name="@Area2D@22" parent="Entities" unique_id=938899264 instance=ExtResource("7_icmn4")]
 position = Vector2(532, 296)
+crack_time = 0.3
 
 [node name="@Area2D@23" parent="Entities" unique_id=1232573006 instance=ExtResource("7_icmn4")]
 position = Vector2(540, 296)
+crack_time = 0.3
 
 [node name="@Area2D@24" parent="Entities" unique_id=1526528999 instance=ExtResource("7_icmn4")]
 position = Vector2(548, 296)
+crack_time = 0.3
 
 [node name="@Area2D@25" parent="Entities" unique_id=1689596492 instance=ExtResource("7_icmn4")]
 position = Vector2(572, 288)
+crack_time = 0.3
 
 [node name="@Area2D@26" parent="Entities" unique_id=1584379537 instance=ExtResource("7_icmn4")]
 position = Vector2(580, 288)
+crack_time = 0.3
 
 [node name="@Area2D@27" parent="Entities" unique_id=888383171 instance=ExtResource("7_icmn4")]
 position = Vector2(588, 288)
+crack_time = 0.3
 
 [node name="Estrela1" parent="Entities" unique_id=100822788 instance=ExtResource("8_62sbm")]
 position = Vector2(540, 256)
 
 [node name="VoiceOrb" parent="Entities" unique_id=1353964120 instance=ExtResource("9_gcsue")]
 position = Vector2(724, 336)
+skill = SubResource("Resource_voice")
 
 [node name="WordBarrier" parent="Entities" unique_id=990373945 instance=ExtResource("10_cypj3")]
 position = Vector2(836, 336)
@@ -206,23 +217,11 @@ position = Vector2(1028, 344)
 [node name="@Area2D@31" parent="Entities" unique_id=1684068457 instance=ExtResource("7_icmn4")]
 position = Vector2(1036, 344)
 
-[node name="@Area2D@32" parent="Entities" unique_id=1942354001 instance=ExtResource("7_icmn4")]
-position = Vector2(1044, 344)
-
-[node name="@Area2D@33" parent="Entities" unique_id=1093445431 instance=ExtResource("7_icmn4")]
-position = Vector2(1052, 344)
-
 [node name="@Area2D@34" parent="Entities" unique_id=1862304670 instance=ExtResource("9_gcsue")]
-position = Vector2(1052, 336)
+position = Vector2(1060, 320)
 
 [node name="@Area2D@35" parent="Entities" unique_id=720193425 instance=ExtResource("10_cypj3")]
 position = Vector2(1100, 328)
-
-[node name="@Area2D@36" parent="Entities" unique_id=500863520 instance=ExtResource("7_icmn4")]
-position = Vector2(1116, 344)
-
-[node name="@Area2D@37" parent="Entities" unique_id=190901123 instance=ExtResource("7_icmn4")]
-position = Vector2(1124, 344)
 
 [node name="@Area2D@38" parent="Entities" unique_id=1333981850 instance=ExtResource("7_icmn4")]
 position = Vector2(1132, 344)
@@ -235,12 +234,6 @@ position = Vector2(1148, 344)
 
 [node name="@Area2D@41" parent="Entities" unique_id=1313973934 instance=ExtResource("7_icmn4")]
 position = Vector2(1156, 344)
-
-[node name="@Area2D@42" parent="Entities" unique_id=1599400839 instance=ExtResource("7_icmn4")]
-position = Vector2(1164, 344)
-
-[node name="@Area2D@43" parent="Entities" unique_id=1783474284 instance=ExtResource("7_icmn4")]
-position = Vector2(1172, 344)
 
 [node name="Checkpoint" parent="Entities" unique_id=1048092990 instance=ExtResource("11_ksitj")]
 position = Vector2(1316, 336)
@@ -272,26 +265,17 @@ position = Vector2(1676, 136)
 [node name="@Area2D@52" parent="Entities" unique_id=1803216735 instance=ExtResource("7_icmn4")]
 position = Vector2(1684, 136)
 
-[node name="@Area2D@53" parent="Entities" unique_id=2034982423 instance=ExtResource("7_icmn4")]
-position = Vector2(1692, 136)
-
 [node name="@Area2D@54" parent="Entities" unique_id=1242757288 instance=ExtResource("7_icmn4")]
 position = Vector2(1732, 128)
 
 [node name="@Area2D@55" parent="Entities" unique_id=1123930937 instance=ExtResource("7_icmn4")]
 position = Vector2(1740, 128)
 
-[node name="@Area2D@56" parent="Entities" unique_id=611498052 instance=ExtResource("7_icmn4")]
-position = Vector2(1748, 128)
-
 [node name="@Area2D@57" parent="Entities" unique_id=2015111636 instance=ExtResource("7_icmn4")]
 position = Vector2(1780, 136)
 
 [node name="@Area2D@58" parent="Entities" unique_id=1755606661 instance=ExtResource("7_icmn4")]
 position = Vector2(1788, 136)
-
-[node name="@Area2D@59" parent="Entities" unique_id=1064447660 instance=ExtResource("7_icmn4")]
-position = Vector2(1796, 136)
 
 [node name="Estrela3" parent="Entities" unique_id=798991610 instance=ExtResource("8_62sbm")]
 position = Vector2(1740, 88)
@@ -321,8 +305,21 @@ position = Vector2(2164, 128)
 position = Vector2(2172, 128)
 
 [node name="Whisper" parent="Entities" unique_id=95152178 instance=ExtResource("11_5l6ou")]
-position = Vector2(2076, 152)
-travel = Vector2(0, -24)
+position = Vector2(2076, 140)
+travel = Vector2(0, -40)
+speed = 40.0
+phase = 0.267
+
+[node name="SussurroCoro1" parent="Entities" instance=ExtResource("11_5l6ou")]
+position = Vector2(2020, 140)
+travel = Vector2(0, -40)
+speed = 40.0
+phase = 0.567
+
+[node name="SussurroCoro3" parent="Entities" instance=ExtResource("11_5l6ou")]
+position = Vector2(2140, 140)
+travel = Vector2(0, -40)
+speed = 40.0
 
 [node name="Estrela4" parent="Entities" unique_id=1212884579 instance=ExtResource("8_62sbm")]
 position = Vector2(2052, 96)
@@ -337,10 +334,7 @@ position = Vector2(2204, 160)
 position = Vector2(2276, 160)
 
 [node name="DashCrystal" parent="Entities" unique_id=442517678 instance=ExtResource("13_50fh4")]
-position = Vector2(2428, 104)
-
-[node name="@Area2D@72" parent="Entities" unique_id=2139738917 instance=ExtResource("13_50fh4")]
-position = Vector2(2468, 104)
+position = Vector2(2448, 104)
 
 [node name="RoomExit" parent="Entities" unique_id=2092454115 instance=ExtResource("12_go1sc")]
 position = Vector2(2532, 160)
@@ -356,10 +350,6 @@ travel = Vector2(56, 0)
 [node name="HintSign" parent="Hints" unique_id=788566985 instance=ExtResource("13_hmhyh")]
 position = Vector2(84, 336)
 text = "Rochas frágeis desmoronam. Não pare!"
-
-[node name="@Node2D@73" parent="Hints" unique_id=48629478 instance=ExtResource("13_hmhyh")]
-position = Vector2(756, 336)
-text = "Uma voz... Pegue e dê dash na barreira"
 
 [node name="@Node2D@74" parent="Hints" unique_id=1059515332 instance=ExtResource("13_hmhyh")]
 position = Vector2(1036, 312)

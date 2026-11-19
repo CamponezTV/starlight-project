@@ -26,6 +26,14 @@ const RUN_DUST_INTERVAL := 0.22
 const WALL_DUST_OFFSET := Vector2(3, -4) ## Da origem até onde a mão encosta na parede.
 const LANDING_SOUND_MIN_SPEED := 60.0 ## Quedas mais lentas que isto pousam em silêncio.
 const PITCH_VARIATION := 0.06 ## Variação de tom para sons repetitivos não cansarem.
+const VOICE_FLARE_SCALE := 2.6 ## A aura nasce deste tamanho e encolhe até o normal.
+const VOICE_FLARE_TIME := 0.35
+const VOICE_FLARE_BRIGHTNESS := 2.5
+const VOICE_SQUASH := Vector2(1.25, 0.8)
+## Quadros de física depois de renascer em que nada mata. O renascimento teleporta o
+## Jupiter, e as áreas (Sophie, sussurros) só ficam sabendo no passo de física seguinte
+## que ele saiu de onde morreu; sem isso, o toque antigo o mataria de novo.
+const SPAWN_GUARD_FRAMES := 2
 
 @export_group("Corrida")
 @export var run_speed := 90.0
@@ -76,9 +84,12 @@ var scripted_move_x := 0
 ## Carregando a voz (pega num orbe, gasta numa barreira ou na Sophie).
 var has_voice := false:
 	set(value):
+		var is_new := value and not has_voice
 		has_voice = value
 		if is_node_ready():
 			_voice_aura.visible = value
+			if is_new:
+				_flare_voice_aura()
 
 var _state := State.NORMAL
 var _dash_direction := Vector2.ZERO
@@ -93,6 +104,7 @@ var _is_wall_sliding := false
 var _ghost_time_left := 0.0
 var _run_dust_left := 0.0
 var _was_on_floor := false
+var _spawn_guard_left := 0
 
 @onready var _visual: JupiterVisual = $Visual
 @onready var _voice_aura: Node2D = $VoiceAura
@@ -105,6 +117,7 @@ var _was_on_floor := false
 func _physics_process(delta: float) -> void:
 	if _state == State.DEAD:
 		return
+	_spawn_guard_left = maxi(_spawn_guard_left - 1, 0)
 	_buffer_jump_input(delta)
 	_dash_cooldown_left -= delta
 	match _state:
@@ -158,8 +171,18 @@ func spend_voice() -> void:
 	has_voice = false
 
 
+## A voz chegando: a aura nasce grande e clara e encolhe até o normal; o corpo dá um tranco.
+func _flare_voice_aura() -> void:
+	_voice_aura.scale = Vector2.ONE * VOICE_FLARE_SCALE
+	_voice_aura.modulate = Color(VOICE_FLARE_BRIGHTNESS, VOICE_FLARE_BRIGHTNESS, VOICE_FLARE_BRIGHTNESS)
+	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_voice_aura, "scale", Vector2.ONE, VOICE_FLARE_TIME)
+	tween.tween_property(_voice_aura, "modulate", Color.WHITE, VOICE_FLARE_TIME)
+	_visual.squash(VOICE_SQUASH)
+
+
 func die() -> void:
-	if is_dead():
+	if is_dead() or _spawn_guard_left > 0:
 		return
 	_state = State.DEAD
 	velocity = Vector2.ZERO
@@ -184,6 +207,7 @@ func respawn(at: Vector2) -> void:
 	_is_wall_sliding = false
 	can_dash = true
 	has_voice = false
+	_spawn_guard_left = SPAWN_GUARD_FRAMES
 	show()
 	_visual.squash(RESPAWN_SQUASH)
 

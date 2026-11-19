@@ -23,6 +23,65 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Patch Notes
 
+### v0.15.2 — A Sophie cresce com a música · 18/11/2026
+
+**Novidades**
+- **Tamanho da janela:** a opção "Tela cheia" virou "Tela": escolha a janela de 640x360 até a maior que cabe no seu monitor, ou a tela cheia. O jogo continua desenhado em 320x180 e escalado em números inteiros, para o pixel art não borrar.
+
+**Mudanças**
+- **A trilha da Sophie acompanha a luta:** agora são quatro trilhas, uma para cada ponto de vida que ela perde, cada uma mais rápida (de 80 a 116 batidas por minuto) e mais pesada que a anterior.
+  - **Fase 1:** quase só pavor: o coração, o bordão grave e a caixinha de música da infância tocando o tema desafinada. Os tambores entram só no fim.
+  - **Fase 2:** a marcha: cordas insistindo, tambores de guerra e o tema nos metais graves.
+  - **Fase 3:** o tema também uma oitava acima, com coro, tambores em todo tempo e um "BRAAM" a cada frase.
+  - **Fase 4:** tudo junto e sem respiro: cordas correndo, tambores dobrados, um coro tremendo lá em cima e guinchos.
+- **A troca é suave:** no golpe, a trilha nova cresce aos poucos enquanto ela está atordoada, e a antiga some. Se o Jupiter cai, a luta e a música voltam para o começo do mesmo jeito.
+- **Toda troca de música ficou mais suave:** o crossfade não afunda mais o volume no meio.
+
+**Técnico**
+- `SophieBoss.phase_music`: uma trilha por fase.
+- Testes novos: a trilha troca aos poucos a cada golpe e volta no reset, cada trilha é mais rápida que a anterior, toda trilha de `music/` faz loop, o crossfade mantém o volume e a linha "Tela" passa pelos tamanhos e pela tela cheia. 173 testes automáticos.
+
+### v0.15.1 — Uma morte de cada vez e a Sophie com trilha · 18/11/2026
+
+**Correções**
+- **Morte dupla:** às vezes o Jupiter renascia e morria de novo na hora, como se tivesse nascido em cima da Sophie. Era o toque de antes: a Sophie e os sussurros ainda achavam, por um quadro, que ele estava onde tinha morrido. Agora cada toque mata uma vez só.
+
+**Mudanças**
+- **Trilha da luta com a Sophie refeita:** a antiga era quase toda baixa e sumia por baixo dos golpes. A nova é "A Promessa", o tema do jogo, em Ré menor: começa no pavor (um bordão grave, o coração e a caixinha de música da infância tocando o tema desafinada), vira uma marcha (cordas, tambores de guerra, coro e o tema lento nos metais graves) e explode no clímax (o tema em oitavas, tambores dobrados, um "BRAAM" a cada frase e guinchos agudos). Termina num acorde de trítono e no silêncio, só com o coração, antes de recomeçar.
+
+**Técnico**
+- Testes novos: encostar na Sophie e num sussurro conta uma morte só. 167 testes automáticos.
+
+### v0.15.0 — A voz e os Ecos mais difíceis · 18/11/2026
+
+**Novidades**
+- **A voz no holofote:** a primeira orbe de voz da Fase 2 para o jogo e apresenta a habilidade, como o dash: "VOZ — Com a voz, X quebra barreiras".
+- **Pegar a voz tem animação:** a orbe é sugada num estouro de faíscas com um clarão de luz, a aura do Jupiter acende grande e encolhe, e o corpo dá um tranco. Quando a orbe volta, ela cresce do nada.
+
+**Mudanças: Fase 2 (Ecos) mais difícil**
+- **Eco:** a ponte de rochas frágeis tem um buraco no meio: é preciso pular sobre rocha que está caindo.
+- **Desmorona:** as rochas da escada caem mais rápido. Não dá para parar nos degraus.
+- **Barreiras:** a orbe flutua sobre o poço e só é pega no pulo; o dash na barreira é no ar, a ponte de chegada é mais curta e ainda há um buraco antes do chão.
+- **Pontes:** cada ponte tem 2 rochas (eram 3). O pulo inteiro passa direto: é preciso controlar no ar.
+- **O Coro:** agora são três sussurros subindo e descendo em onda, no caminho de cada pulo. Só passa quem sai na hora certa e corre sem parar, e ainda precisa guardar a voz para a barreira do fim.
+- **O Silêncio:** um cristal só (eram 2): broto, dash até a plataforma, dash, cristal, dash.
+- A placa "Pegue e dê dash na barreira" saiu: o holofote explica.
+
+**Técnico**
+- `Whisper.phase`: em que ponto do vai-e-volta o sussurro começa.
+- Os robôs dizem onde pararam quando falham e confirmam o holofote sozinhos. Robôs novos para O Coro (mede a janela de largada: cerca de 1 em cada 4) e O Silêncio, que não tinham teste. 165 testes automáticos.
+
+### v0.14.3 — Estrelas por visita · 18/11/2026
+
+**Correções**
+- **Estrelas perdidas:** sair da fase e entrar de novo mantinha o contador de antes, com as estrelas já pegas apagadas. Agora cada visita começa do zero, com todas as estrelas no lugar para pegar de novo.
+- **Estrela da Diana:** quem a perdoou começa toda visita à Fase 3 com a estrela dela contada (a conversa não se repete). Quem não perdoou não vê mais uma estrela impossível na conta: ela sai do total.
+- **Música:** parar a trilha no meio de uma troca de faixa deixava a faixa antiga terminando de sumir por baixo. Agora as duas param.
+
+**Técnico**
+- Sai o autoload `Stars`, que só servia para gravar as estrelas. A fase conta as estrelas da visita.
+- 161 testes automáticos. Novos: a próxima visita começa sem estrelas, a conta da Diana nas duas decisões e parar a música no meio de uma troca.
+
 ### v0.14.2 — Chuva, menos cristais e arte corrigida · 18/11/2026
 
 **Mudanças**

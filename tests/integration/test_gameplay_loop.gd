@@ -44,7 +44,6 @@ func test_a_star_is_kept_on_firm_ground() -> void:
 	assert_true(star.is_secured())
 	assert_signal_emitted(_level, "star_collected")
 	assert_eq(_level.stars_found(), 1)
-	assert_true(Stars.has(_level.id(), star.name), "fica salva no progresso")
 
 
 func test_dying_sends_a_carried_star_back() -> void:
@@ -60,18 +59,20 @@ func test_dying_sends_a_carried_star_back() -> void:
 	assert_eq(_level.stars_found(), 0)
 
 
-func test_a_kept_star_survives_death_and_shows_as_found_next_visit() -> void:
+func test_a_kept_star_survives_death_but_not_the_next_visit() -> void:
 	await _start_game()
 	var star := await _carry_star_to_the_ground()
 	_player.die()
 	await wait_seconds(RESPAWN_WAIT)
 	assert_true(star.is_secured(), "morrer não devolve uma estrela guardada")
-	var star_name := star.name
+	assert_eq(_level.stars_found(), 1)
 	_main.queue_free()
 	await wait_physics_frames(2)
 	await _start_game()
-	assert_eq(_level.stars_found(), 1, "a próxima visita lembra da estrela")
-	assert_true((_level.get_node("Entities").get_node(NodePath(star_name)) as StarPickup).found_before)
+	assert_eq(_level.stars_found(), 0, "cada visita começa do zero")
+	var again := _star_at(STAR_CELL)
+	assert_false(again.is_secured(), "a estrela está no lugar de novo")
+	assert_true(again.visible)
 
 
 func test_spikes_kill_and_only_send_back_to_the_last_point() -> void:

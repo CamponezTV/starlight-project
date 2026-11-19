@@ -22,8 +22,8 @@ effects/     efeitos descartáveis (explosão, poeira, estilhaços) e a vinheta
 music/       trilhas (loops)
 camera/      câmera
 ui/          HUD, pausa, holofote de habilidade, resumo da fase, legendas, fonte e Theme
-autoload/    App, Settings (configurações), Stars (estrelas guardadas), Music,
-             Transition (fade), Story (campanha), Presence (status no Discord)
+autoload/    App, Settings (configurações), Music, Transition (fade),
+             Story (campanha e escolhas), Presence (status no Discord)
 shared/      recursos compartilhados
 tests/       testes (GUT)
 addons/gut/  GUT (MIT)
@@ -103,22 +103,25 @@ func _run() -> void:
 ## Mecânicas da Fase 2
 
 - **Rocha frágil** (`CrumbleBlock`): um bloco 8×8. Arraste para `Entities` com a origem na base da célula. Ajuste `crack_time` e `return_time` no Inspetor.
-- **Orbe de voz** (`VoiceOrb`): dá `has_voice` ao Jupiter. Com `respawns`, volta depois do `RespawnTimer`.
+- **Orbe de voz** (`VoiceOrb`): dá `has_voice` ao Jupiter. Pega, encolhe num estouro de faíscas (`effects/voice_burst.tscn`, com um clarão de luz) e a aura do Jupiter acende grande. Com `respawns`, volta depois do `RespawnTimer`. Com um `Skill` em `skill`, a primeira coleta da visita abre o holofote (só a primeira orbe da Fase 2 tem).
 - **Barreira de palavras** (`WordBarrier`): 8×32. Quebra com dash + voz e gasta a voz. Volta no reset da fase.
-- **Chefe Sophie** (`SophieBoss`): aponte `arena` para a `RoomZone` da luta e posicione os `Marker2D` de `OrbSpots` (filhos editáveis). Ritmo e dificuldade ficam nas constantes por fase no topo do script.
+- **Chefe Sophie** (`SophieBoss`): aponte `arena` para a `RoomZone` da luta e posicione os `Marker2D` de `OrbSpots` (filhos editáveis). Ritmo e dificuldade ficam nas constantes por fase no topo do script. `phase_music` tem uma trilha por fase: no golpe, a próxima cresce durante o atordoamento (`MUSIC_FADE_IN`) enquanto a antiga some mais rápido (`MUSIC_FADE_OUT`), e o reset da luta volta do mesmo jeito para a primeira.
+- **Perigos que guardam o Jupiter** (`_player_inside`, como a Sophie e o Sussurro): só ficam sabendo que ele saiu no passo de física seguinte. Por isso o `Player` não morre nos `SPAWN_GUARD_FRAMES` quadros depois de renascer; sem isso, o toque antigo mataria de novo. Nunca ponha um ponto de renascimento dentro de um perigo: nesses quadros ele não mata.
   - **Falas:** `INTRO_TEXT`, `TAUNT_TEXTS`, `KILL_TEXTS`, `RETORT_TEXTS` (uma por ponto de vida) e as listas de palavras arremessadas. A colisão de cada palavra tem o tamanho do texto: palavras da chuva e do anel com até 5 letras, frases rasteiras com até 27 (um teste confere).
   - **Olhos:** `Sprite/Eyes` usa `sophie_eyes.png` (mesmos quadros do corpo) sem sombreamento, para aparecer no escuro.
   - **Camadas:** `Voices` (falas, fora do escuro da fase, acompanha a câmera) e `Dread` (o escuro pulsando e o clarão vermelho dos golpes).
 
 ## Estrelas perdidas
 
-- **`StarPickup`:** arraste para `Entities` e dê um nome fixo ao nó (ex.: `EstrelaPoco`). É pelo nome que ela é salva; um teste recusa nomes automáticos.
+- **`StarPickup`:** arraste para `Entities` e dê um nome que diga onde ela está (ex.: `EstrelaPoco`).
 - **Regra:** tocada, segue o Jupiter; fica guardada depois de `SAFE_GROUND_TIME` no chão; volta para o lugar se ele morrer antes. Coloque cada uma num desvio do caminho, com chão firme só depois do desafio.
-- **Progresso:** `Stars.collect(fase, estrela)` e `Stars.has(...)`, no mesmo arquivo da `Story`. A fase é `Level.id()` (o nome do arquivo da cena). `Level.star_total()` e `Level.stars_found()` alimentam o contador do HUD e o resumo.
+- **Por visita:** nada é salvo. Cada vez que a fase começa, todas as estrelas estão no lugar e o contador está em 0; a `Level` guarda as da visita. `Level.star_total()` e `Level.stars_found()` alimentam o contador do HUD e o resumo.
+- **Estrela de conversa:** um `Encounter` com `offers_star()` entra na conta; o sinal `gifted` a guarda. Como a decisão fica salva e a conversa não se repete, `has_given_star()` diz se ela já foi dada: a fase começa com ela guardada. Quem perde a estrela numa decisão devolve `false` em `offers_star()` e ela sai da conta.
 
 ## Habilidades
 
 - **Dash:** `Player.dash_unlocked`. Uma fase com `starts_with_dash` desligado começa sem ele; o `DashUnlock` (o broche no altar) ensina e a fase avisa com o sinal `skill_unlocked(skill)`.
+- **Voz:** não é permanente (cada orbe dá uma carga), mas a primeira orbe da Fase 2 a apresenta no holofote pelo mesmo sinal `skill_unlocked`.
 - **Holofote** (`SkillShowcase`, `ui/skill_showcase.tscn`): o `Main` pausa o jogo e chama `present(skill, posição na tela)`. O texto vem de um recurso `Skill` (`title`, `description`, `controls`), editado no Inspetor de quem ensina a habilidade.
 
 ## Fim de fase
@@ -140,13 +143,13 @@ func _run() -> void:
 
 - **Escolhas** (`ChoiceBox`, `dialogue/choice_box.tscn`): coloque na cutscene ao lado da `DialogueBox` (mesmo `at_top`). No roteiro: `var picked := await choose(["Sim.", "Não."])`. A última fala fica na tela enquanto o jogador decide.
 - **Memória** (`Story.remember(key, value)` / `Story.recall(key)`): o que o jogador decidiu, salvo junto do progresso. `Story.start(0)` (jogo novo) esquece tudo.
-- **Conversa dentro da fase** (`Encounter`): objeto de `Entities` com uma cutscene em `scene`. Com o Jupiter na área, Cima pede a conversa; o `Main` pausa o jogo, toca a cena por cima da fase e chama `conclude()` no fim. A cena não pode ter `Camera2D`. Subclasses sobrescrevem `is_available()` e `_on_concluded()`; o sinal `gifted` vale uma estrela.
+- **Conversa dentro da fase** (`Encounter`): objeto de `Entities` com uma cutscene em `scene`. Com o Jupiter na área, Cima pede a conversa; o `Main` pausa o jogo, toca a cena por cima da fase e chama `conclude()` no fim. A cena não pode ter `Camera2D`. Subclasses sobrescrevem `is_available()` e `_on_concluded()`; o sinal `gifted` vale uma estrela (veja Estrelas perdidas).
 - **Diana** (`DianaHut` + `cutscenes/diana`): a decisão fica em `DianaTalk.CHOICE_KEY`. Uma conversa nova segue o mesmo par: um `Encounter` na fase e uma cutscene que chama `Story.remember`.
 
 ## Mecânicas da Fase 3
 
 - **Broto-mola** (`Sprout`): em `Entities`. Ajuste `bounce_speed` no Inspetor.
-- **Sussurro** (`Whisper`): em `Entities`. Patrulha de onde foi colocado até `travel`.
+- **Sussurro** (`Whisper`): em `Entities`. Patrulha de onde foi colocado até `travel`, a `speed` px/s. `phase` (0 a 1) diz em que ponto do vai-e-volta ele começa: sussurros vizinhos com fases diferentes formam uma onda (a sala "O Coro" da Fase 2).
 - **Plataforma móvel** (`MovingPlatform`): em `Platforms` (não em `Entities`, porque é um corpo sólido). Vai até `travel` e volta a cada `period` segundos.
 - **Tremor de câmera:** um objeto da fase pode pedir com o sinal `shake_requested` do `Level`.
 
@@ -184,7 +187,7 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 
 - Buses: `Music` (-6 dB) e `SFX`. Todo `AudioStreamPlayer` usa um dos dois.
 - Os efeitos ficam junto de quem os toca (`player/sounds/`, `entities/*/`, `menu/sounds/`, `main/sounds/`, `dialogue/`, `cutscenes/*/`). Foram sintetizados na pentatônica de Ré maior, com timbre de sino e eco longo.
-- **Trilhas** (`music/`): loops sem emenda, todas variações do tema "A Promessa" (`promise`). O bus `Music` tem reverb e abertura estéreo, então as faixas são mono. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor.
+- **Trilhas** (`music/`): loops sem emenda, todas variações do tema "A Promessa" (`promise`). O bus `Music` tem reverb e abertura estéreo, então as faixas são mono. No import, `Loop Mode` = Forward. Toque com `Music.play(stream)`, que faz crossfade (de potência constante: o volume não afunda no meio; `fade_out` deixa a antiga sumir num tempo diferente) e não reinicia a faixa que já está tocando. Fases usam `music` no nó raiz; cutscenes, `music` no Inspetor. A luta com a Sophie tem quatro (`sophie_1.wav` a `sophie_4.wav`), uma por fase, todas "A Promessa" em Ré menor com o mesmo número de compassos: 80, 92, 104 e 116 BPM, cada uma mais cheia que a anterior. A primeira também é a `music` da fase.
 - **Música do menu:** `music/menu_promise.wav` ("A Promessa" à noite), em `music` no Inspetor do Menu. O jogo só leva música original. A pasta `menu/music/` continua fora do Git; se houver música de terceiros nela, tire antes de exportar uma build, senão ela vai junto.
 - **Para fechar o jogo, use `App.quit()`**, nunca `get_tree().quit()`. O App espera o áudio ser liberado antes de sair. O X da janela já passa por ele.
 
@@ -194,7 +197,8 @@ Para trocar, substitua os PNGs mantendo o tamanho dos quadros.
 - **Opções de menu:** `Button` com `theme_type_variation = MenuItem` (texto sem caixa, dourado em foco, espaço à esquerda para a estrela-cursor).
 - **Capítulos (dev):** saem de `Story.steps` sozinhos, mais os `dev_steps` (sala de teste, finais). O botão fica escondido; o código secreto (`SecretCode`: cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A) libera. `Menu.dev_unlocked` é estático, então vale até o jogo fechar.
 - **Fim do pré-alpha:** o último passo da campanha é `cutscenes/credits` (agradecimento e créditos). Passos novos entram antes dele.
-- **Configurações** (autoload `Settings`): `set_language`, `set_volume(bus, 0..1)`, `set_auto_advance`, `set_fullscreen`. Cada uma aplica, salva em `user://settings.cfg` e emite `changed`. O volume de cada bus no `default_bus_layout.tres` é o 100%.
+- **Configurações** (autoload `Settings`): `set_language`, `set_volume(bus, 0..1)`, `set_auto_advance`, `set_fullscreen`, `set_window_scale`. Cada uma aplica, salva em `user://settings.cfg` e emite `changed`. O volume de cada bus no `default_bus_layout.tres` é o 100%.
+- **Resolução:** o jogo é desenhado em 320x180 (o viewport) e escalado só por números inteiros (`stretch/scale_mode = integer`), para o pixel art ficar nítido. Na janela, `window_scale` escolhe a escala (de 2x até a maior que cabe na tela, 4x = 1280x720 por padrão); na tela cheia, o Godot usa a maior que cabe no monitor e completa com bordas pretas. Com o jogo embutido na aba Game do editor (o padrão do F5), a janela é do editor: tela cheia e tamanho não mudam nada ali. Para testar, desligue o "Embed Game on Next Play" no menu da aba Game. A linha "Tela" do painel (`cycle_display`) passa pelas janelas e termina na tela cheia.
 - **Painel** (`ui/settings_panel.tscn`): usado no menu e na pausa. Cada linha é um `OptionRow` (esquerda e direita trocam o valor, o sinal `stepped` diz para que lado). Esc ou Voltar emitem `closed`.
 - **Texto automático:** `DialogueBox` espera `AUTO_ADVANCE_BASE` + `AUTO_ADVANCE_PER_LETTER` por letra depois de a fala aparecer inteira.
 
@@ -222,7 +226,7 @@ Painel **GUT** no editor → **Run All**, ou:
 godot --headless -s res://addons/gut/gut_cmdln.gd
 ```
 
-Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam estrelas ou escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga. As configurações dos testes vão para um arquivo próprio (`tests/support/pre_run.gd`), sempre em português e no padrão.
+Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil, e ele diz em que célula parou. `run_bot` confirma sozinho um holofote no caminho. Salas de ritmo (sussurros, plataformas) são testadas várias vezes com esperas diferentes antes da largada: o teste exige uma fração mínima de largadas que passam, para o desafio ser apertado sem depender de um quadro exato. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga. As configurações dos testes vão para um arquivo próprio (`tests/support/pre_run.gd`), sempre em português e no padrão.
 
 ## Convenções
 

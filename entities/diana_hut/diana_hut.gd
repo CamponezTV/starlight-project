@@ -28,8 +28,13 @@ func _ready() -> void:
 	_apply_outcome()
 
 
+## A estrela (o isqueiro) existe enquanto o jogador não decidiu ficar com raiva.
 func offers_star() -> bool:
-	return true
+	return _outcome != DianaTalk.RESENTFUL
+
+
+func has_given_star() -> bool:
+	return _outcome == DianaTalk.FORGIVEN
 
 
 func is_available() -> bool:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://entities/sophie_boss/sophie_boss.gd" id="1_boss"]
 [ext_resource type="Texture2D" path="res://entities/sophie_boss/sophie_shadow.png" id="2_texture"]
@@ -14,6 +14,10 @@
 [ext_resource type="PackedScene" path="res://effects/word_shatter.tscn" id="12_shatter"]
 [ext_resource type="AudioStream" path="res://entities/sophie_boss/slam.wav" id="13_slam"]
 [ext_resource type="Texture2D" path="res://entities/sophie_boss/sophie_eyes.png" id="14_eyes"]
+[ext_resource type="AudioStream" path="res://music/sophie_1.wav" id="15_music"]
+[ext_resource type="AudioStream" path="res://music/sophie_2.wav" id="16_music"]
+[ext_resource type="AudioStream" path="res://music/sophie_3.wav" id="17_music"]
+[ext_resource type="AudioStream" path="res://music/sophie_4.wav" id="18_music"]
 [ext_resource type="Shader" path="res://effects/vignette.gdshader" id="15_vignette"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
@@ -42,6 +46,7 @@ script = ExtResource("1_boss")
 word_scene = ExtResource("5_word")
 orb_scene = ExtResource("6_orb")
 shatter_effect = ExtResource("12_shatter")
+phase_music = Array[AudioStream]([ExtResource("15_music"), ExtResource("16_music"), ExtResource("17_music"), ExtResource("18_music")])
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -38)

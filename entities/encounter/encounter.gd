@@ -23,8 +23,14 @@ func _ready() -> void:
 	_prompt.modulate.a = 0.0
 
 
-## Esta conversa pode render uma estrela? (Ela entra na contagem da fase.)
+## Esta conversa rende (ou já rendeu) uma estrela? (Ela entra na contagem da fase.)
 func offers_star() -> bool:
+	return false
+
+
+## A estrela já foi dada numa visita passada (a decisão fica salva e a conversa não se
+## repete): a fase começa com ela guardada.
+func has_given_star() -> bool:
 	return false
 
 

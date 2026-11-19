@@ -5,7 +5,7 @@ extends Node2D
 ## pontos de renascimento. A fase conecta os objetos sozinha e repassa os eventos deles.
 
 signal checkpoint_reached(respawn_point: Vector2)
-signal star_collected ## Uma estrela perdida foi guardada.
+signal star_collected ## Uma estrela perdida foi guardada (nesta visita).
 signal exit_reached ## Saída alcançada ou chefe derrotado: a fase acabou.
 signal skill_unlocked(skill: Skill) ## O Jupiter ganhou uma habilidade nesta fase.
 signal shake_requested(amount: float) ## Algo na fase pede um tremor de câmera.
@@ -22,15 +22,12 @@ signal encounter_requested(encounter: Encounter) ## O Jupiter quer conversar com
 @onready var _entities: Node2D = $Entities
 @onready var _rooms: Node2D = $Rooms
 
+var _secured := {} ## Estrelas guardadas nesta visita (nome do objeto -> true).
+
 
 func _ready() -> void:
 	for entity in _room_entities():
 		_connect_entity(entity)
-
-
-## Nome da fase no arquivo de progresso (o nome do arquivo da cena, sem extensão).
-func id() -> String:
-	return scene_file_path.get_file().get_basename()
 
 
 ## Onde o Jupiter começa a fase.
@@ -64,15 +61,14 @@ func reset_entities() -> void:
 			(platform as MovingPlatform).reset()
 
 
-## Quantas estrelas perdidas a fase tem (as soltas e as que uma conversa pode render).
+## Quantas estrelas perdidas a fase tem (as soltas e as que uma conversa ainda rende).
 func star_total() -> int:
 	return _star_sources().size()
 
 
-## Quantas delas já foram guardadas (nesta visita ou em outra).
+## Quantas delas foram guardadas nesta visita. Cada visita começa do zero.
 func stars_found() -> int:
-	var level_id := id()
-	return _star_sources().filter(func(source: RoomEntity) -> bool: return Stars.has(level_id, source.name)).size()
+	return _secured.size()
 
 
 ## A saída da fase, ou null se ela termina de outro jeito (chefe).
@@ -108,7 +104,6 @@ func _star_sources() -> Array[RoomEntity]:
 func _connect_entity(entity: RoomEntity) -> void:
 	if entity is StarPickup:
 		var star := entity as StarPickup
-		star.found_before = Stars.has(id(), star.name)
 		star.secured.connect(func(_star: StarPickup) -> void: _keep_star(star.name))
 	elif entity is Checkpoint:
 		(entity as Checkpoint).activated.connect(checkpoint_reached.emit)
@@ -116,14 +111,20 @@ func _connect_entity(entity: RoomEntity) -> void:
 		(entity as RoomExit).reached.connect(exit_reached.emit)
 	elif entity is DashUnlock:
 		(entity as DashUnlock).collected.connect(skill_unlocked.emit)
+	elif entity is VoiceOrb:
+		(entity as VoiceOrb).skill_learned.connect(skill_unlocked.emit)
 	elif entity is Encounter:
-		(entity as Encounter).requested.connect(encounter_requested.emit)
-		(entity as Encounter).gifted.connect(_keep_star.bind(entity.name))
+		var encounter := entity as Encounter
+		encounter.requested.connect(encounter_requested.emit)
+		encounter.gifted.connect(_keep_star.bind(encounter.name))
+		# Quem já ganhou a estrela numa visita passada (a conversa não se repete) já começa com ela.
+		if encounter.has_given_star():
+			_secured[encounter.name] = true
 	elif entity is SophieBoss:
 		(entity as SophieBoss).defeated.connect(exit_reached.emit)
 		(entity as SophieBoss).shook.connect(shake_requested.emit)
 
 
 func _keep_star(star_id: String) -> void:
-	Stars.collect(id(), star_id)
+	_secured[star_id] = true
 	star_collected.emit()

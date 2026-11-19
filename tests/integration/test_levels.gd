@@ -78,12 +78,9 @@ func test_only_one_hint_shows_at_a_time() -> void:
 					"%s: as dicas \"%s\" e \"%s\" aparecem juntas" % [level.name, hints[i].get("text"), hints[j].get("text")])
 
 
-func test_every_star_has_its_own_name() -> void:
+func test_every_level_starts_with_no_star_kept() -> void:
 	for level in _levels():
-		assert_eq(level.stars_found(), 0, "%s: nenhuma estrela guardada num progresso vazio" % level.name)
-		for node in level.get_node("Entities").get_children():
-			if node is StarPickup:
-				assert_false(node.name.begins_with("@"), "%s: a estrela %s precisa de um nome fixo (é como ela é salva)" % [level.name, node.name])
+		assert_eq(level.stars_found(), 0, "%s: a visita começa sem estrelas guardadas" % level.name)
 
 
 func _hint_area(hint: Node) -> Rect2:

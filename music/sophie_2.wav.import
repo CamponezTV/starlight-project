@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://ls4jbshhcfc3"
-path="res://.godot/imported/sophie.wav-ba21fef89fc8d0edc03ea38a84622e24.sample"
+uid="uid://cs0r7fdxc6iwf"
+path="res://.godot/imported/sophie_2.wav-25926327493b896f12e1551643ac74a2.sample"
 
 [deps]
 
-source_file="res://music/sophie.wav"
-dest_files=["res://.godot/imported/sophie.wav-ba21fef89fc8d0edc03ea38a84622e24.sample"]
+source_file="res://music/sophie_2.wav"
+dest_files=["res://.godot/imported/sophie_2.wav-25926327493b896f12e1551643ac74a2.sample"]
 
 [params]
 

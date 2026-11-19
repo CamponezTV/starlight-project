@@ -1,7 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://levels/level.gd" id="1_wljno"]
-[ext_resource type="AudioStream" path="res://music/sophie.wav" id="2_o1g7v"]
+[ext_resource type="AudioStream" path="res://music/sophie_1.wav" id="2_o1g7v"]
 [ext_resource type="PackedScene" path="res://levels/backgrounds/cave_backdrop.tscn" id="3_wljno"]
 [ext_resource type="PackedScene" path="res://levels/decor/terrain_decor.tscn" id="4_mro8u"]
 [ext_resource type="TileSet" path="res://levels/tilesets/cave_tileset.tres" id="5_6nnr1"]

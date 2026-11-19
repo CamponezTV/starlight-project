@@ -10,6 +10,9 @@ const SPRITE_REST_Y := -8.0
 
 @export var travel := Vector2(48, 0)
 @export var speed := 28.0
+## Em que ponto do vai-e-volta ela começa (0 = na origem, 0.5 = no fim de `travel`).
+## Vários sussurros com fases diferentes formam uma onda.
+@export_range(0.0, 1.0) var phase := 0.0
 @export var shatter_effect: PackedScene
 
 var _origin := Vector2.ZERO
@@ -42,7 +45,7 @@ func _physics_process(delta: float) -> void:
 	if not _is_alive:
 		return
 	_time += delta
-	var lap := _time * speed / maxf(travel.length(), 1.0)
+	var lap := _time * speed / maxf(travel.length(), 1.0) + phase * 2.0
 	position = _origin + travel * pingpong(lap, 1.0)
 	_sprite.flip_h = int(lap) % 2 == 1
 	_sprite.frame = int(_time * ANIMATION_FPS) % _sprite.hframes

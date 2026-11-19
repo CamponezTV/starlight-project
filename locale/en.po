@@ -1368,6 +1368,18 @@ msgid "Brotos lançam você para o alto"
 msgstr "Sprouts launch you upward"
 
 #: levels/level_02.tscn
+msgid "VOZ"
+msgstr "VOICE"
+
+#: levels/level_02.tscn
+msgid "A voz que o Jupiter guardou."
+msgstr "The voice Jupiter kept inside."
+
+#: levels/level_02.tscn
+msgid "Com a voz, X quebra barreiras"
+msgstr "With the voice, X breaks barriers"
+
+#: levels/level_02.tscn
 msgid "...que vozes são essas?"
 msgstr "...whose voices are these?"
 
@@ -1378,10 +1390,6 @@ msgstr "I know that voice..."
 #: levels/level_02.tscn
 msgid "Rochas frágeis desmoronam. Não pare!"
 msgstr "Fragile rocks crumble. Keep moving!"
-
-#: levels/level_02.tscn
-msgid "Uma voz... Pegue e dê dash na barreira"
-msgstr "A voice... Grab it and dash into the barrier"
 
 #: levels/level_02.tscn
 msgid "A voz fica com você até ser usada"
@@ -1548,6 +1556,10 @@ msgid "Texto automático"
 msgstr "Auto-advance text"
 
 #: ui/settings_panel.tscn
+msgid "Tela"
+msgstr "Display"
+
+#: ui/settings_panel.gd
 msgid "Tela cheia"
 msgstr "Fullscreen"
 

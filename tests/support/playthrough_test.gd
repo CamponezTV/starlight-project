@@ -2,11 +2,12 @@ class_name PlaythroughTest
 extends GutTest
 ## Base dos testes em que um robô joga uma fase com controles simulados.
 ## Cada teste começa o jogo (main.tscn) numa célula e roda um "passo" por quadro.
-## O progresso (estrelas guardadas) vai para um arquivo só dos testes.
+## O progresso (as escolhas das conversas) vai para um arquivo só dos testes.
 
 const MAIN_SCENE := preload("res://main/main.tscn")
 const TILE := TestHelpers.TILE
 const TIME_LIMIT := 480 ## quadros (8 s)
+const SHOWCASE_PRESS_EVERY := 10 ## quadros
 
 var player: Player
 var main: Main
@@ -37,14 +38,38 @@ func start_at(level_scene: PackedScene, cell: Vector2i) -> void:
 
 
 ## Roda `step` a cada quadro até ele devolver true (sucesso), o Jupiter morrer ou o tempo acabar.
+## Um holofote de habilidade no caminho é confirmado e não conta no tempo.
 func run_bot(step: Callable, limit := TIME_LIMIT) -> bool:
-	for frame in limit:
+	var frame := 0
+	while frame < limit:
+		if await dismiss_showcase():
+			continue
 		if step.call(frame):
 			return true
 		if player.is_dead():
+			_report_stop("morreu")
 			return false
+		frame += 1
 		await get_tree().physics_frame
+	_report_stop("o tempo acabou")
 	return false
+
+
+## Onde o robô parou: ajuda a achar o pulo que ficou impossível.
+func _report_stop(reason: String) -> void:
+	var p := player.global_position
+	gut.p("robô: %s na célula (%d, %d)" % [reason, floori(p.x / TILE), floori(p.y / TILE) - 1])
+
+
+## Se o holofote de habilidade estiver aberto, confirma e espera ele fechar. Devolve se estava.
+func dismiss_showcase() -> bool:
+	var showcase := main.get_node("SkillShowcase") as SkillShowcase
+	if not showcase.is_open():
+		return false
+	while showcase.is_open():
+		TestHelpers.tap(&"ui_accept")
+		await wait_physics_frames(SHOWCASE_PRESS_EVERY)
+	return true
 
 
 func jump_at_edge(edge_column: int) -> void:

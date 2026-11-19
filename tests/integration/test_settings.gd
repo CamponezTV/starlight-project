@@ -1,5 +1,5 @@
 extends GutTest
-## Configurações (autoload Settings): idioma, volumes, texto automático, o que fica salvo
+## Configurações (autoload Settings): idioma, volumes, texto automático, tamanho da janela, o que fica salvo
 ## e o painel que o menu e a pausa usam.
 
 const PANEL_SCENE := preload("res://ui/settings_panel.tscn")
@@ -60,6 +60,34 @@ func test_choices_are_saved_and_loaded_back() -> void:
 	assert_true(Settings.auto_advance)
 
 
+## A tela passa pelas janelas (a resolução do jogo vezes uma escala inteira, até a maior que
+## cabe: nos testes, uma tela Full HD de mentira, até 6x) e termina na tela cheia.
+func test_display_steps_through_whole_scales_then_fullscreen() -> void:
+	assert_eq(Settings.game_resolution(), Vector2i(320, 180))
+	assert_eq(Settings.window_size(), Vector2i(1280, 720), "o padrão é 4x")
+	Settings.cycle_display(1)
+	assert_eq(Settings.window_size(), Vector2i(1600, 900))
+	Settings.cycle_display(1)
+	assert_eq(Settings.window_size(), Vector2i(1920, 1080))
+	assert_false(Settings.fullscreen)
+	Settings.cycle_display(1)
+	assert_true(Settings.fullscreen, "depois da maior janela, a tela cheia")
+	Settings.cycle_display(1)
+	assert_false(Settings.fullscreen)
+	assert_eq(Settings.window_scale, Settings.WINDOW_SCALE_MIN, "e dá a volta na menor")
+	Settings.cycle_display(-1)
+	assert_true(Settings.fullscreen)
+
+
+func test_window_size_is_saved_and_never_bigger_than_the_screen() -> void:
+	Settings.set_window_scale(3)
+	Settings.window_scale = Settings.WINDOW_SCALE_DEFAULT
+	Settings.load_settings()
+	assert_eq(Settings.window_scale, 3)
+	Settings.set_window_scale(50)
+	assert_eq(Settings.window_scale, Settings.max_window_scale())
+
+
 func test_auto_advance_moves_the_dialogue_on_its_own() -> void:
 	var box: DialogueBox = BOX_SCENE.instantiate()
 	add_child_autofree(box)
@@ -95,6 +123,12 @@ func test_panel_rows_change_the_settings() -> void:
 	assert_eq(master.filled, 9, "a barra mostra o volume novo")
 	(panel.get_node("%AutoText") as OptionRow).stepped.emit(1)
 	assert_true(Settings.auto_advance)
+	var display := panel.get_node("%Display") as OptionRow
+	assert_eq(display.value_text, "1280x720")
+	display.stepped.emit(-1)
+	assert_eq(display.value_text, "960x540", "a linha mostra o tamanho novo")
+	Settings.set_fullscreen(true)
+	assert_eq(display.value_text, "Fullscreen", "em inglês (a primeira linha trocou o idioma)")
 
 
 func test_panel_closes_with_escape() -> void:

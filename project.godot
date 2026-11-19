@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Starlight"
 config/description="Um plataforma 2D celeste sobre Jupiter, seu avô e as estrelas."
-config/version="0.14.2"
+config/version="0.15.2"
 run/main_scene="res://menu/menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.png"
@@ -21,7 +21,6 @@ config/icon="res://icon.png"
 
 App="*res://autoload/app.gd"
 Settings="*res://autoload/settings.gd"
-Stars="*res://autoload/stars.gd"
 Music="*res://autoload/music.gd"
 Transition="*res://autoload/transition.tscn"
 Story="*res://autoload/story.tscn"

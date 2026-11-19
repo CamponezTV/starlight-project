@@ -35,7 +35,7 @@ static func tap(action: StringName) -> void:
 		Input.parse_input_event(event)
 
 
-## Troca o arquivo de progresso por um vazio, só dos testes: estrelas guardadas e
+## Troca o arquivo de progresso por um vazio, só dos testes: o passo da campanha e as
 ## escolhas não tocam no progresso de quem está jogando. Desfaça com restore_save().
 static func use_test_save() -> void:
 	if _real_save_path.is_empty():

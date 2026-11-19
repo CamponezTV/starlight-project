@@ -114,10 +114,13 @@ func test_up_beside_the_hut_plays_the_talk_over_the_paused_level() -> void:
 func test_forgiving_gives_a_star_and_ends_the_talk() -> void:
 	await start_at(LEVEL_03, BESIDE_HUT)
 	var hut := _hut()
+	var total := main.level().star_total()
 	watch_signals(main.level())
 	Story.remember(DianaTalk.CHOICE_KEY, DianaTalk.FORGIVEN)
 	hut.conclude()
 	assert_signal_emitted(main.level(), "star_collected")
+	assert_eq(main.level().stars_found(), 1)
+	assert_eq(main.level().star_total(), total)
 	assert_false(hut.is_available())
 	assert_true((hut.get_node("Lantern") as PointLight2D).enabled, "ela continua ali")
 
@@ -125,13 +128,34 @@ func test_forgiving_gives_a_star_and_ends_the_talk() -> void:
 func test_not_forgiving_leaves_the_hut_empty_and_dark() -> void:
 	await start_at(LEVEL_03, BESIDE_HUT)
 	var hut := _hut()
+	var total := main.level().star_total()
 	watch_signals(main.level())
 	Story.remember(DianaTalk.CHOICE_KEY, DianaTalk.RESENTFUL)
 	hut.conclude()
 	assert_signal_not_emitted(main.level(), "star_collected")
+	assert_eq(main.level().star_total(), total - 1, "a estrela dela sai da conta")
 	assert_false(hut.is_available())
 	assert_false((hut.get_node("Lantern") as PointLight2D).enabled)
 	assert_eq((hut.get_node("Sprite") as Sprite2D).frame, DianaHut.FRAME_EMPTY)
+
+
+## A conversa não se repete: quem já perdoou começa toda visita com a estrela dela.
+func test_a_forgiven_diana_counts_her_star_on_every_visit() -> void:
+	Story.remember(DianaTalk.CHOICE_KEY, DianaTalk.FORGIVEN)
+	await start_at(LEVEL_03, BESIDE_HUT)
+	assert_eq(main.level().stars_found(), 1)
+	assert_true(main.level().star_total() >= 1)
+
+
+func test_a_resentful_choice_removes_her_star_from_later_visits() -> void:
+	await start_at(LEVEL_03, BESIDE_HUT)
+	var total := main.level().star_total()
+	main.queue_free()
+	await wait_physics_frames(2)
+	Story.remember(DianaTalk.CHOICE_KEY, DianaTalk.RESENTFUL)
+	await start_at(LEVEL_03, BESIDE_HUT)
+	assert_eq(main.level().star_total(), total - 1)
+	assert_eq(main.level().stars_found(), 0)
 
 
 func test_a_decision_already_made_is_remembered_by_the_hut() -> void:
