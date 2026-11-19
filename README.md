@@ -39,6 +39,7 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Técnico**
 - `SophieBoss.phase_music`: uma trilha por fase.
+- Builds para Windows, Linux e Mac (`export_presets.cfg`). A música de terceiros, os testes e as ferramentas ficam de fora do jogo exportado.
 - Testes novos: a trilha troca aos poucos a cada golpe e volta no reset, cada trilha é mais rápida que a anterior, toda trilha de `music/` faz loop, o crossfade mantém o volume e a linha "Tela" passa pelos tamanhos e pela tela cheia. 173 testes automáticos.
 
 ### v0.15.1 — Uma morte de cada vez e a Sophie com trilha · 18/11/2026

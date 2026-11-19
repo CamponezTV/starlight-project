@@ -228,6 +228,14 @@ godot --headless -s res://addons/gut/gut_cmdln.gd
 
 Os robôs de `tests/integration/test_level_0*_playthrough.gd` jogam cada desafio das fases (base em `tests/support/playthrough_test.gd`). Rode depois de mexer numa fase ou nos valores do `Player`: se um robô falhar, o desafio ficou impossível ou bem mais difícil, e ele diz em que célula parou. `run_bot` confirma sozinho um holofote no caminho. Salas de ritmo (sussurros, plataformas) são testadas várias vezes com esperas diferentes antes da largada: o teste exige uma fração mínima de largadas que passam, para o desafio ser apertado sem depender de um quadro exato. `test_cutscenes.gd` roda cada cutscene até o fim com o tempo acelerado. Testes que guardam escolhas usam `TestHelpers.use_test_save()` para não tocar no progresso de quem joga. As configurações dos testes vão para um arquivo próprio (`tests/support/pre_run.gd`), sempre em português e no padrão.
 
+## Exportar
+
+- **Presets** (`export_presets.cfg`), cada um com o jogo embutido num arquivo só: `Windows` (`builds/windows/Starlight.exe`), `Linux` (`builds/linux/Starlight.x86_64`) e `macOS` (`builds/macos/Starlight.zip`, um `.app` universal: Intel e Apple Silicon). Precisam dos export templates da mesma versão do editor (Editor > Manage Export Templates). Linha de comando: `godot --headless --export-release <preset> <arquivo>`.
+- **Mac:** o app sai só com assinatura ad-hoc, sem notarização (isso exige a conta paga de desenvolvedor da Apple). O macOS bloqueia na primeira vez: botão direito no app > Abrir, ou `xattr -cr Starlight.app`. O ETC2/ASTC ligado no projeto é exigência do Godot para exportar para Apple Silicon; o pixel art não usa compressão de VRAM, então nada muda na imagem.
+- **Linux:** o binário perde a permissão de execução se passar por um zip feito no Windows: `chmod +x Starlight.x86_64`.
+- **O que fica de fora** (`exclude_filter`): a música de terceiros de `menu/music/` (sem licença para redistribuir), os testes, o GUT, `tools/`, `promo/` e capturas de tela. Pasta nova que não é do jogo entra nessa lista.
+- **Logs dos jogadores:** o jogo grava `godot.log` (os 5 últimos ficam) em `app_userdata/Starlight/logs/`, dentro de `%APPDATA%Godot` no Windows, `~/.local/share/godot/` no Linux e `~/Library/Application Support/Godot/` no Mac. É o que pedir junto com um relato de bug.
+
 ## Convenções
 
 - [Guia de estilo do GDScript](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html).
