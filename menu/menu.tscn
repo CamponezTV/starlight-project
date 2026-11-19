@@ -8,8 +8,6 @@
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_move.wav" id="6_ui_move"]
 [ext_resource type="AudioStream" path="res://menu/sounds/ui_select.wav" id="7_ui_select"]
 [ext_resource type="AudioStream" path="res://music/menu_promise.wav" id="8_music"]
-[ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="9_reunion"]
-[ext_resource type="PackedScene" path="res://cutscenes/finale/morning.tscn" id="10_morning"]
 [ext_resource type="Texture2D" path="res://cutscenes/art/clouds_drift.png" id="11_clouds"]
 [ext_resource type="PackedScene" path="res://effects/vignette.tscn" id="12_vignette"]
 [ext_resource type="Texture2D" path="res://shared/light_soft.tres" id="13_light"]
@@ -27,18 +25,6 @@
 script = ExtResource("2_story_step")
 title = "Teste"
 scene = ExtResource("3_room_01")
-
-[sub_resource type="Resource" id="Resource_reunion"]
-script = ExtResource("2_story_step")
-title = "Final 1"
-kind = 0
-scene = ExtResource("9_reunion")
-
-[sub_resource type="Resource" id="Resource_morning"]
-script = ExtResource("2_story_step")
-title = "Final 2"
-kind = 0
-scene = ExtResource("10_morning")
 
 [sub_resource type="Gradient" id="Gradient_shade"]
 offsets = PackedFloat32Array(0, 0.42, 0.72)
@@ -61,7 +47,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
-dev_steps = Array[ExtResource("2_story_step")]([SubResource("Resource_test_room"), SubResource("Resource_reunion"), SubResource("Resource_morning")])
+dev_steps = Array[ExtResource("2_story_step")]([SubResource("Resource_test_room")])
 music = ExtResource("8_music")
 
 [node name="Background" type="ColorRect" parent="."]

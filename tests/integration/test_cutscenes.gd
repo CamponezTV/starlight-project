@@ -5,6 +5,8 @@ extends GutTest
 const SPEED := 6.0
 const REAL_TIME_LIMIT_MS := 60000
 const MAX_DIALOGUE_LINES := 2
+const MAX_CAPTION_LINES := 2
+const SCREEN := Rect2(0, 0, 320, 180)
 const STATIC_CUTSCENES := [
 	"res://cutscenes/stargazing/stargazing.tscn",
 	"res://cutscenes/hospital/hospital.tscn",
@@ -71,6 +73,27 @@ func test_every_line_fits_the_dialogue_box() -> void:
 			checked += 1
 			assert_lte(label.get_line_count(), MAX_DIALOGUE_LINES, "não cabe: %s" % label.text)
 	assert_gt(checked, 100, "deveria ter achado as falas dos roteiros")
+
+
+## Toda legenda (show_caption) cabe na tela, em até duas linhas, em todos os idiomas.
+func test_every_caption_fits_the_screen() -> void:
+	var caption: Caption = (load("res://ui/caption.tscn") as PackedScene).instantiate()
+	add_child_autofree(caption)
+	var label := caption.get_node("Label") as Label
+	var english := load("res://locale/en.po") as Translation
+	var pattern := RegEx.create_from_string("show_caption\\(\"((?:[^\"\\\\]|\\\\.)*)\"")
+	var checked := 0
+	for path: String in STATIC_CUTSCENES + [MOUNTAIN]:
+		var source := FileAccess.get_file_as_string(path.replace(".tscn", ".gd"))
+		for found in pattern.search_all(source):
+			var text := found.get_string(1).c_unescape()
+			for version: String in [text, String(english.get_message(text))]:
+				label.text = version
+				await wait_process_frames(1)
+				checked += 1
+				assert_lte(label.get_line_count(), MAX_CAPTION_LINES, "não cabe: %s" % version)
+				assert_true(SCREEN.encloses(label.get_global_rect()), "sai da tela: %s" % version)
+	assert_gt(checked, 20, "deveria ter achado as legendas dos roteiros")
 
 
 func _play(path: String, walk_right: bool) -> bool:

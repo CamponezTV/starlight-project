@@ -1,8 +1,9 @@
 extends GutTest
 ## Tela de título: as opções, os capítulos (todos liberados), as configurações, a
-## confirmação antes de apagar o progresso e a versão.
+## confirmação antes de apagar o progresso, a versão e os finais guardados fora do menu.
 
 const MENU_SCENE := preload("res://menu/menu.tscn")
+const FINALE_DIR := "res://cutscenes/finale/"
 
 var _menu: Menu
 
@@ -28,6 +29,16 @@ func test_lists_every_chapter_as_an_enabled_button() -> void:
 		var button := chapters[i] as Button
 		assert_false(button.disabled, "capítulo %d deveria estar liberado" % (i + 1))
 		assert_string_contains(button.text, Story.steps[i].title)
+
+
+## Os finais ficam guardados: nem a campanha nem os capítulos chegam neles, mas os passos
+## embalados continuam apontando para as cenas, prontos para voltar.
+func test_the_finale_stays_packed_away() -> void:
+	for step: StoryStep in Story.steps + _menu.dev_steps:
+		assert_false(step.scene.resource_path.begins_with(FINALE_DIR), "%s mostra um final" % step.title)
+	for file in ["final_1.tres", "final_2.tres"]:
+		var step := load(FINALE_DIR + file) as StoryStep
+		assert_true(step.scene.resource_path.begins_with(FINALE_DIR), file)
 
 
 func test_new_game_has_focus_without_a_save() -> void:

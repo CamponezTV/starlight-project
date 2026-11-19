@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StoryStep" format=3]
+
+[ext_resource type="Script" path="res://story/story_step.gd" id="1_step"]
+[ext_resource type="PackedScene" path="res://cutscenes/finale/reunion.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_step")
+title = "Final 1"
+kind = 0
+scene = ExtResource("2_scene")

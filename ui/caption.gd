@@ -1,7 +1,8 @@
 class_name Caption
 extends CanvasLayer
 ## Texto grande no meio da tela, que aparece e some sozinho (títulos de cutscene).
-## Fica acima da cortina do Transition, então aparece até com a tela preta.
+## Fica acima da cortina do Transition, então aparece até com a tela preta. Texto comprido
+## quebra em linhas, com margem nas laterais.
 
 @onready var _label: FadingLabel = $Label
 

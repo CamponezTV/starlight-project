@@ -28,6 +28,9 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 **Novidades**
 - **Tamanho da janela:** a opção "Tela cheia" virou "Tela": escolha a janela de 640x360 até a maior que cabe no seu monitor, ou a tela cheia. O jogo continua desenhado em 320x180 e escalado em números inteiros, para o pixel art não borrar.
 
+**Correções**
+- **Legendas cortadas:** frases compridas no meio da tela (como "Ela chorou. Disse que a porta emperrou.", na lembrança da aranha) passavam das bordas. Agora quebram em duas linhas.
+
 **Mudanças**
 - **A trilha da Sophie acompanha a luta:** agora são quatro trilhas, uma para cada ponto de vida que ela perde, cada uma mais rápida (de 80 a 116 batidas por minuto) e mais pesada que a anterior.
   - **Fase 1:** quase só pavor: o coração, o bordão grave e a caixinha de música da infância tocando o tema desafinada. Os tambores entram só no fim.
@@ -39,8 +42,9 @@ Documentação para desenvolvimento: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Técnico**
 - `SophieBoss.phase_music`: uma trilha por fase.
-- Builds para Windows, Linux e Mac (`export_presets.cfg`). A música de terceiros, os testes e as ferramentas ficam de fora do jogo exportado.
-- Testes novos: a trilha troca aos poucos a cada golpe e volta no reset, cada trilha é mais rápida que a anterior, toda trilha de `music/` faz loop, o crossfade mantém o volume e a linha "Tela" passa pelos tamanhos e pela tela cheia. 173 testes automáticos.
+- Builds para Windows, Linux e Mac (`export_presets.cfg`). A música de terceiros, os finais (ainda guardados), os testes e as ferramentas ficam de fora do jogo exportado.
+- Os dois finais saíram da lista de capítulos: estão guardados em `cutscenes/finale/`, prontos para voltar.
+- Testes novos: a trilha troca aos poucos a cada golpe e volta no reset, cada trilha é mais rápida que a anterior, toda trilha de `music/` faz loop, o crossfade mantém o volume, a linha "Tela" passa pelos tamanhos e pela tela cheia, toda legenda cabe na tela e os finais ficam fora do menu. 175 testes automáticos.
 
 ### v0.15.1 — Uma morte de cada vez e a Sophie com trilha · 18/11/2026
 
